@@ -1,0 +1,72 @@
+{
+  "1": {
+    "truck_id": 1,
+    "owner_id": 201,
+    "name": "버거몽스터",
+    "phone_number": "010-1234-5671",
+    "description": "수제버거의 끝판왕! 육즙 가득한 패티와 수제소스가 자랑인 트럭"
+  },
+  "2": {
+    "truck_id": 2,
+    "owner_id": 202,
+    "name": "타코타코",
+    "phone_number": "010-1234-5672",
+    "description": "멕시코 길거리의 맛을 담은 정통 타코 전문 트럭"
+  },
+  "3": {
+    "truck_id": 3,
+    "owner_id": 203,
+    "name": "오사카 라멘트럭",
+    "phone_number": "010-1234-5673",
+    "description": "일본 정통 라멘과 우동을 선보이는 따뜻한 푸드트럭"
+  },
+  "4": {
+    "truck_id": 4,
+    "owner_id": 204,
+    "name": "치킨킹",
+    "phone_number": "010-1234-5674",
+    "description": "겉바속촉! 다양한 맛의 치킨 요리를 선보이는 트럭"
+  },
+  "5": {
+    "truck_id": 5,
+    "owner_id": 205,
+    "name": "글로벌 샌드위치",
+    "phone_number": "010-1234-5675",
+    "description": "세계 각국의 샌드위치를 현지 느낌 그대로 제공"
+  },
+  "6": {
+    "truck_id": 6,
+    "owner_id": 206,
+    "name": "치즈폭탄",
+    "phone_number": "010-1234-5676",
+    "description": "치즈 덕후를 위한 천국! 치즈가 가득한 요리를 제공"
+  },
+  "7": {
+    "truck_id": 7,
+    "owner_id": 207,
+    "name": "스윗타임",
+    "phone_number": "010-1234-5677",
+    "description": "디저트와 커피, 달콤한 시간의 휴식을 선사하는 트럭"
+  },
+  "8": {
+    "truck_id": 8,
+    "owner_id": 208,
+    "name": "오코노야끼야",
+    "phone_number": "010-1234-5678",
+    "description": "일본식 부침요리 전문 푸드트럭, 타코야끼도 인기 메뉴"
+  },
+  "9": {
+    "truck_id": 9,
+    "owner_id": 209,
+    "name": "붕어빵의 신",
+    "phone_number": "010-1234-5679",
+    "description": "추억의 겨울 간식, 붕어빵과 어묵의 따뜻한 조화"
+  },
+  "10": {
+    "truck_id": 10,
+    "owner_id": 210,
+    "name": "터키케밥하우스",
+    "phone_number": "010-1234-5680",
+    "description": "정통 터키식 케밥과 음료를 제공하는 이국적인 트럭"
+  }
+}

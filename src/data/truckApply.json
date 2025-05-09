@@ -1,0 +1,78 @@
+[
+  {
+    "event_id": 1,
+    "trucks": [
+      { "truck_id": 1, "status": "PENDING" },
+      { "truck_id": 2, "status": "PENDING" },
+      { "truck_id": 3, "status": "PENDING" },
+      { "truck_id": 4, "status": "PENDING" },
+      { "truck_id": 5, "status": "PENDING" },
+      { "truck_id": 6, "status": "PENDING" },
+      { "truck_id": 7, "status": "PENDING" },
+      { "truck_id": 8, "status": "PENDING" },
+      { "truck_id": 9, "status": "PENDING" },
+      { "truck_id": 10, "status": "PENDING" }
+    ]
+  },
+  {
+    "event_id": 2,
+    "trucks": [
+      { "truck_id": 1, "status": "PENDING" },
+      { "truck_id": 2, "status": "PENDING" },
+      { "truck_id": 3, "status": "PENDING" },
+      { "truck_id": 4, "status": "PENDING" },
+      { "truck_id": 5, "status": "PENDING" },
+      { "truck_id": 6, "status": "PENDING" },
+      { "truck_id": 7, "status": "PENDING" },
+      { "truck_id": 8, "status": "PENDING" },
+      { "truck_id": 9, "status": "PENDING" },
+      { "truck_id": 10, "status": "PENDING" }
+    ]
+  },
+  {
+    "event_id": 3,
+    "trucks": [
+      { "truck_id": 1, "status": "PENDING" },
+      { "truck_id": 2, "status": "PENDING" },
+      { "truck_id": 3, "status": "PENDING" },
+      { "truck_id": 4, "status": "PENDING" },
+      { "truck_id": 5, "status": "PENDING" },
+      { "truck_id": 6, "status": "PENDING" },
+      { "truck_id": 7, "status": "PENDING" },
+      { "truck_id": 8, "status": "PENDING" },
+      { "truck_id": 9, "status": "PENDING" },
+      { "truck_id": 10, "status": "PENDING" }
+    ]
+  },
+  {
+    "event_id": 4,
+    "trucks": [
+      { "truck_id": 1, "status": "PENDING" },
+      { "truck_id": 2, "status": "PENDING" },
+      { "truck_id": 3, "status": "PENDING" },
+      { "truck_id": 4, "status": "PENDING" },
+      { "truck_id": 5, "status": "PENDING" },
+      { "truck_id": 6, "status": "PENDING" },
+      { "truck_id": 7, "status": "PENDING" },
+      { "truck_id": 8, "status": "PENDING" },
+      { "truck_id": 9, "status": "PENDING" },
+      { "truck_id": 10, "status": "PENDING" }
+    ]
+  },
+  {
+    "event_id": 5,
+    "trucks": [
+      { "truck_id": 1, "status": "PENDING" },
+      { "truck_id": 2, "status": "PENDING" },
+      { "truck_id": 3, "status": "PENDING" },
+      { "truck_id": 4, "status": "PENDING" },
+      { "truck_id": 5, "status": "PENDING" },
+      { "truck_id": 6, "status": "PENDING" },
+      { "truck_id": 7, "status": "PENDING" },
+      { "truck_id": 8, "status": "PENDING" },
+      { "truck_id": 9, "status": "PENDING" },
+      { "truck_id": 10, "status": "PENDING" }
+    ]
+  }
+]
+
