@@ -9,6 +9,8 @@ import KaKaoMap from '../components/KaKaoMap.jsx'
 import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
 import { useEffect, useState } from 'react'
 import { isLoggedIn } from '../api/auth.js'
+import VoteResultChart from '../components/Rechart.jsx'
+import voteResult from '../data/voteResult.json'
 
 export default function EventPage() {
   const { eventId } = useParams()
@@ -109,6 +111,12 @@ export default function EventPage() {
       </section>
       <hr />
       <h3>투표 결과</h3>
+
+      {/* 차트 */}
+      <div>
+        <VoteResultChart data = {voteResult} userVotedName={"김밥천국"}/>
+      </div>
+      
       <footer>
         {eventResult.results?.map((truck) => {
           const truckData = truckArray[truck.truck_id]
