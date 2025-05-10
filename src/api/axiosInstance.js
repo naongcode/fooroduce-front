@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: 'https://fooroduce.7team.xyz/api',
+  baseURL: 'https://api.fooroduce.7team.xyz/api',
   headers: {
     'Content-Type': 'application/json',
   },
