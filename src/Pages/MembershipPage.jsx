@@ -22,11 +22,12 @@ export default function MembershipPage() {
   const handleCheckId = async (e) => {
     e.preventDefault()
     try {
-      const data = await checkUserId({ user_id: id })
+      const data = await checkUserId(id)
       if (data.ok) setValid(true)
-      else throw new Error()
+      else throw new Error("아이디 중복확인실패")
     } catch (err) {
-      console.error('duplicate:', err)
+        console.error('중복확인:', err.response || err.message || err);
+         console.error('아이디 중복 확인 중 오류 발생');
     }
   }
   return (
@@ -70,8 +71,8 @@ export default function MembershipPage() {
             onChange={(e) => setRole(e.target.value)}
           >
             <option value="GENERAL">일반 사용자</option>
-            <option value="TRUCK">푸드트럭 이용자</option>
-            <option value="STORE">기업 사용자</option>
+            <option value="TRUCK_OWNER">푸드트럭 이용자</option>
+            <option value="EVENT_MANAGER">기업 사용자</option>
           </select>
         </label>
       </form>

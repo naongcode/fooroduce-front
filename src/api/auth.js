@@ -20,8 +20,15 @@ export const Logout = () => {
   localStorage.removeItem('jwt_token')
 }
 
+// export const checkUserId = (user_id) =>
+//   axios.get('/users/id-check', { params: { user_id } })
 export const checkUserId = (user_id) =>
-  axios.get('/users/id-check', { params: { user_id } })
+  axios.get(`/users/id-check?user_id=${user_id}`)
+    .then((response) => response.data) // 응답 데이터 반환
+    .catch((error) => { 
+      console.error(error); 
+      throw error; 
+    });
 
 export const isLoggedIn = () => {
   return localStorage.getItem('jwt_token') != null
