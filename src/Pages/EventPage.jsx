@@ -12,6 +12,7 @@ import { isLoggedIn } from '../api/auth.js'
 import VoteResultChart from '../components/Rechart.jsx'
 import voteResult from '../data/voteResult.json'
 
+
 export default function EventPage() {
   const { eventId } = useParams()
 
@@ -61,14 +62,18 @@ export default function EventPage() {
           <p>
             행사기간 : {eventData.event_start} ~ {eventData.event_end}
           </p>
-          <img src={eventData.event_image} alt="행사 사진" />
+          <img
+            src={eventData.event_image}
+            alt="행사 사진"
+            style={{ width: '300px', borderRadius: '12px', marginTop: '1rem' }}
+          />
           {/*  지도 */}
           <div>
             <h2>{eventData.location}</h2>
             <KaKaoMap
               longitude={eventData.longitude}
               latitude={eventData.latitude}
-              style={{ width: '500px', height: '500px' }}
+              style={{  width: '100%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
               content={eventData.event_name}
               level={3}
             />
@@ -113,7 +118,7 @@ export default function EventPage() {
       <h3>투표 결과</h3>
 
       {/* 차트 */}
-      <div>
+      <div style={{ margin: '2rem', backgroundColor: '#fff', padding: '1rem', borderRadius: '12px' }}>
         <VoteResultChart data = {voteResult} userVotedName={"김밥천국"}/>
       </div>
       

@@ -1,5 +1,5 @@
 .truck-summary {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     cursor: pointer;
     gap:10px;
@@ -13,4 +13,125 @@
 /* 핵심: details가 open일 때 아이콘 회전 */
 .truck-details[open] .toggle-icon {
     transform: rotate(90deg);
+}
+
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #fff;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+header img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  border-radius: 12px;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+h2,
+h3 {
+  color: #444;
+  margin-top: 2rem;
+}
+
+section,
+footer {
+  padding: 1rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.truck-details {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  padding: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.truck-details:hover {
+  transform: scale(1.02);
+}
+
+.truck-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  color: #2c3e50;
+}
+
+.truck-summary p {
+  margin-left: 1rem;
+  flex: 1;
+  color: #555;
+}
+
+.toggle-icon {
+  font-size: 1rem;
+  margin-left: auto;
+  color: #888;
+}
+
+ol {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+ol li {
+  padding: 0.5rem 0;
+  border-top: 1px solid #eee;
+}
+
+ol li:first-child {
+  border-top: none;
+}
+
+ol img {
+  width: 100%;
+  height: auto;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+}
+
+button {
+  background-color: #007bff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+footer {
+  margin-top: 2rem;
 }
