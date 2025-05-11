@@ -23,11 +23,15 @@ export default function MembershipPage() {
     e.preventDefault()
     try {
       const data = await checkUserId(id)
-      if (data.ok) setValid(true)
-      else throw new Error("아이디 중복확인실패")
+      if (data.usableId) {
+        setValid(true);
+        console.log('아이디 사용여부 :가능')
+      } else {
+        throw new Error("아이디 중복확인실패");
+      }
     } catch (err) {
-        console.error('중복확인:', err.response || err.message || err);
-         console.error('아이디 중복 확인 중 오류 발생');
+      console.error('중복확인:', err.response || err.message || err);
+      console.error('아이디 중복 확인 중 오류 발생');
     }
   }
   return (
