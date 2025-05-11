@@ -1,4 +1,4 @@
-import { Link, Outlet, Route, Routes } from 'react-router-dom'
+import { Link, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
 import './App.css'
 import LoginPage from './Pages/LoginPage.jsx'
 import MembershipPage from './Pages/MembershipPage.jsx'
@@ -23,16 +23,26 @@ function App() {
 }
 
 function AppLayout() {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);  // 지정된 path로 네비게이션
+  };
+
   return (
     <div>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="login">로그인</Link>
-        <Link to="membership">회원가입</Link>
+      <nav className="navbar">
+        <div>
+          <button className="nav-button" onClick={() => handleNavigation('/')}>Fooroduce</button>
+        </div>
+        <div className="nav-right">
+          <button className="nav-button" onClick={() => handleNavigation('/login')}>로그인</button>
+          <button className="nav-button" onClick={() => handleNavigation('/membership')}>회원가입</button>
+        </div>
       </nav>
       <Outlet />
     </div>
-  )
+  );
 }
 
 export default App

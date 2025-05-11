@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { checkUserId, signup } from '../api/auth.js'
 import { useNavigate } from 'react-router-dom'
+import '../style/MembershipPage.css' // css 따로 분리
 
 export default function MembershipPage() {
   const [id, setId] = useState('')
@@ -19,56 +20,67 @@ export default function MembershipPage() {
       alert('membership:failed', err)
     }
   }
+
   const handleCheckId = async (e) => {
     e.preventDefault()
     try {
       const data = await checkUserId(id)
       if (data.usableId) {
         setValid(true);
-        console.log('아이디 사용여부 :가능')
+        console.log('아이디 사용여부 : 가능')
       } else {
-        throw new Error("아이디 중복확인실패");
+        throw new Error("아이디 중복확인 실패");
       }
     } catch (err) {
       console.error('중복확인:', err.response || err.message || err);
-      console.error('아이디 중복 확인 중 오류 발생');
     }
   }
+
   return (
-    <div>
-      <form onSubmit={handleMembership}>
-        <label name="id">
-          <h3 id="id">ID</h3>
-          <input
-            type="text"
-            id="id"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-          />
-          <button type="button" onClick={handleCheckId}>
-            중복확인
-          </button>
-        </label>
-        <label name="password">
-          <h3 id="password">비밀번호</h3>
+    <div className="membership-container">
+      <form onSubmit={handleMembership} className="membership-form">
+        <h2>회원가입</h2>
+
+        <div className="form-group">
+          <label htmlFor="id">아이디</label>
+          <div className="id-check">
+            <input
+              type="text"
+              id="id"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              required
+            />
+            <button type="button" onClick={handleCheckId} className="check-btn">
+              중복확인
+            </button>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">비밀번호</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
-        </label>
-        <label name="email">
-          <h3 id="email">Email</h3>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">이메일</label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
-        </label>
-        <label name="role">
-          <h3 id="role">role</h3>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="role">사용자 유형</label>
           <select
             id="role"
             value={role}
@@ -78,7 +90,9 @@ export default function MembershipPage() {
             <option value="TRUCK_OWNER">푸드트럭 이용자</option>
             <option value="EVENT_MANAGER">기업 사용자</option>
           </select>
-        </label>
+        </div>
+
+        <button type="submit" className="submit-btn">회원가입</button>
       </form>
     </div>
   )
