@@ -1,5 +1,3 @@
-# fooroduce-front
-
 # "태그 : 제목"의 형태
 feat : 새로운 기능 추가
 fix : 버그 수정
