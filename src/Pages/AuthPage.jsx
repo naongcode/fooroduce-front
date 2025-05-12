@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axiosInstance from '../api/axiosInstance.js'
 import { kakaoLogin } from '../api/auth.js'
 
 export default function KakaoCallbackPage() {
@@ -13,8 +12,13 @@ export default function KakaoCallbackPage() {
 
       if (authorization_code) {
         try {
-          await kakaoLogin(authorization_code)
-          navigate('/')  // 로그인 성공 후 홈으로 이동
+          const data = await kakaoLogin(authorization_code)
+
+          // ✅ 토큰 저장
+          localStorage.setItem('token', data.token)
+
+          // ✅ 페이지 이동
+          navigate('/')
         } catch (error) {
           alert('카카오 로그인 실패: ' + error.message)
         }

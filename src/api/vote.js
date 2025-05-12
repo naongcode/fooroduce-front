@@ -7,7 +7,7 @@ export const voteAsGuest = async (data) => {
   let fingerprint = localStorage.getItem('fingerprint')
   if (!fingerprint) {
     fingerprint = await getGuestFingerprint()
-    localStorage.setItem('fingetprint', fingerprint)
+    localStorage.setItem('fingerprint', fingerprint)
   }
   return axios.post('/votes', data, {
     headers: {
