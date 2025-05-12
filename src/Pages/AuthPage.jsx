@@ -6,23 +6,25 @@ import { kakaoLogin } from '../api/auth.js'
 export default function KakaoCallbackPage() {
   const navigate = useNavigate()
 
-  useEffect(async () => {
-    // URL에서 'code' 파라미터 추출
+useEffect(() => {
+  const login = async () => {
     const urlParams = new URLSearchParams(window.location.search)
     const authorization_code = urlParams.get('code')
 
     if (authorization_code) {
-      // 인가 코드가 있으면 백엔드로 전달
       try {
-        await kakaoLogin({ authorization_code })
+        await kakaoLogin(authorization_code) // 구조도 수정됨
         navigate('/')
       } catch (error) {
-        alert(error)
+        alert('카카오 로그인 실패: ' + error)
       }
     } else {
       console.error('인가 코드가 없습니다.')
     }
-  }, [])
+  }
+
+  login()
+}, [])
 
   return <div>카카오 로그인 중...</div>
 }

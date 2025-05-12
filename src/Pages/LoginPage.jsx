@@ -15,6 +15,7 @@ export default function LoginPage() {
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
     window.location.href = kakaoAuthUrl
   }
+  
   const handleLogin = async (e) => {
     e.preventDefault()
     try {

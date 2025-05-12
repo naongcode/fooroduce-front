@@ -1,3 +1,4 @@
+import axiosInstance from './axiosInstance'
 import axios from './axiosInstance'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
@@ -9,13 +10,18 @@ export const login = async (data) => {
   return res.data
 }
 
+// post에서 get으로 변경, axios에서 axiosInstance로 변경, params로 변경
 export const kakaoLogin = async (authorizationCode) => {
-  const res = await axios.post('/users/kakao/login', {
-    authorization_code: authorizationCode,
+  const res = await axiosInstance.get('/users/kakao/login', {
+    params: {
+      code: authorizationCode,
+    },
   })
+  console.log('authorization_code', authorizationCode)
   localStorage.setItem('jwt_token', res.data.token)
   return res.data
 }
+
 export const Logout = () => {
   localStorage.removeItem('jwt_token')
 }
