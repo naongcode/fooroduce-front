@@ -12,14 +12,25 @@ export const login = async (data) => {
 
 // post에서 get으로 변경, axios에서 axiosInstance로 변경, params로 변경
 export const kakaoLogin = async (authorizationCode) => {
-  const res = await axiosInstance.get('/users/kakao/login', {
-    params: {
-      code: authorizationCode,
-    },
-  })
-  console.log('authorization_code', authorizationCode)
-  localStorage.setItem('jwt_token', res.data.token)
-  return res.data
+  try {
+    const res = await axiosInstance.get('/users/kakao/login', {
+      params: {
+        code: authorizationCode,
+      },
+    })
+
+    // 토큰이 존재하는지 확인 후 저장
+    if (res.data.token) {
+      localStorage.setItem('jwt_token', res.data.token)
+    } else {
+      throw new Error('토큰이 없습니다.')
+    }
+    return res.data
+    
+  } catch (error) {
+    console.error('카카오 로그인 에러:', error)
+    throw error
+  }
 }
 
 export const Logout = () => {
