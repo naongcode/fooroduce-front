@@ -4,19 +4,19 @@
       "menu_id": 1,
       "menu_name": "몬스터 치즈버거",
       "menu_price": 8500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/201_foodtruck1_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/201_foodtruck1_v1.jpg"
     },
     {
       "menu_id": 2,
       "menu_name": "베이컨버거",
       "menu_price": 9000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/201_foodtruck2_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/202_foodtruck2_v1.jpg"
     },
     {
       "menu_id": 3,
       "menu_name": "감자튀김",
       "menu_price": 3500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/201_foodtruck3_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/203_foodtruck3_v1.jpg"
     }
   ],
   "2": [
@@ -24,19 +24,19 @@
       "menu_id": 4,
       "menu_name": "소고기 타코",
       "menu_price": 7000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/201_foodtruck4_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/204_foodtruck4_v1.jpg"
     },
     {
       "menu_id": 5,
       "menu_name": "나쵸 치즈",
       "menu_price": 5000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/202_foodtruck5_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/205_foodtruck5_v1.jpg"
     },
     {
       "menu_id": 6,
       "menu_name": "멕시칸 라이스볼",
       "menu_price": 8000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/202_foodtruck6_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/206_foodtruck6_v1.jpg"
     }
   ],
   "3": [
@@ -44,19 +44,19 @@
       "menu_id": 7,
       "menu_name": "돈코츠 라멘",
       "menu_price": 8500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/203_foodtruck207_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/203_foodtruck207_v1.jpg"
     },
     {
       "menu_id": 8,
       "menu_name": "유부우동",
       "menu_price": 7500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/203_foodtruck208_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/203_foodtruck208_v1.jpg"
     },
     {
       "menu_id": 9,
       "menu_name": "차슈덮밥",
       "menu_price": 8000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/203_foodtruck209_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/203_foodtruck209_v1.jpg"
     }
   ],
   "4": [
@@ -64,19 +64,19 @@
       "menu_id": 10,
       "menu_name": "간장치킨",
       "menu_price": 9500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/204_foodtruck210_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/204_foodtruck210_v1.jpg"
     },
     {
       "menu_id": 11,
       "menu_name": "허니버터 윙",
       "menu_price": 9800,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/204_foodtruck211_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/204_foodtruck211_v1.jpg"
     },
     {
       "menu_id": 12,
       "menu_name": "매운 양념치킨",
       "menu_price": 10000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/204_foodtruck212_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/204_foodtruck212_v1.jpg"
     }
   ],
   "5": [
@@ -84,19 +84,19 @@
       "menu_id": 13,
       "menu_name": "베트남 반미",
       "menu_price": 6500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/205_foodtruck213_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/205_foodtruck213_v1.jpg"
     },
     {
       "menu_id": 14,
       "menu_name": "이탈리안 파니니",
       "menu_price": 7000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/205_foodtruck214_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/205_foodtruck214_v1.jpg"
     },
     {
       "menu_id": 15,
       "menu_name": "치킨버거",
       "menu_price": 7500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/205_foodtruck215_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/205_foodtruck215_v1.jpg"
     }
   ],
   "6": [
@@ -104,19 +104,19 @@
       "menu_id": 16,
       "menu_name": "치즈 닭갈비 덮밥",
       "menu_price": 9500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/206_foodtruck216_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/206_foodtruck216_v1.jpg"
     },
     {
       "menu_id": 17,
       "menu_name": "치즈 감자",
       "menu_price": 5500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/206_foodtruck217_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/206_foodtruck217_v1.jpg"
     },
     {
       "menu_id": 18,
       "menu_name": "모짜렐라 핫도그",
       "menu_price": 4000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/206_foodtruck218_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/206_foodtruck218_v1.jpg"
     }
   ],
   "7": [
@@ -124,19 +124,19 @@
       "menu_id": 19,
       "menu_name": "티라미수 컵케이크",
       "menu_price": 4500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/207_foodtruck219_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/207_foodtruck219_v1.jpg"
     },
     {
       "menu_id": 20,
       "menu_name": "브라우니",
       "menu_price": 4000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/207_foodtruck220_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/207_foodtruck220_v1.jpg"
     },
     {
       "menu_id": 21,
       "menu_name": "딸기라떼",
       "menu_price": 4800,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/207_foodtruck221_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/207_foodtruck221_v1.jpg"
     }
   ],
   "8": [
@@ -144,19 +144,19 @@
       "menu_id": 22,
       "menu_name": "문어 타코야끼",
       "menu_price": 6000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/208_foodtruck222_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/208_foodtruck222_v1.jpg"
     },
     {
       "menu_id": 23,
       "menu_name": "해물 오코노미야끼",
       "menu_price": 8000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/208_foodtruck223_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/208_foodtruck223_v1.jpg"
     },
     {
       "menu_id": 24,
       "menu_name": "야끼소바",
       "menu_price": 7500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/208_foodtruck224_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/208_foodtruck224_v1.jpg"
     }
   ],
   "9": [
@@ -164,19 +164,19 @@
       "menu_id": 25,
       "menu_name": "팥 붕어빵",
       "menu_price": 1500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/209_foodtruck225_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/209_foodtruck225_v1.jpg"
     },
     {
       "menu_id": 26,
       "menu_name": "슈크림 붕어빵",
       "menu_price": 2000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/209_foodtruck226_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/209_foodtruck226_v1.jpg"
     },
     {
       "menu_id": 27,
       "menu_name": "어묵 꼬치",
       "menu_price": 3000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/209_foodtruck227_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/209_foodtruck227_v1.jpg"
     }
   ],
   "10": [
@@ -184,19 +184,19 @@
       "menu_id": 28,
       "menu_name": "랩 케밥",
       "menu_price": 8500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/210_foodtruck228_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/210_foodtruck228_v1.jpg"
     },
     {
       "menu_id": 29,
       "menu_name": "양고기 케밥 플레이트",
       "menu_price": 9500,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/210_foodtruck229_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/210_foodtruck229_v1.jpg"
     },
     {
       "menu_id": 30,
       "menu_name": "아이란",
       "menu_price": 3000,
-      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/210_foodtruck230_v1.jpg"
+      "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/210_foodtruck230_v1.jpg"
     }
   ]
 }

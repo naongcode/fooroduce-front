@@ -1,16 +1,126 @@
+/* EventPage.css */
+
+/* 전체 페이지 스타일 */
+.event-page {
+  padding: 2rem;
+}
+
+/* 축제 정보 */
+.event-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-description {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.event-image-img {
+  width: 300px;
+  border-radius: 12px;
+}
+
+.event-details {
+  padding-left: 1rem;
+}
+
+.map-section {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.map {
+  width: 100%;
+  height: 400px;
+  border-radius: 12px;
+}
+
+.event-divider {
+  margin: 3rem 0;
+}
+
+/* 푸드트럭 리스트 */
+.truck-list-title {
+  text-align: center;
+}
+
+.truck-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.truck-card {
+  /* width: 45%; */
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
 .truck-summary {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    gap:10px;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.truck-title {
+  font-weight: bold;
+}
+
+.vote-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .toggle-icon {
-    transition: transform 0.3s ease;
-    display: inline-block;
+  margin-left: auto;
 }
 
-/* 핵심: details가 open일 때 아이콘 회전 */
-.truck-details[open] .toggle-icon {
-    transform: rotate(90deg);
+.menu-list {
+  display: flex;
+  flex-wrap: wrap; /* 여러 개를 한 줄에 배치 */
+  justify-content: space-between; /* 아이템 간 간격을 균등하게 배치 */
+  gap: 0.7rem; /* 아이템 간 간격 */
+  padding: 0;
+  list-style-type: none;
+}
+
+.menu-item {
+  width: 31%; /* 한 줄에 3개의 메뉴 항목을 보이게 설정 */
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+}
+
+.menu-image {
+  width: 100px;
+  border-radius: 8px;
+}
+
+/* 투표 섹션 */
+.vote-title {
+  text-align: center;
+}
+
+.vote-chart-container {
+  margin: 2rem;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.vote-results {
+  margin-top: 3rem;
 }

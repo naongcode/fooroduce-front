@@ -1,1 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 하나만쓰기 */
+body {
+  font-family: 'Dongle', sans-serif !important;
+  /* font-family: 'Nanum Pen Script', cursive !important; */
+  /* font-family: 'Pretendard Variable', sans-serif !important; */
+  font-size: 22px;
+}

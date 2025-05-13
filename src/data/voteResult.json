@@ -1,0 +1,40 @@
+[
+  {
+    "name": "버거몽스터터",
+    "votes": 10,
+    "percent": 40,
+    "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/201_foodtruck1_v1.jpg"
+
+  },
+  {
+    "name": "타코타코",
+    "votes": 8,
+    "percent": 32,
+    "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/202_foodtruck4_v1.jpg"
+
+  },
+  {
+    "name": "오사카 라멘트럭",
+    "votes": 7,
+    "percent": 28,
+    "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/203_foodtruck207_v1.jpg"
+  },
+  {
+    "name": "치킨킹",
+    "votes": 4,
+    "percent": 28,
+    "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/204_foodtruck210_v1.jpg"
+  },
+  {
+    "name": "글로벌 샌드위치",
+    "votes": 2,
+    "percent": 28,
+    "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/205_foodtruck213_v1.jpg"
+  },
+  {
+    "name": "치즈폭탄",
+    "votes": 1,
+    "percent": 28,
+    "menu_image": "https://naong2-s3.s3.ap-northeast-2.amazonaws.com/image/206_foodtruck216_v1.jpg"
+  }
+]
