@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
-import { login } from '../api/auth.js'
+import { login as apiLogin } from '../api/auth.js'
 import { useNavigate } from 'react-router-dom'
 import '../style/LoginPage.css'
+import useAuthStore from '../api/useAuthStore.js'
 
 export default function LoginPage() {
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const { login } = useAuthStore(); // Zustand store에서 login 가져오기
+
 
   const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY
   const REDIRECT_URI = import.meta.env.VITE_LOGIN_REDIRECT_URI
@@ -19,7 +22,13 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      const data = await login({ user_id: id, password })
+      // 로그인 API 호출
+      const data = await apiLogin({ user_id: id, password })
+      
+      // 로그인 성공 후 상태 업데이트
+      login(data.user); // Zustand 상태에 유저 정보 저장
+
+      // 홈으로 네비게이션
       navigate('/')
       console.log('Logged in:', data)
     } catch (err) {

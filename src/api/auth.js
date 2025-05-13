@@ -1,14 +1,27 @@
 import axiosInstance from './axiosInstance'
 import axios from './axiosInstance'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
+import useAuthStore from './useAuthStore.js';  // Zustand store 가져오기
 
 export const signup = (data) => axios.post('/users/signup', data)
 
 export const login = async (data) => {
-  const res = await axios.post('/users/login', data)
-  localStorage.setItem('jwt_token', res.data.token)
-  return res.data
-}
+  try {
+    const res = await axios.post('/users/login', data);
+    
+    // JWT 토큰을 localStorage에 저장
+    localStorage.setItem('jwt_token', res.data.token);
+
+    // Zustand 상태를 업데이트
+    const { login } = useAuthStore.getState();
+    login(res.data.user); // 서버에서 받은 유저 정보를 상태에 저장
+
+    return res.data;
+  } catch (error) {
+    console.error('Login failed:', error);
+    throw error;
+  }
+};
 
 // post에서 get으로 변경, axios에서 axiosInstance로 변경, params로 변경
 export const kakaoLogin = async (authorizationCode) => {

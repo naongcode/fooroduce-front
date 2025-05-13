@@ -7,6 +7,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.nav-left {
+  display: flex;
+  gap: 1rem;
+}
+
 .nav-right {
   display: flex;
   gap: 1rem;

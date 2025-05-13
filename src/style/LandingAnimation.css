@@ -1,0 +1,39 @@
+/* LandingAnimation.css */
+.landing-wrapper {
+  position: fixed; /* 화면 전체를 덮음 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffeef8, #fddde1);
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  gap: 24px;
+  z-index: 9999; /* navbar보다 앞에 있도록 */
+}
+
+.fooroduce-text {
+  font-size: 8rem;
+  font-weight: bold;
+  display: flex;
+}
+
+.f-red {
+  color: #f8b8c4; /* 벚꽃 색상처럼 부드러운 붉은색 */
+}
+
+.title-101 {
+  font-size: 5rem;
+  font-weight: 900;
+  color: #e36b7e; /* 약간의 붉은 기운을 더한 색상 */
+}
+
+.subtext {
+  font-size: 3rem;
+  margin-top: 1rem;
+  color: #4b2e2e; /* 진한 보라색으로 자연스러운 느낌 */
+}
