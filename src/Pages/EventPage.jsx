@@ -5,6 +5,7 @@ import truckArray from '../data/truckData.json'
 import { useParams } from 'react-router-dom'
 
 import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
+import { geocodeAddress } from '../api/map.js'
 import { useEffect, useState } from 'react'
 import { isLoggedIn } from '../api/auth.js'
 import VoteResultChart from '../components/Rechart.jsx'
@@ -18,6 +19,8 @@ export default function EventPage() {
   const { eventId } = useParams()
 
   const [eventResult, setEventResult] = useState([])
+
+  const [coords, setCoords] = useState({ lat: 0, lng: 0 })
 
   const eventData = eventArray.find((event) => event.event_id === +eventId)
   const isEnd = eventData.voteEnd < new Date()
@@ -36,7 +39,28 @@ export default function EventPage() {
     } catch (e) {
       alert('fetch result failed', e)
     }
-  }
+  } 
+  
+  {/* 지도 관련 */}
+  useEffect(() => {
+    const fetchGeocode = async () => {
+      try {
+        const response = await geocodeAddress(eventData.location);
+        console.log("받은 응답:", response); // 응답 전체 출력
+        const { latitude, longitude } = response.data; // 응답에서 위경도 값 추출
+        console.log("응답 받은 위경도:", latitude, longitude)
+        setCoords({ lat: latitude, lng: longitude });
+      } catch (e) {
+        console.error(e);
+        alert('주소 변환 실패');
+      }
+    };
+
+    if (eventData.location) {
+      fetchGeocode();
+    }
+  }, [eventData]); // eventData가 변경될 때마다 호출
+
 
   const handleVote = async (truck_id) => {
     try {
@@ -81,8 +105,9 @@ export default function EventPage() {
         <div className="map-section">
           <h3>행사위치 : {eventData.location}</h3>
           <KaKaoMap
-            longitude={eventData.longitude}
-            latitude={eventData.latitude}
+            key={`${coords.lat}-${coords.lng}`} // 좌표가 바뀌면 컴포넌트 재마운트
+            longitude={coords.lng}
+            latitude={coords.lat}
             style={{  width: '50%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
             content={eventData.event_name}
             level={3}
