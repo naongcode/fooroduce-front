@@ -70,7 +70,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
                     x={0}
                     y={imageSize + 15}
                     textAnchor="middle"
-                    fontSize="12"
+                    fontSize="22"
                     fill="#333"
                   >
                     {truck.name}
@@ -106,7 +106,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
                     fill="#000"
                     textAnchor="middle"
                     dominantBaseline="central"
-                    fontSize="14"
+                    fontSize="24"
                   >
                     {label}
                   </text>
