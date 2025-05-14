@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route path="/api/users/kakao/login" element={<KakaoCallbackPage />} />
           <Route index element={<HomePage />} />
-          <Route path="landingtest" element={<LandingPage />} />
+          <Route path="landing" element={<LandingPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="membership" element={<MembershipPage />} />
           <Route path="event/:eventId" element={<EventPage />} />
