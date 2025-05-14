@@ -16,6 +16,7 @@ import '../style/EventPage.css'
 
 export default function EventPage() {
   const { eventId } = useParams()
+  console.log("eventId:", eventId);
 
   const [eventResult, setEventResult] = useState([])
 
@@ -41,11 +42,12 @@ export default function EventPage() {
   const handleVote = async (truck_id) => {
     try {
       console.log("로그인 상태:", isLoggedIn());
+      console.log("truck_id:", truck_id );
 
       if (isLoggedIn()) {
-        await voteAsMember({ event_id: eventId, truck_id });
+        await voteAsMember({ eventId: eventId, truckId: truck_id });
       } else {
-        await voteAsGuest({ event_id: eventId, truck_id });
+        await voteAsGuest({ eventId: eventId, truckId: truck_id });
       }
 
       window.location.reload();
