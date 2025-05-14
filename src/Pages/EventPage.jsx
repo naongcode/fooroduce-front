@@ -10,10 +10,9 @@ import { useEffect, useState } from 'react'
 import { isLoggedIn } from '../api/auth.js'
 import VoteResultChart from '../components/Rechart.jsx'
 import voteResult from '../data/voteResult.json'
-import VotePyramidVote from '../components/VotePyramidVote.jsx'
 import KaKaoMap from '../components/KaKaoMap.jsx'
-
 import '../style/EventPage.css'
+import PyramidGrid2 from '../components/PyramidGrid2.jsx'
 
 export default function EventPage() {
   const { eventId } = useParams()
@@ -74,11 +73,15 @@ export default function EventPage() {
         await voteAsGuest({ eventId: eventId, truckId: truck_id });
       }
 
-      window.location.reload();
+      // window.location.reload();
     } catch (e) {
       console.log('vote failed', e);
     }
   };
+
+   // 컴포넌트에 전달할 이미지 모음
+   const imageUrls = voteResult.map(item => item.menu_image);
+  //  console.log('imageUrls',imageUrls)
 
   return (
     <div className="event-page">
@@ -161,7 +164,7 @@ export default function EventPage() {
         <VoteResultChart data={voteResult} userVotedName={"타코타코"} />
       </div>
 
-      <VotePyramidVote rankedTrucks={voteResult} />
+      <PyramidGrid2 images={imageUrls} />
 
       <div className="vote-results">
         {eventResult.results?.map((truck) => {
