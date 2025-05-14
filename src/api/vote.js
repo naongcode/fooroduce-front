@@ -1,7 +1,7 @@
-import axios from './axiosInstance'
 import { getGuestFingerprint } from './auth.js'
+import axiosInstance from './axiosInstance'
 
-export const voteAsMember = (data) => axios.post('/votes', data)
+export const voteAsMember = (data) => axiosInstance.post('/votes', data)
 
 export const voteAsGuest = async (data) => {
   let fingerprint = localStorage.getItem('fingerprint')
@@ -9,7 +9,7 @@ export const voteAsGuest = async (data) => {
     fingerprint = await getGuestFingerprint()
     localStorage.setItem('fingerprint', fingerprint)
   }
-  return axios.post('/votes', data, {
+  return axiosInstance.post('/votes', data, {
     headers: {
       fingerprint,
     },
@@ -17,4 +17,4 @@ export const voteAsGuest = async (data) => {
 }
 
 export const getVoteResults = (event_id) =>
-  axios.get(`/events/${event_id}/votes`)
+  axiosInstance.get(`/events/${event_id}/votes`)
