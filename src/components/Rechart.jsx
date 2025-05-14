@@ -54,7 +54,9 @@ const VoteResultChart = ({ data, userVotedName }) => {
             height={150}
             tick={({ x, y, payload, index }) => {
               const truck = data[index];
-              const imageSize = 100;
+
+              // 이미지 크기 조정
+              const imageSize = 90;
 
               return (
                 <g transform={`translate(${x},${y + 10})`}>

@@ -132,8 +132,8 @@
   background-color: #fff;
   padding: 1rem;
   border-radius: 12px;
-  flex: 1 1 400px; /* 최소 폭 확보 후 동일 비율로 나눔 */
-  max-width: 600px;
+  flex: 1 1 600px; /* 최소 폭 확보 후 동일 비율로 나눔 */
+  max-width: 700px;
 }
 
 .vote-results {
