@@ -17,7 +17,7 @@
 }
 
 .fooroduce-text {
-  font-size: 8rem;
+  font-size: 9rem;
   font-weight: bold;
   display: flex;
 }
@@ -33,7 +33,7 @@
 }
 
 .subtext {
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-top: 1rem;
   color: #4b2e2e; /* 진한 보라색으로 자연스러운 느낌 */
 }

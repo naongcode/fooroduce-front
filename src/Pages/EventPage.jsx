@@ -123,7 +123,7 @@ export default function EventPage() {
       <hr className="event-divider" />
 
       {/* 푸드트럭 리스트 */}
-      <h3 className="truck-list-title">푸드트럭 리스트</h3>
+      <h3 className="truck-list-title">맛있는(?) 트럭에 "투표" 하세요</h3>
       <div className="truck-list">
         {applyData?.trucks?.map((truck) => {
           const truckData = truckArray[truck.truck_id]
@@ -155,16 +155,21 @@ export default function EventPage() {
         })}
       </div>
 
-      <hr className="event-divider" />
+      <hr className="event-divider"/>
 
-      <h3 className="vote-title">맛있는 트럭에 투표하세요</h3>
+      <h3 className="vote-title">🔥 투표 결과 🔥</h3>
 
-      {/* 리차트 */}
-      <div className="vote-chart-container">
-        <VoteResultChart data={voteResult} userVotedName={"타코타코"} />
+      <div className="vote-wrapper">
+        {/* 리차트 */}
+        <div className="vote-chart-container">
+          <VoteResultChart data={voteResult} userVotedName={"타코타코"} />
+        </div>
+
+        {/* 피라미드 */}
+        <div>
+          <PyramidGrid2 images={imageUrls} />
+        </div>
       </div>
-
-      <PyramidGrid2 images={imageUrls} />
 
       <div className="vote-results">
         {eventResult.results?.map((truck) => {

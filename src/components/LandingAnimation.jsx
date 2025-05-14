@@ -45,7 +45,7 @@ export default function LandingAnimation() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.4, delay: 1.4 }}
       >
-        101
+        1 0 1
       </motion.div>
 
       <motion.div
