@@ -61,8 +61,16 @@ export const checkUserId = (user_id) =>
     });
 
 export const isLoggedIn = () => {
-  return localStorage.getItem('jwt_token') != null
-}
+  const token = localStorage.getItem('jwt_token');
+
+  // 예시: 토큰이 유효하지 않거나 만료된 경우 제거 (단순 체크 기준)
+  if (!token || token === 'undefined' || token === 'null') {
+    localStorage.removeItem('jwt_token');
+    return false;
+  }
+
+  return true;
+};
 
 export const getGuestFingerprint = async () => {
   const fp = await FingerprintJS.load()

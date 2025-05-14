@@ -40,13 +40,19 @@ export default function EventPage() {
 
   const handleVote = async (truck_id) => {
     try {
-      if (isLoggedIn()) await voteAsMember({ event_id: eventId, truck_id })
-      else await voteAsGuest({ event_id: eventId, truck_id })
-      window.location.reload()
+      console.log("로그인 상태:", isLoggedIn());
+
+      if (isLoggedIn()) {
+        await voteAsMember({ event_id: eventId, truck_id });
+      } else {
+        await voteAsGuest({ event_id: eventId, truck_id });
+      }
+
+      window.location.reload();
     } catch (e) {
-      console.log('vote failed', e)
+      console.log('vote failed', e);
     }
-  }
+  };
 
   return (
     <div className="event-page">
