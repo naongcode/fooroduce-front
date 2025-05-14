@@ -44,7 +44,7 @@ export default function EventPage() {
       else await voteAsGuest({ event_id: eventId, truck_id })
       window.location.reload()
     } catch (e) {
-      alert('vote failed', e)
+      console.log('vote failed', e)
     }
   }
 
