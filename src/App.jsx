@@ -5,9 +5,9 @@ import MembershipPage from './Pages/MembershipPage.jsx'
 import HomePage from './Pages/HomePage.jsx'
 import EventPage from './Pages/EventPage.jsx'
 import KakaoCallbackPage from './Pages/AuthPage.jsx'
-import useAuthStore from './api/useAuthStore.js'
 import LandingPage from './Pages/LangdingPage.jsx'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
+import useAuthStore from './api/useAuthStore';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route path="/api/users/kakao/login" element={<KakaoCallbackPage />} />
           <Route index element={<HomePage />} />
-          <Route path="landingtest" element={<LandingPage />} />
+          <Route path="landing" element={<LandingPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="membership" element={<MembershipPage />} />
           <Route path="event/:eventId" element={<EventPage />} />
@@ -28,10 +28,16 @@ function App() {
 
 function AppLayout() {
   const navigate = useNavigate();
-  const { user, logout } = useAuthStore(); // Zustand store에서 user와 logout 가져오기
+  const { isLoggedIn, resetAuthStore } = useAuthStore(); // Zustand 상태 감지
 
   const handleNavigation = (path) => {
     navigate(path);  // 지정된 path로 네비게이션
+  };
+
+  const handleLogout = () => {
+    resetAuthStore(); // Zustand 상태 초기화
+    navigate('/');    // 홈으로 이동
+    window.location.reload()
   };
 
   // 음악관련
@@ -67,10 +73,10 @@ function AppLayout() {
         </div>
 
         <div className="nav-right">
-          {user ? (
+          {isLoggedIn ? (
             <>
-              <span className="nav-user">안녕하세요, {user.user_id}님</span>
-              <button className="nav-button" onClick={logout}>로그아웃</button>
+              <span className="nav-user">안녕하세요</span>
+              <button className="nav-button" onClick={handleLogout}>로그아웃</button>
             </>
           ) : (
             <>

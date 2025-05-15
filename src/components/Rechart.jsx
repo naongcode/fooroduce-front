@@ -37,7 +37,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
     <div className="shadow-xl rounded-2xl p-6 bg-white max-w-3xl mx-auto mt-6">
       {/* 차트 제목 */}
       <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
-        🔥 투표 결과
+        
       </h2>
 
       {/* 반응형 컨테이너로 감싸기 (크기 자동 조절) */}
@@ -54,7 +54,9 @@ const VoteResultChart = ({ data, userVotedName }) => {
             height={150}
             tick={({ x, y, payload, index }) => {
               const truck = data[index];
-              const imageSize = 100;
+
+              // 이미지 크기 조정
+              const imageSize = 90;
 
               return (
                 <g transform={`translate(${x},${y + 10})`}>
@@ -70,7 +72,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
                     x={0}
                     y={imageSize + 15}
                     textAnchor="middle"
-                    fontSize="12"
+                    fontSize="22"
                     fill="#333"
                   >
                     {truck.name}
@@ -89,11 +91,13 @@ const VoteResultChart = ({ data, userVotedName }) => {
             dataKey="votes"
             isAnimationActive={true} // 부드러운 애니메이션
             fill="#8884d8" // 기본 막대 색상
+            animationDuration={5000}  // ← 이 부분 추가 (밀리초 단위)
           >
             {/* 막대 위에 투표 수 숫자 라벨 표시 */}
             <LabelList
               dataKey="votes"
               position="top"
+
               fill="#000"
               content={({ x, y, width, height, value, index }) => {
                 const truck = data[index]; // index로 원본 데이터 접근
@@ -106,7 +110,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
                     fill="#000"
                     textAnchor="middle"
                     dominantBaseline="central"
-                    fontSize="14"
+                    fontSize="24"
                   >
                     {label}
                   </text>

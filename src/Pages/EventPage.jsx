@@ -5,19 +5,22 @@ import truckArray from '../data/truckData.json'
 import { useParams } from 'react-router-dom'
 
 import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
+import { geocodeAddress } from '../api/map.js'
 import { useEffect, useState } from 'react'
 import { isLoggedIn } from '../api/auth.js'
 import VoteResultChart from '../components/Rechart.jsx'
 import voteResult from '../data/voteResult.json'
-import VotePyramidVote from '../components/VotePyramidVote.jsx'
 import KaKaoMap from '../components/KaKaoMap.jsx'
-
 import '../style/EventPage.css'
+import PyramidGrid2 from '../components/PyramidGrid2.jsx'
 
 export default function EventPage() {
   const { eventId } = useParams()
+  console.log("eventId:", eventId);
 
   const [eventResult, setEventResult] = useState([])
+
+  const [coords, setCoords] = useState({ lat: 0, lng: 0 })
 
   const eventData = eventArray.find((event) => event.event_id === +eventId)
   const isEnd = eventData.voteEnd < new Date()
@@ -36,17 +39,49 @@ export default function EventPage() {
     } catch (e) {
       alert('fetch result failed', e)
     }
-  }
+  } 
+  
+  {/* 지도 관련 */}
+  useEffect(() => {
+    const fetchGeocode = async () => {
+      try {
+        const response = await geocodeAddress(eventData.location);
+        console.log("받은 응답:", response); // 응답 전체 출력
+        const { latitude, longitude } = response.data; // 응답에서 위경도 값 추출
+        console.log("응답 받은 위경도:", latitude, longitude)
+        setCoords({ lat: latitude, lng: longitude });
+      } catch (e) {
+        console.error(e);
+        alert('주소 변환 실패');
+      }
+    };
+
+    if (eventData.location) {
+      fetchGeocode();
+    }
+  }, [eventData]); // eventData가 변경될 때마다 호출
+
 
   const handleVote = async (truck_id) => {
     try {
-      if (isLoggedIn()) await voteAsMember({ event_id: eventId, truck_id })
-      else await voteAsGuest({ event_id: eventId, truck_id })
-      window.location.reload()
+      console.log("로그인 상태:", isLoggedIn());
+      console.log("truck_id:", truck_id );
+
+      if (isLoggedIn()) {
+        await voteAsMember({ eventId: eventId, truckId: truck_id });
+      } else {
+        await voteAsGuest({ eventId: eventId, truckId: truck_id });
+      }
+
+      // window.location.reload();
     } catch (e) {
-      alert('vote failed', e)
+      console.log('vote failed', e);
     }
-  }
+  };
+
+   // 컴포넌트에 전달할 이미지 모음
+   const imageUrls = voteResult.map(item => item.menu_image);
+  //  console.log('imageUrls',imageUrls)
 
   return (
     <div className="event-page">
@@ -75,8 +110,9 @@ export default function EventPage() {
         <div className="map-section">
           <h3>행사위치 : {eventData.location}</h3>
           <KaKaoMap
-            longitude={eventData.longitude}
-            latitude={eventData.latitude}
+            key={`${coords.lat}-${coords.lng}`} // 좌표가 바뀌면 컴포넌트 재마운트
+            longitude={coords.lng}
+            latitude={coords.lat}
             style={{  width: '50%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
             content={eventData.event_name}
             level={3}
@@ -87,7 +123,7 @@ export default function EventPage() {
       <hr className="event-divider" />
 
       {/* 푸드트럭 리스트 */}
-      <h3 className="truck-list-title">푸드트럭 리스트</h3>
+      <h3 className="truck-list-title">맛있는(?) 트럭에 "투표" 하세요</h3>
       <div className="truck-list">
         {applyData?.trucks?.map((truck) => {
           const truckData = truckArray[truck.truck_id]
@@ -119,16 +155,21 @@ export default function EventPage() {
         })}
       </div>
 
-      <hr className="event-divider" />
+      <hr className="event-divider"/>
 
-      <h3 className="vote-title">맛있는 트럭에 투표하세요</h3>
+      <h3 className="vote-title">🔥 투표 결과 🔥</h3>
 
-      {/* 리차트 */}
-      <div className="vote-chart-container">
-        <VoteResultChart data={voteResult} userVotedName={"타코타코"} />
+      <div className="vote-wrapper">
+        {/* 리차트 */}
+        <div className="vote-chart-container">
+          <VoteResultChart data={voteResult} userVotedName={"타코타코"} />
+        </div>
+
+        {/* 피라미드 */}
+        <div>
+          <PyramidGrid2 images={imageUrls} />
+        </div>
       </div>
-
-      <VotePyramidVote rankedTrucks={voteResult} />
 
       <div className="vote-results">
         {eventResult.results?.map((truck) => {

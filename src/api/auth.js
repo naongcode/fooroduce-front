@@ -9,12 +9,8 @@ export const login = async (data) => {
   try {
     const res = await axios.post('/users/login', data);
     
-    // JWT 토큰을 localStorage에 저장
-    localStorage.setItem('jwt_token', res.data.token);
-
-    // Zustand 상태를 업데이트
-    const { login } = useAuthStore.getState();
-    login(res.data.user); // 서버에서 받은 유저 정보를 상태에 저장
+    const { setAuthStoreLogin } = useAuthStore.getState();
+    setAuthStoreLogin(res.data.token, res.data.user);
 
     return res.data;
   } catch (error) {
@@ -46,9 +42,10 @@ export const kakaoLogin = async (authorizationCode) => {
   }
 }
 
-export const Logout = () => {
-  localStorage.removeItem('jwt_token')
-}
+// export const logout = () => {
+//   const { resetAuthStore } = useAuthStore.getState();
+//   resetAuthStore();
+// };
 
 // export const checkUserId = (user_id) =>
 //   axios.get('/users/id-check', { params: { user_id } })
@@ -61,8 +58,16 @@ export const checkUserId = (user_id) =>
     });
 
 export const isLoggedIn = () => {
-  return localStorage.getItem('jwt_token') != null
-}
+  const token = localStorage.getItem('jwt_token');
+
+  // 예시: 토큰이 유효하지 않거나 만료된 경우 제거 (단순 체크 기준)
+  if (!token || token === 'undefined' || token === 'null') {
+    localStorage.removeItem('jwt_token');
+    return false;
+  }
+
+  return true;
+};
 
 export const getGuestFingerprint = async () => {
   const fp = await FingerprintJS.load()

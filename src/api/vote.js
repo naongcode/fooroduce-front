@@ -1,20 +1,29 @@
-import axios from './axiosInstance'
 import { getGuestFingerprint } from './auth.js'
+import axiosInstance from './axiosInstance'
 
-export const voteAsMember = (data) => axios.post('/votes', data)
+export const voteAsMember = (data) => axiosInstance.post('/votes', data)
 
 export const voteAsGuest = async (data) => {
-  let fingerprint = localStorage.getItem('fingerprint')
-  if (!fingerprint) {
-    fingerprint = await getGuestFingerprint()
-    localStorage.setItem('fingerprint', fingerprint)
+  try {
+    let fingerprint = localStorage.getItem('fingerprint')
+    console.log('보내는 fingerprint:', fingerprint);
+
+    if (!fingerprint) {
+      fingerprint = await getGuestFingerprint()
+      console.log('새로 생성된 fingerprint:', fingerprint);
+      localStorage.setItem('fingerprint', fingerprint)
+    }
+
+    return axiosInstance.post('/votes', data, {
+      headers: {
+        fingerprint: localStorage.getItem('fingerprint')
+      },
+    }) 
+  } catch (err) {
+    console.error('voteAsGuest 에러:', err)
+    throw err
   }
-  return axios.post('/votes', data, {
-    headers: {
-      fingerprint,
-    },
-  })
 }
 
 export const getVoteResults = (event_id) =>
-  axios.get(`/events/${event_id}/votes`)
+  axiosInstance.get(`/events/${event_id}/votes`)
