@@ -6,6 +6,41 @@
   padding: 1.5rem;
 }
 
+/*투표중, 종료된 행사 버튼*/
+.homepage-buttons {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.homepage-buttons button {
+  background-color: #ffffff;        
+  color: #d68b8b;                   
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0.3rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #d68b8b;       
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;        /* 텍스트 줄바꿈 방지 */
+  line-height: 1.4;  
+  text-align: center;
+}
+
+.homepage-buttons button:hover {
+  color: #ffffff;                  
+  background-color: #f87171;        
+  border-color: #d68b8b;
+}
+
+.homepage-buttons .active {
+  background-color: #f87171;
+  color: #ffffff;
+  border-color: #d68b8b;
+}
+
 .homepage-card {
   background-color: white;
   border-radius: 1rem;
