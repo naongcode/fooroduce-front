@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
 
+
 const KakaoMapLoader = ({ latitude, longitude, level, style, content }) => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false)
 
@@ -40,7 +41,15 @@ const KakaoMapLoader = ({ latitude, longitude, level, style, content }) => {
         level={level}
       >
         <MapMarker position={{ lat: latitude, lng: longitude }}>
-          <div>{content}</div>
+          <div 
+            style={{ 
+              textAlign: 'center', 
+              fontWeight: 'bold', 
+              color: '#333',
+
+              }}>
+            {content}
+          </div>
         </MapMarker>
       </Map>
     )
