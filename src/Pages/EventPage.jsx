@@ -1,9 +1,3 @@
-// import menuArray from '../data/truckMenu.json'
-// import applyArray from '../data/truckApply.json'
-// import truckArray from '../data/truckData.json'
-import voteResult from '../data/voteResult.json'
-
-import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
 import { geocodeAddress } from '../api/map.js'
@@ -32,7 +26,7 @@ export default function EventPage() {
       try {
         const res = await axiosInstance.get(`/events/${eventId}`);
         setEventData(res.data);
-        console.log('eventData', res.data); // res.data로 업데이트된 값을 로깅
+        // console.log('eventData', res.data);
       } catch (err) {
         console.error("이벤트 상세 조회 실패", err);
       }
@@ -52,19 +46,25 @@ export default function EventPage() {
 
 
   // 투표가 끝난 경우에만 결과를 가져옴
+  // useEffect(() => {
+  //   if (eventData && new Date(eventData.vote_end) < new Date()) {
+  //     fetchVoteResult();
+  //   }
+  // }, [eventData])
+
+  // 투표 결과
   useEffect(() => {
-    if (eventData && new Date(eventData.vote_end) < new Date()) {
       fetchVoteResult();
-    }
-  }, [eventData])
+  }, [eventId])
 
   const fetchVoteResult = async () => {
     try {
       const response = await getVoteResults(eventId)
-      const data = await response.json()
-      setEventResult(data)
+      setEventResult(response.data)
+      console.log('eventResult',response.data)
+
     } catch (e) {
-      alert('fetch result failed', e)
+      console.log('fetch result failed', e)
     }
   } 
   
@@ -136,9 +136,9 @@ export default function EventPage() {
             <p>주최 : {eventData.eventHost}</p>
             <p>행사내용 : {eventData.description}</p>
             <p>모집 트럭 수 : {eventData.truckCount}대</p>
-            <p>모집 기간 : {eventData.recruitStart} ~ {eventData.recruitEnd}</p>
-            <p>투표 기간 : {eventData.voteStart} ~ {eventData.voteEnd}</p>
-            <p>행사 기간 : {eventData.eventStart} ~ {eventData.eventEnd}</p>
+            <p>모집 기간 : {eventData.recruitStart.slice(0, 10)} ~ {eventData.recruitEnd.slice(0, 10)}</p>
+            <p>투표 기간 : {eventData.voteStart.slice(0, 10)} ~ {eventData.voteEnd.slice(0, 10)}</p>
+            <p>행사 기간 : {eventData.eventStart.slice(0, 10)} ~ {eventData.eventEnd.slice(0, 10)}</p>
           </div>
         </div>
 
@@ -194,12 +194,12 @@ export default function EventPage() {
       <hr className="event-divider"/>
 
       {/* 더미데이터임 */}
-      <h3 className="vote-title">🔥 투표 결과 🔥</h3>
+      <h3 className="vote-title">🔥 투표 진행중 !!! 🔥</h3>
 
       <div className="vote-wrapper">
         {/* 리차트 */}
         <div className="vote-chart-container">
-          <VoteResultChart data={voteResult} userVotedName={"타코타코"} />
+          <VoteResultChart data={eventResult} userVotedName={"타코타코코"} />
         </div>
 
         {/* 피라미드 */}
@@ -208,26 +208,25 @@ export default function EventPage() {
         </div>
       </div>
 
-      {/* 아직 더미데이터임  */}
-      <div className="vote-results">
+      {/* <div className="vote-results">
         {eventResult.results?.map((truck) => {
             const truckData = truck;
             const menuData = truck.menus ?? [];
           return (
-            <div key={truck.truck_id} className="truck-card">
+            <div key={truck.truckId} className="truck-card">
               <details className="truck-details">
                 <summary className="truck-summary">
-                  <span className="truck-title">{truckData.name}</span>
-                  <p>투표수: {truck.vote_count}</p>
+                  <span className="truck-title">{truckData.truckName}</span>
+                  <p>투표수: {truck.voteCount}</p>
                   <p>{truckData.description}</p>
                   <span className="toggle-icon">▼</span>
                 </summary>
                 <ol className="menu-list">
                   {menuData.map((menu, index) => (
                     <li key={index} className="menu-item">
-                      <p>{menu.menu_name}</p>
-                      <p>{menu.menu_price}원</p>
-                      <img src={menu.menu_image} alt="메뉴 사진" className="menu-image" />
+                      <p>{menu.menuName}</p>
+                      <p>{menu.menuPrice}원</p>
+                      <img src={menu.menuImage} alt="메뉴 사진" className="menu-image" />
                     </li>
                   ))}
                 </ol>
@@ -235,7 +234,8 @@ export default function EventPage() {
             </div>
           )
         })}
-      </div>
+      </div> */}
+
     </div> 
   )
 }

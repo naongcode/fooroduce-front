@@ -25,5 +25,5 @@ export const voteAsGuest = async (data) => {
   }
 }
 
-export const getVoteResults = (event_id) =>
-  axiosInstance.get(`/events/${event_id}/votes`)
+export const getVoteResults = (eventId) =>
+  axiosInstance.get(`/votes/results/${eventId}`)
