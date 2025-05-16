@@ -21,7 +21,7 @@
 }
 
 .homepage-card h1 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #F43F5E; /* 핑크색으로 강조 */
   margin-bottom: 1rem;
@@ -43,6 +43,12 @@
 }
 
 .homepage-text {
+  flex: 1;
+}
+
+.homepage-text h2{
+  font-size: 1.7rem;
+  color:rgb(0, 89, 255);
   flex: 1;
 }
 

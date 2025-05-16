@@ -16,10 +16,10 @@ export default function HomePage() {
                 className="event-image"
               />
               <div className="homepage-text">
-                <p>주최 : {event.event_host}</p>
-                <p>모집기간 : {event.recruit_start} ~ {event.recruit_end}</p>
-                <p>투표기간 : {event.vote_start} ~ {event.vote_end}</p>
-                <p>행사기간 : {event.event_start} ~ {event.event_end}</p>
+                <h2>주최 : {event.event_host}</h2>
+                <p>모집기간 :</p><p> {event.recruit_start.slice(0, 10)} ~ {event.recruit_end.slice(0, 10)}</p>
+                <p>투표기간 :</p><p> {event.vote_start.slice(0, 10)} ~ {event.vote_end.slice(0, 10)}</p>
+                <p>행사기간 :</p><p> {event.event_start.slice(0, 10)} ~ {event.event_end.slice(0, 10)}</p>
               </div>
             </div>
           </div>

@@ -1,8 +1,9 @@
-import menuArray from '../data/truckMenu.json'
-import applyArray from '../data/truckApply.json'
-import truckArray from '../data/truckData.json'
+// import menuArray from '../data/truckMenu.json'
+// import applyArray from '../data/truckApply.json'
+// import truckArray from '../data/truckData.json'
 import voteResult from '../data/voteResult.json'
 
+import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
 import { geocodeAddress } from '../api/map.js'
@@ -12,45 +13,50 @@ import KaKaoMap from '../components/KaKaoMap.jsx'
 import '../style/EventPage.css'
 import VoteResultChart from '../components/Rechart.jsx'
 import PyramidGrid2 from '../components/PyramidGrid2.jsx'
-import useEventDetailApi from '../api/useEventDetailApi.js'
-import axios from '../api/axiosInstance.js'
 import axiosInstance from '../api/axiosInstance.js'
 
 export default function EventPage() {
 
-// 경로에서 eventId 받아오기
-const { eventId } = useParams()
-// console.log("eventId:", eventId);
-  
-const [eventData, setEventData] = useState(null);
+  // 경로에서 eventId 받아오기
+  const { eventId } = useParams()
+  // console.log("eventId:", eventId);
+    
+  const [eventData, setEventData] = useState(null);
 
-const [eventResult, setEventResult] = useState([])
-const [coords, setCoords] = useState({ lat: 0, lng: 0 })
+  const [eventResult, setEventResult] = useState([])
+  const [coords, setCoords] = useState({ lat: 0, lng: 0 })
 
-// 행사상세 가져오기 
-useEffect(() => {
-  const fetchEventData = async () => {
-    try {
-      const res = await axiosInstance.get(`/events/${eventId}`);
-      setEventData(res.data);
-      console.log('eventData', res.data); // res.data로 업데이트된 값을 로깅
-    } catch (err) {
-      console.error("이벤트 상세 조회 실패", err);
-    }
-  };
+  // 행사상세 가져오기 
+  useEffect(() => {
+    const fetchEventData = async () => {
+      try {
+        const res = await axiosInstance.get(`/events/${eventId}`);
+        setEventData(res.data);
+        console.log('eventData', res.data); // res.data로 업데이트된 값을 로깅
+      } catch (err) {
+        console.error("이벤트 상세 조회 실패", err);
+      }
+    };
 
-  fetchEventData();
-}, [eventId]);
+    fetchEventData();
+  }, [eventId]);
 
 
   // const eventData = eventArray.find((event) => event.event_id === +eventId)
-  const isEnd = eventData?.voteEnd < new Date(); // Optional chaining
-  const applyData = applyArray.find((event) => event.event_id === +eventId)
+  // const isEnd = eventData?.voteEnd < new Date(); // Optional chaining
+
+  // const applyData = applyArray.find((event) => event.event_id === +eventId)
+  // const applyData = useMemo(() => {
+  //   return applyArray.find((event) => event.event_id === +eventId);
+  // }, [eventId]);
+
 
   // 투표가 끝난 경우에만 결과를 가져옴
   useEffect(() => {
-    if (isEnd) fetchVoteResult()
-  }, [])
+    if (eventData && new Date(eventData.vote_end) < new Date()) {
+      fetchVoteResult();
+    }
+  }, [eventData])
 
   const fetchVoteResult = async () => {
     try {
@@ -86,7 +92,7 @@ useEffect(() => {
   // if (loading) return <p>로딩 중...</p>;
   // if (error) return <p>에러 발생: {error.message}</p>;
   // if (!eventId) return null;
-  // if (!eventData) return <p>데이터 없음</p>;
+  if (!eventData) return <p>데이터 없음</p>;
 
   const handleVote = async (truck_id) => {
     try {
@@ -106,7 +112,9 @@ useEffect(() => {
   };
 
    // 컴포넌트에 전달할 이미지 모음
-   const imageUrls = voteResult.map(item => item.menu_image);
+  const imageUrls = eventData.trucks.flatMap(truck =>
+    truck.menus.map(menu => menu.menuImage)
+  );
   //  console.log('imageUrls',imageUrls)
 
 
@@ -115,22 +123,22 @@ useEffect(() => {
     <div className="event-page">
       {/* 축제 정보 */}
       <div className="event-info">
-        <h1>{eventData.event_name}</h1>
+        <h1>{eventData.eventName}</h1>
         <div className="event-description">
           <div className="event-image">
             <img
-              src={eventData.event_image}
+              src={eventData.eventImage}
               alt="행사 사진"
               className="event-image-img"
             />
           </div>
           <div className="event-details">
-            <p>주최 : {eventData.event_host}</p>
+            <p>주최 : {eventData.eventHost}</p>
             <p>행사내용 : {eventData.description}</p>
-            <p>모집 트럭 수 : {eventData.truck_count}대</p>
-            <p>모집 기간 : {eventData.recruit_start} ~ {eventData.recruit_end}</p>
-            <p>투표 기간 : {eventData.vote_start} ~ {eventData.vote_end}</p>
-            <p>행사 기간 : {eventData.event_start} ~ {eventData.event_end}</p>
+            <p>모집 트럭 수 : {eventData.truckCount}대</p>
+            <p>모집 기간 : {eventData.recruitStart} ~ {eventData.recruitEnd}</p>
+            <p>투표 기간 : {eventData.voteStart} ~ {eventData.voteEnd}</p>
+            <p>행사 기간 : {eventData.eventStart} ~ {eventData.eventEnd}</p>
           </div>
         </div>
 
@@ -142,7 +150,7 @@ useEffect(() => {
             longitude={coords.lng}
             latitude={coords.lat}
             style={{  width: '50%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
-            content={eventData.event_name}
+            content={eventData.eventName}
             level={3}
           />
         </div>
@@ -153,17 +161,17 @@ useEffect(() => {
       {/* 푸드트럭 리스트 */}
       <h3 className="truck-list-title">맛있는(?) 트럭에 "투표" 하세요</h3>
       <div className="truck-list">
-        {applyData?.trucks?.map((truck) => {
-          const truckData = truckArray[truck.truck_id]
-          const menuData = menuArray[truck.truck_id] ?? []
+        {eventData?.trucks?.map((truck) => {
+            const truckData = truck;
+            const menuData = truck.menus ?? [];
 
           return (
-            <div key={truck.truck_id} className="truck-card">
+            <div key={truck.truckId} className="truck-card">
               <details className="truck-details">
                 <summary className="truck-summary">
-                  <span className="truck-title">{truckData.name}</span>
+                  <span className="truck-title">{truckData.truckName}</span>
                   <p>{truckData.description}</p>
-                  <button onClick={() => handleVote(truck.truck_id)} className="vote-button">
+                  <button onClick={() => handleVote(truck.truckId)} className="vote-button">
                     투표하기
                   </button>
                   <span className="toggle-icon">▼</span>
@@ -171,9 +179,9 @@ useEffect(() => {
                 <ol className="menu-list">
                   {menuData.map((menu, index) => (
                     <li key={index} className="menu-item">
-                      <p>{menu.menu_name}</p>
-                      <p>({menu.menu_price}원)</p>
-                      <img src={menu.menu_image} alt="메뉴 사진" className="menu-image" />
+                      <p>{menu.menuName}</p>
+                      <p>({menu.menuPrice}원)</p>
+                      <img src={menu.menuImage} alt="메뉴 사진" className="menu-image" />
                     </li>
                   ))}
                 </ol>
@@ -185,6 +193,7 @@ useEffect(() => {
 
       <hr className="event-divider"/>
 
+      {/* 더미데이터임 */}
       <h3 className="vote-title">🔥 투표 결과 🔥</h3>
 
       <div className="vote-wrapper">
@@ -199,10 +208,11 @@ useEffect(() => {
         </div>
       </div>
 
+      {/* 아직 더미데이터임  */}
       <div className="vote-results">
         {eventResult.results?.map((truck) => {
-          const truckData = truckArray[truck.truck_id]
-          const menuData = menuArray[truck.truck_id] ?? []
+            const truckData = truck;
+            const menuData = truck.menus ?? [];
           return (
             <div key={truck.truck_id} className="truck-card">
               <details className="truck-details">
