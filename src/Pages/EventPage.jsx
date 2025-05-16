@@ -1,29 +1,50 @@
-import eventArray from '../data/eventData.json'
 import menuArray from '../data/truckMenu.json'
 import applyArray from '../data/truckApply.json'
 import truckArray from '../data/truckData.json'
-import { useParams } from 'react-router-dom'
+import voteResult from '../data/voteResult.json'
 
+import { useParams } from 'react-router-dom'
 import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
 import { geocodeAddress } from '../api/map.js'
 import { useEffect, useState } from 'react'
 import { isLoggedIn } from '../api/auth.js'
-import VoteResultChart from '../components/Rechart.jsx'
-import voteResult from '../data/voteResult.json'
 import KaKaoMap from '../components/KaKaoMap.jsx'
 import '../style/EventPage.css'
+import VoteResultChart from '../components/Rechart.jsx'
 import PyramidGrid2 from '../components/PyramidGrid2.jsx'
+import useEventDetailApi from '../api/useEventDetailApi.js'
+import axios from '../api/axiosInstance.js'
+import axiosInstance from '../api/axiosInstance.js'
 
 export default function EventPage() {
-  const { eventId } = useParams()
-  console.log("eventId:", eventId);
 
-  const [eventResult, setEventResult] = useState([])
+// 경로에서 eventId 받아오기
+const { eventId } = useParams()
+// console.log("eventId:", eventId);
+  
+const [eventData, setEventData] = useState(null);
 
-  const [coords, setCoords] = useState({ lat: 0, lng: 0 })
+const [eventResult, setEventResult] = useState([])
+const [coords, setCoords] = useState({ lat: 0, lng: 0 })
 
-  const eventData = eventArray.find((event) => event.event_id === +eventId)
-  const isEnd = eventData.voteEnd < new Date()
+// 행사상세 가져오기 
+useEffect(() => {
+  const fetchEventData = async () => {
+    try {
+      const res = await axiosInstance.get(`/events/${eventId}`);
+      setEventData(res.data);
+      console.log('eventData', res.data); // res.data로 업데이트된 값을 로깅
+    } catch (err) {
+      console.error("이벤트 상세 조회 실패", err);
+    }
+  };
+
+  fetchEventData();
+}, [eventId]);
+
+
+  // const eventData = eventArray.find((event) => event.event_id === +eventId)
+  const isEnd = eventData?.voteEnd < new Date(); // Optional chaining
   const applyData = applyArray.find((event) => event.event_id === +eventId)
 
   // 투표가 끝난 경우에만 결과를 가져옴
@@ -44,23 +65,28 @@ export default function EventPage() {
   {/* 지도 관련 */}
   useEffect(() => {
     const fetchGeocode = async () => {
-      try {
-        const response = await geocodeAddress(eventData.location);
-        console.log("받은 응답:", response); // 응답 전체 출력
-        const { latitude, longitude } = response.data; // 응답에서 위경도 값 추출
-        console.log("응답 받은 위경도:", latitude, longitude)
-        setCoords({ lat: latitude, lng: longitude });
-      } catch (e) {
-        console.error(e);
-        alert('주소 변환 실패');
-      }
+        try {
+          const response = await geocodeAddress(eventData.location);
+          // console.log("받은 응답:", response); // 응답 전체 출력
+          const { latitude, longitude } = response.data; // 응답에서 위경도 값 추출
+          // console.log("응답 받은 위경도:", latitude, longitude)
+          setCoords({ lat: latitude, lng: longitude });
+        } catch (e) {
+          console.error(e);
+          alert('주소 변환 실패');
+        }
     };
 
-    if (eventData.location) {
+    if (eventData?.location) {
       fetchGeocode();
     }
   }, [eventData]); // eventData가 변경될 때마다 호출
 
+
+  // if (loading) return <p>로딩 중...</p>;
+  // if (error) return <p>에러 발생: {error.message}</p>;
+  // if (!eventId) return null;
+  // if (!eventData) return <p>데이터 없음</p>;
 
   const handleVote = async (truck_id) => {
     try {
@@ -82,6 +108,8 @@ export default function EventPage() {
    // 컴포넌트에 전달할 이미지 모음
    const imageUrls = voteResult.map(item => item.menu_image);
   //  console.log('imageUrls',imageUrls)
+
+
 
   return (
     <div className="event-page">
