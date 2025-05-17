@@ -16,9 +16,10 @@ export default function EventPage() {
   // console.log("eventId:", eventId);
     
   const [eventData, setEventData] = useState(null);
-
   const [eventResult, setEventResult] = useState([])
   const [coords, setCoords] = useState({ lat: 0, lng: 0 })
+
+ const [votedTruckIds, setVotedTruckIds] = useState([]);
 
   // 행사상세 가져오기 
   useEffect(() => {
@@ -61,13 +62,52 @@ export default function EventPage() {
     try {
       const response = await getVoteResults(eventId)
       setEventResult(response.data)
-      console.log('eventResult',response.data)
+      // console.log('eventResult',response.data)
 
     } catch (e) {
       console.log('fetch result failed', e)
     }
   } 
   
+  // 투표를 이미 했는지 확인
+  useEffect(() => {
+    const fetchVoteStatus = async () => {
+      try {
+        // jwt, fingerprint 꺼내서 API 호출
+        const token = localStorage.getItem('jwtToken')
+        const fingerprint = localStorage.getItem('fingerprint')
+
+        if (!token && !fingerprint) {
+          // 투표 상태 알 수 없으면 그냥 return
+          return
+        }
+
+        // 인증 토큰 넣고, fingerprint는 query param으로 보내는 식으로 가정
+        const config = {
+          headers: {},
+          params: {},
+        }
+        if (token) config.headers['Authorization'] = `Bearer ${token}`
+        if (fingerprint) config.params['fingerprint'] = fingerprint
+
+        const res = await axiosInstance.get(`/votes/status/${eventId}`, config)
+        
+        const votedIds = res.data
+          .filter(item => item.alreadyVoted)
+          .map(item => item.truckId);
+
+        console.log('res.data',res.data)
+        console.log('votedIds',votedIds)
+        setVotedTruckIds(votedIds)
+      } catch (e) {
+        console.error('투표 상태 조회 실패', e)
+      }
+    }
+
+    fetchVoteStatus()
+  }, [eventId])
+
+
   {/* 지도 관련 */}
   useEffect(() => {
     const fetchGeocode = async () => {
@@ -162,6 +202,7 @@ export default function EventPage() {
       <h3 className="truck-list-title">맛있는(?) 트럭에 "투표" 하세요</h3>
       <div className="truck-list">
         {eventData?.trucks?.map((truck) => {
+            const isVoted = votedTruckIds.includes(truck.truckId);
             const truckData = truck;
             const menuData = truck.menus ?? [];
 
@@ -171,8 +212,10 @@ export default function EventPage() {
                 <summary className="truck-summary">
                   <span className="truck-title">{truckData.truckName}</span>
                   <p>{truckData.description}</p>
-                  <button onClick={() => handleVote(truck.truckId)} className="vote-button">
-                    투표하기
+                  <button
+                    onClick={() => handleVote(truck.truckId)} 
+                    className={`vote-button ${isVoted ? 'voted' : ''}`}
+                    disabled={isVoted}> {isVoted ? '투표 완료' : '투표하기'}
                   </button>
                   <span className="toggle-icon">▼</span>
                 </summary>

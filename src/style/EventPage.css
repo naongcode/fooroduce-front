@@ -84,6 +84,12 @@
   border-radius: 8px;
 }
 
+.vote-button.voted {
+  background-color: #ccc; /* 회색 */
+  color: #666;
+  cursor: not-allowed;
+}
+
 .toggle-icon {
   margin-left: auto;
 }

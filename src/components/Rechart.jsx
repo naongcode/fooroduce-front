@@ -10,7 +10,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
   // 투표 수 기준으로 우승자 찾기
   // console.log('data',data)
   const maxVotes = Math.max(...data.map(d => d.voteCount));
-  console.log('maxVotes',maxVotes)
+  // console.log('maxVotes',maxVotes)
   const winner = data.find(d => d.voteCount === maxVotes)?.truckName;
 
   // 커스텀 Tooltip 컴포넌트 정의
