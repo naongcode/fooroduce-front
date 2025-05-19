@@ -26,7 +26,7 @@ export const kakaoLogin = async (authorizationCode) => {
       params: {
         code: authorizationCode,
       },
-    })
+    });
 
     // 토큰이 존재하는지 확인 후 저장
     if (res.data.token) {
@@ -40,7 +40,7 @@ export const kakaoLogin = async (authorizationCode) => {
     console.error('카카오 로그인 에러:', error)
     throw error
   }
-}
+};
 
 // export const logout = () => {
 //   const { resetAuthStore } = useAuthStore.getState();
