@@ -29,11 +29,11 @@ export default function LoginPage() {
       const data = await apiLogin({ user_id: id, password })
       
       // 로그인 성공 후 상태 업데이트
-      console.log("로그인 성공, user 데이터:", data.user);
+      console.log("로그인 성공, user 데이터:", data.userId);
       console.log("로그인 성공, token 데이터:", data.token);
 
       // Zustand 상태에 유저 정보 저장
-      setAuthStoreLogin(data.token, data.user);
+      //setAuthStoreLogin(data.token, data.user); -> auth.js에 이미있음
       
       // login(data.user); // Zustand 상태에 유저 정보 저장
       // console.log("Zustand 상태 저장 후:", useAuthStore.getState().user); 

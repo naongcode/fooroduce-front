@@ -8,11 +8,12 @@ export const signup = (data) => axios.post('/users/signup', data)
 export const login = async (data) => {
   try {
     const res = await axios.post('/users/login', data);
-    
     const { setAuthStoreLogin } = useAuthStore.getState();
-    setAuthStoreLogin(res.data.token, res.data.user);
+     setAuthStoreLogin(res.data.token, { userId: res.data.userId });
 
+ 
     return res.data;
+    
   } catch (error) {
     console.error('Login failed:', error);
     throw error;
