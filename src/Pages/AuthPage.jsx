@@ -18,7 +18,10 @@ export default function KakaoCallbackPage() {
           localStorage.setItem('token', data.token)
 
           // ✅ 페이지 이동
-          navigate('/')
+          navigate('/');
+          setTimeout(() => {
+            window.location.reload();
+          }, 10000);
         } catch (error) {
           alert('카카오 로그인 실패: ' + error.message)
         }
