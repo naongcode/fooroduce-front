@@ -9,6 +9,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const { setAuthStoreLogin  } = useAuthStore(); // Zustand store에서 login 가져오기
+  const [ errormessage, setErrorMessage ] = useState(''); //로그인 했을 때 ID나 비밀번호가 틀렸을 때 에러메세지
 
 
   const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY
@@ -21,6 +22,8 @@ export default function LoginPage() {
   
   const handleLogin = async (e) => {
     e.preventDefault()
+    setErrorMessage(''); // 에러메세지 초기화
+
     try {
       // 로그인 API 호출
       const data = await apiLogin({ user_id: id, password })
@@ -40,12 +43,27 @@ export default function LoginPage() {
       navigate('/')
     } catch (err) {
       console.error('Login failed:', err)
+
+      if(err.response && err.response.status === 401) {
+        // ID나 비밀번호가 틀렸을 때
+        setErrorMessage('ID 또는 비밀번호가 틀렸습니다.'); // 에러메세지 설정
+      } else {
+        setErrorMessage('로그인에 실패했습니다.'); // 에러메세지 설정
+      }
+
     }
   }
 
   return (
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
+        {/* 로그인 에러메세지 출력 */}
+        {errormessage &&(
+          <div className="login-error-message">
+            {errormessage}
+          </div>
+        )}
+
         <label htmlFor="id" className="login-label">ID</label>
         <input
           type="text"
