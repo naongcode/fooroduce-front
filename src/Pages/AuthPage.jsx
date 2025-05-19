@@ -19,9 +19,8 @@ export default function KakaoCallbackPage() {
 
           // ✅ 페이지 이동
           navigate('/');
-          setTimeout(() => {
-            window.location.reload();
-          }, 10000);
+          window.location.reload();
+          
         } catch (error) {
           alert('카카오 로그인 실패: ' + error.message)
         }
