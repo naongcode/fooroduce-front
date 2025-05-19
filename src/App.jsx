@@ -6,6 +6,9 @@ import HomePage from './Pages/HomePage.jsx'
 import EventPage from './Pages/EventPage.jsx'
 import KakaoCallbackPage from './Pages/AuthPage.jsx'
 import LandingPage from './Pages/LangdingPage.jsx'
+import EventManagerPage from './Pages/EventManagerPage.jsx'
+import TruckOwnerPage from './Pages/TruckOwnerPage.jsx'
+
 import { useRef, useState, useEffect } from 'react'
 import useAuthStore from './api/useAuthStore';
 
@@ -20,6 +23,8 @@ function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="membership" element={<MembershipPage />} />
           <Route path="event/:eventId" element={<EventPage />} />
+          <Route path="manager" element={<EventManagerPage />} />
+          <Route path="owner" element={<TruckOwnerPage />} />
         </Route>
       </Routes>
     </div>

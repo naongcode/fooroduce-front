@@ -4,9 +4,14 @@ import {
 
 // 투표 결과 차트 컴포넌트
 const VoteResultChart = ({ data, userVotedName }) => {
+  if (!data || data.length === 0) {
+    return <p>아직 투표 결과가 없습니다.</p>;
+  }
   // 투표 수 기준으로 우승자 찾기
-  const maxVotes = Math.max(...data.map(d => d.votes));
-  const winner = data.find(d => d.votes === maxVotes)?.name;
+  // console.log('data',data)
+  const maxVotes = Math.max(...data.map(d => d.voteCount));
+  // console.log('maxVotes',maxVotes)
+  const winner = data.find(d => d.voteCount === maxVotes)?.truckName;
 
   // 커스텀 Tooltip 컴포넌트 정의
   const CustomTooltip = ({ active, payload }) => {
@@ -19,13 +24,12 @@ const VoteResultChart = ({ data, userVotedName }) => {
           border: "1px solid #ccc",
           borderRadius: 6,
         }}>
-          <strong>{d.name}</strong><br />
-          투표 수: {d.votes}표<br />
-          비율: {d.percent}%
+          <strong>{d.truckName}</strong><br />
+          투표 수: {d.voteCount}표<br />
           {/* 우승자일 경우 강조 */}
-          {d.name === winner && <div>🥇 우승!</div>}
+          {d.truckName === winner && <div>🥇 우승!</div>}
           {/* 내가 투표한 후보일 경우 표시 */}
-          {d.name === userVotedName && <div>✅ 내가 투표함</div>}
+          {d.truckName === userVotedName && <div>✅ 내가 투표함</div>}
         </div>
       );
     }
@@ -50,7 +54,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
           <CartesianGrid strokeDasharray="3 3" />
           {/* X축: 후보 이름 */}
           <XAxis
-            dataKey="name"
+            dataKey="truckName"
             height={150}
             tick={({ x, y, payload, index }) => {
               const truck = data[index];
@@ -61,7 +65,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
               return (
                 <g transform={`translate(${x},${y + 10})`}>
                   <image
-                    href={truck.menu_image}
+                    xlinkHref={truck.menuImage}
                     x={-imageSize / 2}
                     y={0}
                     width={imageSize}
@@ -75,7 +79,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
                     fontSize="22"
                     fill="#333"
                   >
-                    {truck.name}
+                    {truck.truckName}
                   </text>
                 </g>
               );
@@ -88,21 +92,21 @@ const VoteResultChart = ({ data, userVotedName }) => {
 
           {/* 실제 막대 그리기 */}
           <Bar
-            dataKey="votes"
+            dataKey="voteCount"
             isAnimationActive={true} // 부드러운 애니메이션
             fill="#8884d8" // 기본 막대 색상
             animationDuration={5000}  // ← 이 부분 추가 (밀리초 단위)
           >
             {/* 막대 위에 투표 수 숫자 라벨 표시 */}
             <LabelList
-              dataKey="votes"
+              dataKey="voteCount"
               position="top"
 
               fill="#000"
               content={({ x, y, width, height, value, index }) => {
                 const truck = data[index]; // index로 원본 데이터 접근
                 const label =
-                  truck.name === winner ? `${value} 👑` : `${value}`;
+                  truck.truckName === winner ? `${value} 👑` : `${value}`;
                 return (
                   <text
                     x={x + width / 2}
