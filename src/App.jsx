@@ -34,7 +34,6 @@ function App() {
 function AppLayout() {
   const navigate = useNavigate();
   const { isLoggedIn, resetAuthStore, userId} = useAuthStore(); // Zustand 상태 감지
-
   const handleNavigation = (path) => {
     navigate(path);  // 지정된 path로 네비게이션
   };
