@@ -8,6 +8,7 @@ import '../style/EventPage.css'
 import VoteResultChart from '../components/Rechart.jsx'
 import PyramidGrid2 from '../components/PyramidGrid2.jsx'
 import axiosInstance from '../api/axiosInstance.js'
+import { getNearbyEvents } from '../api/eventNearby.js'
 
 export default function EventPage() {
 
@@ -20,6 +21,7 @@ export default function EventPage() {
   const [coords, setCoords] = useState({ lat: 0, lng: 0 })
 
  const [votedTruckIds, setVotedTruckIds] = useState([]);
+  const [nearbyEvents, setNearbyEvents] = useState([]);
 
   // 행사상세 가져오기 
   useEffect(() => {
@@ -96,8 +98,8 @@ export default function EventPage() {
           .filter(item => item.alreadyVoted)
           .map(item => item.truckId);
 
-        console.log('res.data',res.data)
-        console.log('votedIds',votedIds)
+        // console.log('res.data',res.data)
+        // console.log('votedIds',votedIds)
         setVotedTruckIds(votedIds)
       } catch (e) {
         console.error('투표 상태 조회 실패', e)
@@ -129,6 +131,23 @@ export default function EventPage() {
   }, [eventData]); // eventData가 변경될 때마다 호출
 
 
+  // 주변행사추천
+  useEffect(() => {
+    const fetchNearbyEvents = async () => {
+      try {
+        if (coords.lat === 0 && coords.lng === 0) return;
+        const res = await getNearbyEvents(coords.lng, coords.lat );
+        setNearbyEvents(res.data);
+        console.log('Nearby events:', res.data);
+      } catch (err) {
+        console.error('주변 행사 추천 실패', err);
+      }
+    };
+
+    fetchNearbyEvents();
+  }, [coords, eventId]);
+
+
   // if (loading) return <p>로딩 중...</p>;
   // if (error) return <p>에러 발생: {error.message}</p>;
   // if (!eventId) return null;
@@ -136,8 +155,8 @@ export default function EventPage() {
 
   const handleVote = async (truck_id) => {
     try {
-      console.log("로그인 상태:", isLoggedIn());
-      console.log("truck_id:", truck_id );
+      // console.log("로그인 상태:", isLoggedIn());
+      // console.log("truck_id:", truck_id );
 
       if (isLoggedIn()) {
         await voteAsMember({ eventId: eventId, truckId: truck_id });
@@ -193,6 +212,23 @@ export default function EventPage() {
             content={eventData.eventName}
             level={3}
           />
+
+          {nearbyEvents.length > 0 && (
+            <div className="nearby-events-section">
+              <h3>📍 주변 추천 행사</h3>
+              <div className="nearby-event-cards">
+                {nearbyEvents.map((event) => (
+                  <div key={event.eventId} className="nearby-event-card">
+                    <img src={event.eventImage} alt="행사 이미지" className="nearby-event-image" />
+                    <div className="nearby-event-info">
+                      <h4>{event.eventName}</h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
 
