@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { checkUserId, signup } from '../api/auth.js'
 import { useNavigate } from 'react-router-dom'
-import '../style/MembershipPage.css' // css 따로 분리
+import '../style/MembershipPage.css'
 
 export default function MembershipPage() {
   const [id, setId] = useState('')
@@ -9,13 +9,14 @@ export default function MembershipPage() {
   const [password, setPassword] = useState('')
   const [role, setRole] = useState('GENERAL')
   const [valid, setValid] = useState(false)
+  const [idCheckMessage, setIdCheckMessage] = useState('')
   const navigate = useNavigate()
 
   const handleMembership = async (e) => {
     e.preventDefault()
     try {
       const data = await signup({ user_id: id, email, password, role })
-      navigate('/')
+      navigate('/login')
     } catch (err) {
       alert('membership:failed', err)
     }
@@ -26,13 +27,17 @@ export default function MembershipPage() {
     try {
       const data = await checkUserId(id)
       if (data.usableId) {
-        setValid(true);
+        setValid(true)
+        setIdCheckMessage('아이디 사용 가능')
         console.log('아이디 사용여부 : 가능')
       } else {
-        throw new Error("아이디 중복확인 실패");
+        setValid(false)
+        setIdCheckMessage('이미 사용 중인 아이디입니다')
       }
     } catch (err) {
-      console.error('중복확인:', err.response || err.message || err);
+      console.error('중복확인:', err.response || err.message || err)
+      setValid(false)
+      setIdCheckMessage('중복 확인 중 오류가 발생했습니다')
     }
   }
 
@@ -48,13 +53,22 @@ export default function MembershipPage() {
               type="text"
               id="id"
               value={id}
-              onChange={(e) => setId(e.target.value)}
+              onChange={(e) => {
+                setId(e.target.value)
+                setValid(false) // 아이디 변경 시 유효성 초기화
+                setIdCheckMessage('') // 메시지도 초기화
+              }}
               required
             />
             <button type="button" onClick={handleCheckId} className="check-btn">
               중복확인
             </button>
           </div>
+          {idCheckMessage && (
+            <div className={`id-check-message ${valid ? 'valid' : 'invalid'}`}>
+              {idCheckMessage}
+            </div>
+          )}
         </div>
 
         <div className="form-group">
