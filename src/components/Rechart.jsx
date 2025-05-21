@@ -48,73 +48,62 @@ const VoteResultChart = ({ data, userVotedName }) => {
       <ResponsiveContainer width="100%" height={500}>
         <BarChart
           data={data}
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-        > 
-          {/* 배경 격자 */}
+          layout="vertical"
+          margin={{ top: 20, right: 60, left: 100, bottom: 20 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
-          {/* X축: 후보 이름 */}
-          <XAxis
+
+          {/* Y축: 후보 이름 (세로에 표시) */}
+          <YAxis
+            type="category"
             dataKey="truckName"
-            height={150}
+            width={150}
             tick={({ x, y, payload, index }) => {
               const truck = data[index];
-
-              // 이미지 크기 조정
-              const imageSize = 90;
+              const imageSize = 70;
 
               return (
-                <g transform={`translate(${x},${y + 10})`}>
+                <g transform={`translate(${x-70},${y - imageSize / 2})`}>
                   <image
                     xlinkHref={truck.menuImage}
-                    x={-imageSize / 2}
+                    x={0}
                     y={0}
                     width={imageSize}
                     height={imageSize}
                     preserveAspectRatio="xMidYMid slice"
                   />
-                  <text
-                    x={0}
-                    y={imageSize + 15}
-                    textAnchor="middle"
-                    fontSize="22"
-                    fill="#333"
-                  >
-                    {truck.truckName}
-                  </text>
                 </g>
               );
             }}
           />
-          {/* Y축: 투표 수 */}
-          <YAxis allowDecimals={false} />
-          {/* 마우스 오버시 툴팁 */}
+
+          {/* X축: 투표 수 (가로 수치 축) */}
+          <XAxis type="number" allowDecimals={false} />
+
           <Tooltip content={<CustomTooltip />} />
 
-          {/* 실제 막대 그리기 */}
           <Bar
             dataKey="voteCount"
-            isAnimationActive={true} // 부드러운 애니메이션
-            fill="#8884d8" // 기본 막대 색상
-            animationDuration={5000}  // ← 이 부분 추가 (밀리초 단위)
+            isAnimationActive={true}
+            fill="#8884d8"
+            animationDuration={2500}
           >
-            {/* 막대 위에 투표 수 숫자 라벨 표시 */}
             <LabelList
-              dataKey="voteCount"
-              position="top"
-
+              dataKey="truckName"
+              position="right"
               fill="#000"
               content={({ x, y, width, height, value, index }) => {
-                const truck = data[index]; // index로 원본 데이터 접근
+                const truck = data[index];
                 const label =
                   truck.truckName === winner ? `${value} 👑` : `${value}`;
                 return (
                   <text
-                    x={x + width / 2}
-                    y={y - 5}
+                    x={x + width +3 }
+                    y={y + height / 2}
                     fill="#000"
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    fontSize="24"
+                    textAnchor="start"
+                    dominantBaseline="middle"
+                    fontSize="20"
                   >
                     {label}
                   </text>
@@ -124,6 +113,7 @@ const VoteResultChart = ({ data, userVotedName }) => {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
+      
     </div>
   );
 };

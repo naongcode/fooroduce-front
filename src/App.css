@@ -22,7 +22,7 @@
   color: #d68b8b;  /* 버튼 텍스트 색상 */
   font-size: 1.1rem;
   font-weight: bold;
-  padding: 0.3rem 1rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 0.5rem;
   border: 2px solid #d68b8b;  /* 버튼 테두리를 핑크색으로 */
   cursor: pointer;

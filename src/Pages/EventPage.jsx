@@ -20,7 +20,7 @@ export default function EventPage() {
   const [eventResult, setEventResult] = useState([])
   const [coords, setCoords] = useState({ lat: 0, lng: 0 })
 
- const [votedTruckIds, setVotedTruckIds] = useState([]);
+  const [votedTruckIds, setVotedTruckIds] = useState([]);
   const [nearbyEvents, setNearbyEvents] = useState([]);
 
   // 행사상세 가져오기 
@@ -153,6 +153,7 @@ export default function EventPage() {
   // if (!eventId) return null;
   if (!eventData) return <p>데이터 없음</p>;
 
+  // 투표하기
   const handleVote = async (truck_id) => {
     try {
       // console.log("로그인 상태:", isLoggedIn());
@@ -253,7 +254,7 @@ export default function EventPage() {
                     className={`vote-button ${isVoted ? 'voted' : ''}`}
                     disabled={isVoted}> {isVoted ? '투표 완료' : '투표하기'}
                   </button>
-                  <span className="toggle-icon">▼</span>
+                  {/* <span className="toggle-icon">▼</span> */}
                 </summary>
                 <ol className="menu-list">
                   {menuData.map((menu, index) => (
@@ -286,34 +287,6 @@ export default function EventPage() {
           <PyramidGrid2 images={imageUrls} />
         </div>
       </div>
-
-      {/* <div className="vote-results">
-        {eventResult.results?.map((truck) => {
-            const truckData = truck;
-            const menuData = truck.menus ?? [];
-          return (
-            <div key={truck.truckId} className="truck-card">
-              <details className="truck-details">
-                <summary className="truck-summary">
-                  <span className="truck-title">{truckData.truckName}</span>
-                  <p>투표수: {truck.voteCount}</p>
-                  <p>{truckData.description}</p>
-                  <span className="toggle-icon">▼</span>
-                </summary>
-                <ol className="menu-list">
-                  {menuData.map((menu, index) => (
-                    <li key={index} className="menu-item">
-                      <p>{menu.menuName}</p>
-                      <p>{menu.menuPrice}원</p>
-                      <img src={menu.menuImage} alt="메뉴 사진" className="menu-image" />
-                    </li>
-                  ))}
-                </ol>
-              </details>
-            </div>
-          )
-        })}
-      </div> */}
 
     </div> 
   )

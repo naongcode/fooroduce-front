@@ -1,0 +1,149 @@
+.event-divider {
+  margin: 3rem 0;
+}
+
+/* 푸드트럭 리스트 */
+.truck-list-title {
+  text-align: center;
+}
+
+.truck-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.truck-card {
+  /* width: 45%; */
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.truck-summary {
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  display:flex;
+  gap:1rem;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.truck-info {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+}
+
+
+.truck-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  /* overflow: hidden; */
+  text-overflow: ellipsis;
+}
+
+.truck-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vote-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 100px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.vote-button.voted {
+  background-color: #ccc; /* 회색 */
+  color: #666;
+  cursor: not-allowed;
+}
+
+.toggle-icon {
+  margin-left: auto;
+}
+
+.menu-list {
+  display: flex;
+  flex-wrap: wrap; /* 여러 개를 한 줄에 배치 */
+  justify-content: space-between; /* 아이템 간 간격을 균등하게 배치 */
+  gap: 0.7rem; /* 아이템 간 간격 */
+  padding: 0;
+  list-style-type: none;
+}
+
+.menu-item {
+  width: 31%; /* 한 줄에 3개의 메뉴 항목을 보이게 설정 */
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+}
+
+.menu-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+}
+
+.menu-image:hover {
+  transform: scale(2);
+}
+
+/* 투표 섹션 */
+.vote-title {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.vote-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
+  flex-wrap: wrap; /* 폭 부족시 자동 줄바꿈 */
+}
+
+.vote-chart-container,
+.pyramid-container {
+  margin: 2rem;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  flex: 1 1 600px; /* 최소 폭 확보 후 동일 비율로 나눔 */
+  max-width: 700px;
+}
+
+.vote-results {
+  margin-top: 3rem;
+}
+
+
+/* 좁은 화면에서는 세로로 */
+@media (max-width: 768px) {
+  .vote-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
