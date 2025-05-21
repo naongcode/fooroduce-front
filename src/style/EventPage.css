@@ -189,6 +189,87 @@
 }
 
 
+/* 광고 트럭 섹션 고정 위치 */
+.sticky-ads {
+  position: fixed;
+  top: 100px;
+  right: 30px; /* 오른쪽 고정 */
+  width: 250px;
+  background-color: #fff;
+  border: 2px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* 제목 스타일 */
+.ads-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* 트럭 리스트 */
+.ads-truck-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 각 트럭 카드 */
+.ads-truck-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 트럭 이미지 */
+.ads-truck-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* 트럭 이름 */
+.ads-truck-name {
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+/* 이동 버튼 */
+.goto-vote-button {
+  margin-top: 6px;
+  padding: 6px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.goto-vote-button:hover {
+  background-color: #4CAF50;
+}
+
+.ads-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ads-toggle-button {
+  background-color: #ffdd57;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
 
 /* 좁은 화면에서는 세로로 */
 @media (max-width: 768px) {

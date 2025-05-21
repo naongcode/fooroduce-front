@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
 import { geocodeAddress } from '../api/map.js'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { isLoggedIn } from '../api/auth.js'
 import KaKaoMap from '../components/KaKaoMap.jsx'
 import '../style/EventPage.css'
@@ -22,6 +22,9 @@ export default function EventPage() {
 
   const [votedTruckIds, setVotedTruckIds] = useState([]);
   const [nearbyEvents, setNearbyEvents] = useState([]);
+
+  const truckListRef = useRef(null); //이 트럭 투표하러 가기 버튼을 누르면 해당란으로 이동
+  const [isPopularVisible, setIsPopularVisible] = useState(false); // 광고 트럭 섹션을 보여줄지 여부
 
   // 행사상세 가져오기 
   useEffect(() => {
@@ -177,6 +180,23 @@ export default function EventPage() {
   );
   //  console.log('imageUrls',imageUrls)
 
+  // eventData.trucks 와 eventResult (투표 결과)를 활용해서 인기 트럭 3개 추출
+  const popularTrucks = eventData.trucks
+  .map(truck => {
+    const voteInfo = eventResult.find(v => v.truckId === truck.truckId);
+    return {
+      ...truck,
+      voteCount: voteInfo ? voteInfo.voteCount : 0
+    };
+  })
+  .sort((a, b) => {
+    if (b.voteCount !== a.voteCount) {
+      return b.voteCount - a.voteCount; // 투표 수 내림차순
+    } 
+    return a.truckName.localeCompare(b.truckName); // 투표 수 같으면 이름 오름차순
+  })
+  .slice(0, 3);
+
 
 
   return (
@@ -244,7 +264,7 @@ export default function EventPage() {
             const menuData = truck.menus ?? [];
 
           return (
-            <div key={truck.truckId} className="truck-card">
+            <div key={truck.truckId} id={`truck-${truck.truckId}`} className="truck-card"> {/*이 트럭 투표하러 가기 버튼을 눌렸을 때, 각 트럭 리스트로 가기*/}
               <details className="truck-details">
                 <summary className="truck-summary">
                   <span className="truck-title">{truckData.truckName}</span>
@@ -272,6 +292,44 @@ export default function EventPage() {
       </div>
 
       <hr className="event-divider"/>
+
+      {/* 광고 트럭 섹션 추가 (최소화 기능 포함) */}
+      <div className="sticky-ads">
+        <div className="ads-header">
+          <h3 className="ads-title">✨ 주목! 인기 푸드트럭 ✨</h3>
+          <button
+            className="ads-toggle-button"
+            onClick={() => setIsPopularVisible((prev) => !prev)}
+          >
+            {isPopularVisible ? '최소화' : '펼치기'}
+          </button>
+        </div>
+
+        {isPopularVisible && (
+          <div className="ads-truck-list">
+            {popularTrucks.map((truck) => (
+              <div key={truck.truckId} className="ads-truck-card">
+                <img src={truck.menus[0]?.menuImage} alt="대표 메뉴" className="ads-truck-image" />
+                <div className="ads-truck-info">
+                  <p className="ads-truck-name">{truck.truckName}</p>
+                  <button
+                    onClick={() =>
+                      window.scrollTo({
+                        top: document.getElementById(`truck-${truck.truckId}`)?.offsetTop - 100,
+                        behavior: 'smooth',
+                      })
+                    }
+                    className="goto-vote-button"
+                  >
+                    이 트럭 투표하러 가기
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
 
       {/* 더미데이터임 */}
       <h3 className="vote-title">🔥 투표 진행중 !!! 🔥</h3>
