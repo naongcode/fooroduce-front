@@ -51,7 +51,6 @@ const PyramidGrid2 = ({ images }) => {
       }}),
     vibrate: {
       opacity: 1,
-      y:0,
       x: [0, -2, 2, -2, 2, 0],
       y: [0, 1, -1, 1, -1, 0],
       boxShadow: [

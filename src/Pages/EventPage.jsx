@@ -228,7 +228,7 @@ export default function EventPage() {
             latitude={coords.lat}
             style={{ width: '50%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
             content={eventData.eventName}
-            level={3}
+            level={7}
             nearbyEvents={nearbyEvents} // 주변 행사 데이터
             
           />

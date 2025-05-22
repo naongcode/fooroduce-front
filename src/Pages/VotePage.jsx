@@ -23,8 +23,6 @@ export default function VotePage() {
   const closeModal = () => setShowPodium(false);
 
   const sorted = [...eventResult].sort((a, b) => b.voteCount - a.voteCount);
-  const podiumOrder = [sorted[1], sorted[0], sorted[2]]; // silver, gold, bronze 순서
-  // console.log('podiumOrder',podiumOrder)
 
   // 투표 후 새로고침
   const handleVote = async (truckId) => {
@@ -34,8 +32,8 @@ export default function VotePage() {
   };
 
   // 리차트에 전달할 이미지 모음
-  const imageUrls = eventData?.trucks?.flatMap(truck =>
-  truck.menus.map(menu => menu.menuImage)) || [];
+  // const imageUrls = eventData?.trucks?.flatMap(truck =>
+  // truck.menus.map(menu => menu.menuImage)) || [];
   //  console.log('imageUrls',imageUrls)
 
   return (
@@ -52,10 +50,19 @@ export default function VotePage() {
         <div className="podium-container">
           <h1 className="porium-vote-title">이벤트 투표 결과</h1>
 
+          {/* 화살표 컨테이너 */}
+          <div className="arrow-group">
+            <div className="arrow">↘ </div>
+            <div className="arrow">↓ </div>
+            <div className="arrow"> ↙</div>
+          </div>
+
+          <div className="result-btn-container">
           <button onClick={openModal} className="result-btn">
-            결과 보기 
+            현재 1위는
             <span className="question-mark">?</span>
           </button>
+          </div>
           
           {showPodium && (
             <PodiumModal results={sorted} onClose={closeModal} />
