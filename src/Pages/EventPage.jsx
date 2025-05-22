@@ -198,17 +198,20 @@ export default function EventPage() {
 
   return (
     <div className="event-page">
+      <div className="event-hero">
+        <img
+          src={eventData.eventImage}
+          alt="축제 대문 이미지"
+          className="event-hero-image"
+        />
+        <div className="event-hero-title">
+          <h1>{eventData.eventName}</h1>
+        </div>
+      </div>
       {/* 축제 정보 */}
       <div className="event-info">
-        <h1>{eventData.eventName}</h1>
-        <div className="event-description">
-          <div className="event-image">
-            <img
-              src={eventData.eventImage}
-              alt="행사 사진"
-              className="event-image-img"
-            />
-          </div>
+        {/* <h1>{eventData.eventName}</h1> */}
+ 
           <div className="event-details">
             <p>주최 : {eventData.eventHost}</p>
             <p>행사내용 : {eventData.description}</p>
@@ -217,7 +220,7 @@ export default function EventPage() {
             <p>투표 기간 : {eventData.voteStart.slice(0, 10)} ~ {eventData.voteEnd.slice(0, 10)}</p>
             <p>행사 기간 : {eventData.eventStart.slice(0, 10)} ~ {eventData.eventEnd.slice(0, 10)}</p>
           </div>
-        </div>
+        
 
         {/* 지도 */}
         <div className="map-section">
@@ -226,7 +229,7 @@ export default function EventPage() {
             key={`${coords.lat}-${coords.lng}`} // 좌표가 바뀌면 컴포넌트 재마운트
             longitude={coords.lng}
             latitude={coords.lat}
-            style={{ width: '50%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
+            style={{ width: '70%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
             content={eventData.eventName}
             level={7}
             nearbyEvents={nearbyEvents} // 주변 행사 데이터
@@ -255,7 +258,7 @@ export default function EventPage() {
       {/* 광고 트럭 섹션 추가 (최소화 기능 포함) */}
       <div className="sticky-ads">
         <div className="ads-header">
-          <h3 className="ads-title">✨ 주목! 인기 푸드트럭 ✨</h3>
+          <h3 className="ads-title">✨ AD 맛난 푸드트럭 ✨</h3>
           <button
             className="ads-toggle-button"
             onClick={() => setIsPopularVisible((prev) => !prev)}
