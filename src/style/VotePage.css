@@ -108,7 +108,7 @@
 
 /* 투표 섹션 */
 .vote-title {
-  margin-top: 1rem;
+  margin-top: 2rem;
   text-align: center;
   font-size: 2.5rem;
 }
@@ -118,8 +118,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 24px;
-  margin-top: 40px;
+  gap: 5px;
   flex-wrap: wrap; /* 폭 부족시 자동 줄바꿈 */
 }
 
@@ -137,6 +136,60 @@
   margin-top: 3rem;
 }
 
+// 포디움
+.podium-container {
+  min-height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.podium-vote-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.result-btn {
+  position: relative;
+  padding: 12px 30px 12px 20px;
+  background-color: #2563eb; /* 파란색 */
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  text-align: center;
+
+}
+
+.result-btn:hover {
+  background-color: #1e40af; /* 좀 더 진한 파란색 */
+}
+
+.question-mark {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #FFD700; /* 연한 파란색 원 */
+  color: white;
+  width: 20px;
+  height: 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  user-select: none;
+  box-shadow: 0 0 6px #3b82f6;
+}
 
 /* 좁은 화면에서는 세로로 */
 @media (max-width: 768px) {

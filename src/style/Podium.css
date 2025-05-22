@@ -1,0 +1,135 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.spotlight {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.podium {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 35px;
+  background: transparent;
+  padding: 20px;
+  z-index: 20;
+}
+
+.podium-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.podium-image {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ccc;
+}
+
+.podium-image.gold {
+  width: 125px;
+  height: 125px;
+  border: 4px solid transparent;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(60deg, gold, #fffacd, gold, #fffacd, gold);
+  background-size: 300% 300%;
+  animation: shimmer 3s linear infinite;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+
+
+
+.podium-image.silver {
+  border-color: silver;
+}
+
+.podium-image.bronze {
+  border-color: #cd7f32;
+}
+
+.podium-rank {
+  width: 64px;
+  height: 80px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  font-weight: bold;
+}
+
+.gold-rank {
+  height: 130px;
+  width: 70px;
+  background: linear-gradient(60deg, gold, #fffacd, gold, #fffacd, gold);
+  background-size: 300% 300%;
+  animation: shimmer 3s linear infinite;
+  color: gray;
+}
+
+.silver-rank {
+  background-color: silver;
+  height: 110px;
+  width: 70px;
+}
+
+.bronze-rank {
+  background-color: #cd7f32;
+  height: 110px;
+  width: 70px;
+}
+
+.podium-label {
+  margin-top: 8px;
+  color: white;
+  text-align: center;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 30;
+}
+
+/* 내부 원형 이미지에 빛나는 효과를 위한 애니메이션 */
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

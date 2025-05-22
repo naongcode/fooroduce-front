@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom"
+import { useState } from "react"
 import useVote from "../api/useVote.js"
 import useVotePageData from "../api/useVotePageData.js"
 import VoteResultChart from '../components/Rechart.jsx'
 import PyramidGrid2 from '../components/PyramidGrid2.jsx'
+import PodiumModal from "../components/PodiumModal.jsx"
 import '../style/VotePage.css'
 
 export default function VotePage() {
@@ -10,9 +12,19 @@ export default function VotePage() {
 
   // useVotePageData API 가져오기
   const { eventData, eventResult, votedTruckIds, setVotedTruckIds, fetchVoteResult } = useVotePageData(eventId);
+  // console.log('eventResult',eventResult)
 
   // useVote API 가져오기
   const { vote } = useVote(eventId);
+
+  // podium 관련
+  const [showPodium, setShowPodium] = useState(false);
+  const openModal = () => setShowPodium(true);
+  const closeModal = () => setShowPodium(false);
+
+  const sorted = [...eventResult].sort((a, b) => b.voteCount - a.voteCount);
+  const podiumOrder = [sorted[1], sorted[0], sorted[2]]; // silver, gold, bronze 순서
+  // console.log('podiumOrder',podiumOrder)
 
   // 투표 후 새로고침
   const handleVote = async (truckId) => {
@@ -21,14 +33,14 @@ export default function VotePage() {
     await fetchVoteResult();
   };
 
-  // 컴포넌트에 전달할 이미지 모음
+  // 리차트에 전달할 이미지 모음
   const imageUrls = eventData?.trucks?.flatMap(truck =>
   truck.menus.map(menu => menu.menuImage)) || [];
   //  console.log('imageUrls',imageUrls)
 
   return (
     <div>
-      <h3 className="vote-title">🔥 투표 진행중 !!! 🔥</h3>
+      <h3 className="vote-title">🔥 투표순위 Top 6 🔥</h3>
 
       <div className="vote-wrapper">
         {/* 리차트 */}
@@ -36,9 +48,23 @@ export default function VotePage() {
           <VoteResultChart data={(eventResult || []).slice(0, 6)} userVotedName={"타코타코코"} />
         </div>
 
+        {/* podium */}
+        <div className="podium-container">
+          <h1 className="porium-vote-title">이벤트 투표 결과</h1>
+
+          <button onClick={openModal} className="result-btn">
+            결과 보기 
+            <span className="question-mark">?</span>
+          </button>
+          
+          {showPodium && (
+            <PodiumModal results={sorted} onClose={closeModal} />
+          )}
+        </div>
+
         {/* 피라미드 */}
         {/* <div><PyramidGrid2 images={imageUrls} /></div> */}
-      </div>
+     </div>
 
       <hr className="event-divider"/>
       {/* 푸드트럭 리스트 */}
