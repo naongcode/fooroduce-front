@@ -153,7 +153,54 @@
   text-align: center;
 }
 
+.arrow-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+  margin-bottom: 10px;
+  animation: pulse 2s infinite;
+  gap:10px;
+}
+
+.arrow {
+  font-size: 25px;
+  color: orange;
+  margin: 2px 0;
+  animation: bounce 1.5s infinite;
+  font-weight:bold;
+}
+
+.arrow:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.arrow:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(5px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+
+
+.result-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width:100%;
+}
+
 .result-btn {
+  margin: 0 auto;
+  display: flex;
   position: relative;
   padding: 12px 30px 12px 20px;
   background-color: #2563eb; /* 파란색 */
@@ -166,7 +213,6 @@
   transition: background-color 0.3s ease;
   font-size: 16px;
   text-align: center;
-
 }
 
 .result-btn:hover {
@@ -179,7 +225,7 @@
   top: 50%;
   transform: translateY(-50%);
   background-color: #FFD700; /* 연한 파란색 원 */
-  color: white;
+  color: blue;
   width: 20px;
   height: 20px;
   font-size: 1.1rem;
