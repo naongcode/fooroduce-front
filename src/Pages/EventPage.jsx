@@ -1,12 +1,10 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
 import { geocodeAddress } from '../api/map.js'
 import { useEffect, useState, useRef } from 'react'
 import { isLoggedIn } from '../api/auth.js'
 import KaKaoMap from '../components/KaKaoMap.jsx'
 import '../style/EventPage.css'
-import VoteResultChart from '../components/Rechart.jsx'
-import PyramidGrid2 from '../components/PyramidGrid2.jsx'
 import axiosInstance from '../api/axiosInstance.js'
 import { getNearbyEvents } from '../api/eventNearby.js'
 
@@ -15,6 +13,7 @@ export default function EventPage() {
   // 경로에서 eventId 받아오기
   const { eventId } = useParams()
   // console.log("eventId:", eventId);
+  const navigate = useNavigate();
     
   const [eventData, setEventData] = useState(null);
   const [eventResult, setEventResult] = useState([])
@@ -24,7 +23,7 @@ export default function EventPage() {
   const [nearbyEvents, setNearbyEvents] = useState([]);
 
   const truckListRef = useRef(null); //이 트럭 투표하러 가기 버튼을 누르면 해당란으로 이동
-  const [isPopularVisible, setIsPopularVisible] = useState(false); // 광고 트럭 섹션을 보여줄지 여부
+  const [isPopularVisible, setIsPopularVisible] = useState(true); // 광고 트럭 섹션을 보여줄지 여부
 
   // 행사상세 가져오기 
   useEffect(() => {
@@ -197,8 +196,6 @@ export default function EventPage() {
   })
   .slice(0, 3);
 
-
-
   return (
     <div className="event-page">
       {/* 축제 정보 */}
@@ -229,9 +226,11 @@ export default function EventPage() {
             key={`${coords.lat}-${coords.lng}`} // 좌표가 바뀌면 컴포넌트 재마운트
             longitude={coords.lng}
             latitude={coords.lat}
-            style={{  width: '50%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
+            style={{ width: '50%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
             content={eventData.eventName}
             level={3}
+            nearbyEvents={nearbyEvents} // 주변 행사 데이터
+            
           />
 
           {nearbyEvents.length > 0 && (
@@ -239,7 +238,7 @@ export default function EventPage() {
               <h3>📍 주변 추천 행사</h3>
               <div className="nearby-event-cards">
                 {nearbyEvents.map((event) => (
-                  <div key={event.eventId} className="nearby-event-card">
+                  <div key={event.eventId} className="nearby-event-card" onClick={() => navigate(`/event/${event.eventId}`)} style ={{ cursor: 'pointer' }}>
                     <img src={event.eventImage} alt="행사 이미지" className="nearby-event-image" />
                     <div className="nearby-event-info">
                       <h4>{event.eventName}</h4>
@@ -252,46 +251,6 @@ export default function EventPage() {
 
         </div>
       </div>
-
-      <hr className="event-divider" />
-
-      {/* 푸드트럭 리스트 */}
-      <h3 className="truck-list-title">맛있는(?) 트럭에 "투표" 하세요</h3>
-      <div className="truck-list">
-        {eventData?.trucks?.map((truck) => {
-            const isVoted = votedTruckIds.includes(truck.truckId);
-            const truckData = truck;
-            const menuData = truck.menus ?? [];
-
-          return (
-            <div key={truck.truckId} id={`truck-${truck.truckId}`} className="truck-card"> {/*이 트럭 투표하러 가기 버튼을 눌렸을 때, 각 트럭 리스트로 가기*/}
-              <details className="truck-details">
-                <summary className="truck-summary">
-                  <span className="truck-title">{truckData.truckName}</span>
-                  <p>{truckData.description}</p>
-                  <button
-                    onClick={() => handleVote(truck.truckId)} 
-                    className={`vote-button ${isVoted ? 'voted' : ''}`}
-                    disabled={isVoted}> {isVoted ? '투표 완료' : '투표하기'}
-                  </button>
-                  {/* <span className="toggle-icon">▼</span> */}
-                </summary>
-                <ol className="menu-list">
-                  {menuData.map((menu, index) => (
-                    <li key={index} className="menu-item">
-                      <p>{menu.menuName}</p>
-                      <p>({menu.menuPrice}원)</p>
-                      <img src={menu.menuImage} alt="메뉴 사진" className="menu-image" />
-                    </li>
-                  ))}
-                </ol>
-              </details>
-            </div>
-          )
-        })}
-      </div>
-
-      <hr className="event-divider"/>
 
       {/* 광고 트럭 섹션 추가 (최소화 기능 포함) */}
       <div className="sticky-ads">
@@ -312,15 +271,9 @@ export default function EventPage() {
                 <img src={truck.menus[0]?.menuImage} alt="대표 메뉴" className="ads-truck-image" />
                 <div className="ads-truck-info">
                   <p className="ads-truck-name">{truck.truckName}</p>
-                  <button
-                    onClick={() =>
-                      window.scrollTo({
-                        top: document.getElementById(`truck-${truck.truckId}`)?.offsetTop - 100,
-                        behavior: 'smooth',
-                      })
-                    }
-                    className="goto-vote-button"
-                  >
+                 <button
+                    onClick={() => navigate(`/votes/${eventId}`)}
+                    className="goto-vote-button">
                     이 트럭 투표하러 가기
                   </button>
                 </div>
