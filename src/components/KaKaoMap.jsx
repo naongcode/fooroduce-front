@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
+import '../style/KakaoMap.css'
 
-
-const KakaoMapLoader = ({ latitude, longitude, level, style, content }) => {
+const KakaoMapLoader = ({
+  latitude,
+  longitude,
+  level,
+  style,
+  content,
+  nearbyEvents = [],
+}) => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false)
 
   useEffect(() => {
@@ -33,29 +40,34 @@ const KakaoMapLoader = ({ latitude, longitude, level, style, content }) => {
     loadKakaoMapScript().catch((error) => console.error(error))
   }, [])
 
-  if (kakaoMapLoaded)
-    return (
-      <Map
-        center={{ lat: latitude, lng: longitude }}
-        style={style}
-        level={level}
-      >
-        <MapMarker position={{ lat: latitude, lng: longitude }}>
-          <div 
-            style={{ 
-              textAlign: 'center', 
-              fontWeight: 'bold', 
-              color: '#333',
+  if (!kakaoMapLoaded) return <div>로딩중</div>
 
-              }}>
-            {content}
+  return (
+    <Map
+      center={{ lat: latitude, lng: longitude }}
+      style={style}
+      level={level}
+    >
+      {/* 중심 마커 */}
+      <MapMarker position={{ lat: latitude, lng: longitude }}>
+        <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          {content}
+        </div>
+      </MapMarker>
+
+      {/* 주변 행사 마커들 */}
+      {nearbyEvents.map((event) => (
+        <MapMarker
+          key={event.eventId}
+          position={{ lat: event.latitude, lng: event.longitude }}
+          onClick={() => window.location.href = `/votes/${event.eventId}`}
+        >
+          <div className="nearby-marker-text">
+            {event.eventName}
           </div>
         </MapMarker>
-      </Map>
-    )
-  else {
-    return <div>로딩중</div>
-  }
-}
+      ))}
+    </Map>
+  )}
 
 export default KakaoMapLoader

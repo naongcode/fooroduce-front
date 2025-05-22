@@ -1,0 +1,8 @@
+.nearby-marker-text {
+  display : flex;
+  justify-content : center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  white-space: nowrap;
+}
