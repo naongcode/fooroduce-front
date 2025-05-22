@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [ errormessage, setErrorMessage ] = useState(''); //로그인 했을 때 ID나 비밀번호가 틀렸을 때 에러메세지
 
 
-  const KAKAO_API_KEY = import.meta.env.VITE_REST_KAKAO_API_KEY
+  const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY
   const REDIRECT_URI = import.meta.env.VITE_LOGIN_REDIRECT_URI
 
   const handleKakaoLogin = () => {
