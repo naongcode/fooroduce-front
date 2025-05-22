@@ -330,22 +330,6 @@ export default function EventPage() {
         )}
       </div>
 
-
-      {/* 더미데이터임 */}
-      <h3 className="vote-title">🔥 투표 진행중 !!! 🔥</h3>
-
-      <div className="vote-wrapper">
-        {/* 리차트 */}
-        <div className="vote-chart-container">
-          <VoteResultChart data={eventResult} userVotedName={"타코타코코"} />
-        </div>
-
-        {/* 피라미드 */}
-        <div>
-          <PyramidGrid2 images={imageUrls} />
-        </div>
-      </div>
-
     </div> 
   )
 }

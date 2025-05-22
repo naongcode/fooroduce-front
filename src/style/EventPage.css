@@ -122,36 +122,6 @@
   transform: scale(2);
 }
 
-/* 투표 섹션 */
-.vote-title {
-  text-align: center;
-  font-size: 2.5rem;
-}
-
-.vote-wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
-  margin-top: 40px;
-  flex-wrap: wrap; /* 폭 부족시 자동 줄바꿈 */
-}
-
-.vote-chart-container,
-.pyramid-container {
-  margin: 2rem;
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 12px;
-  flex: 1 1 600px; /* 최소 폭 확보 후 동일 비율로 나눔 */
-  max-width: 700px;
-}
-
-.vote-results {
-  margin-top: 3rem;
-}
-
 /* 주변행사추천 */
 .nearby-events-section {
   margin-top: 2rem;
