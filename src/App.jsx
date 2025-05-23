@@ -6,12 +6,12 @@ import HomePage from './Pages/HomePage.jsx'
 import EventPage from './Pages/EventPage.jsx'
 import KakaoCallbackPage from './Pages/AuthPage.jsx'
 import LandingPage from './Pages/LangdingPage.jsx'
-import EventManagerPage from './Pages/EventManagerPage.jsx'
 import TruckOwnerPage from './Pages/TruckOwnerPage.jsx'
 import VotePage from './Pages/VotePage.jsx'
-
 import { useRef, useState, useEffect } from 'react'
 import useAuthStore from './api/useAuthStore';
+import ManageListPage from './Pages/ManageListPage.jsx'
+import ManageDetailPage from './Pages/ManageDetailPage.jsx'
 
 function App() {
   return (
@@ -25,7 +25,8 @@ function App() {
           <Route path="membership" element={<MembershipPage />} />
           <Route path="event/:eventId" element={<EventPage />} />
           <Route path="votes/:eventId" element={<VotePage />} />
-          <Route path="manager" element={<EventManagerPage />} />
+          <Route path="manager" element={<ManageListPage />} />
+          <Route path="manager/:eventId" element={<ManageDetailPage />} />
           <Route path="owner" element={<TruckOwnerPage />} />
         </Route>
       </Routes>

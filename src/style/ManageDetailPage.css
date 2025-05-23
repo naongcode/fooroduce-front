@@ -1,0 +1,135 @@
+.event-detail-container {
+  padding: 32px;
+  /* max-width: 1200px; */
+  margin: 0 auto;
+}
+
+.event-detail-inner {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 5px;
+}
+
+.event-image-wrapper {
+  flex: 1;
+  aspect-ratio: 5 / 6;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-width:300px
+}
+
+.event-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.manage-event-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content:center;
+}
+
+.event-info h1 {
+  margin-bottom: 12px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.event-info p {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.5;
+}
+
+
+/* 트럭 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead {
+  background-color: #f3f3f3;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+td img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.manage-menu-list {
+  display: flex;
+  flex-direction: row; /* 가로 배치 */
+  gap: 1px; /* 메뉴 아이템 간 간격 */
+  justify-content:space-between;
+}
+
+.manage-menu-item {
+  display: flex;
+  align-items: center;
+  flex-direction:column;
+  margin-bottom: 8px;
+}
+
+.manage-menu-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.manage-menu-item div {
+  font-size: 20px;
+  color: #333;
+}
+
+.accept-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.reject-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.status-approved {
+  background-color: #4caf50;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.status-rejected {
+  background-color: #f44336;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import eventData from "../data/eventData.json";
-import '../style/EventManagerPage.css'
+import '../style/ManageListPage.css'
 
 const tabs = ["전체", "모집예정", "모집중", "모집마감", "투표중", "투표마감"];
 
@@ -20,9 +20,9 @@ function getEventStatus(today, rStart, rEnd, vStart, vEnd) {
   if (t > ve) return "투표마감";
 }
 
-console.log('eventData',eventData)
+// console.log('eventData',eventData)
 
-export default function EventManagerPage() {
+export default function ManageListPage() {
   const [allEvents, setAllEvents] = useState(eventData);
   const [selectedTab, setSelectedTab] = useState("전체");
   const [filteredEvents, setFilteredEvents] = useState([]);
@@ -156,6 +156,11 @@ const handleCloseModal = () => {
               <input type="text" name="event_name" onChange={handleChange} value={formData.event_name} />
             </div>
 
+            <div className="form-row">
+              <label>주최기관:</label>
+              <input type="text" name="preferred_menu" onChange={handleChange} value={formData.preferred_menu} />
+            </div>
+            
             <div className="periods-container">
               <div className="period-item">
                 <label>모집기간:</label>
@@ -186,11 +191,6 @@ const handleCloseModal = () => {
             <div className="form-row">
               <label>행사위치:</label>
               <input type="text" name="location" onChange={handleChange} value={formData.location} />
-            </div>
-
-            <div className="form-row">
-              <label>선호메뉴:</label>
-              <input type="text" name="preferred_menu" onChange={handleChange} value={formData.preferred_menu} />
             </div>
 
             <div className="form-row">
