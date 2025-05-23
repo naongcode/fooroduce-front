@@ -1,6 +1,6 @@
 import eventData from '../data/eventData.json'
 import { useState, useEffect } from 'react' // 이 줄을 추가해야 함
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAllEvents, getOngoingEvents, getClosedEvents } from '../api/eventArray' // 전체, 진행중 행사, 마감된 행사 
 import '../style/HomePage.css'
 
@@ -8,7 +8,8 @@ export default function HomePage() {
 
   const [events, setEvents] = useState([])  
   const [view, setView] = useState('all') // 'all', 'ongoing', 'closed'
-  
+  const navigate = useNavigate();
+
     useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -29,12 +30,18 @@ export default function HomePage() {
     fetchEvents()
   }, [view])
 
+    
+
   return (
     <div>
     <div className="homepage-buttons">
       <button onClick={() => setView('all')} className={`nav-button ${view === 'all' ? 'active' : ''}`}>전체</button>
       <button onClick={() => setView('ongoing')} className={`nav-button ${view === 'ongoing' ? 'active' : ''}`}>현재 투표 중</button>
       <button onClick={() => setView('closed')} className={`nav-button ${view === 'closed' ? 'active' : ''}`}>종료된 행사</button>
+
+      {/* 해당권한만 보이게해야함 */}
+      <button onClick={() => navigate('/manager')}>행사관리</button>
+      <button onClick={() => navigate('/manager')}>트럭관리</button>
     </div>
 
     <div className="homepage-container">
