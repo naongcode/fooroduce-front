@@ -126,7 +126,7 @@ const handleCloseModal = () => {
           <div
             key={event.event_id}
             className="event-card"
-            onClick={() => navigate(`/events/${event.event_id}`)}
+            onClick={() => navigate(`/manager/${event.event_id}`)}
           >
             <h2 className="event-title">{event.event_name}</h2>
             <div className="event-period">
