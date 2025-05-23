@@ -1,0 +1,210 @@
+.event-manager-container {
+  padding: 24px;
+  font-family: sans-serif;
+}
+
+.event-manager-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.event-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #e5e7eb;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.register-button {
+  background-color: #10b981;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.event-list {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+.event-card {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+    display: flex;
+  flex-direction: column;
+  align-items: center;  /* 수평 가운데 정렬 */
+  justify-content: center;  /* 수직 가운데 정렬 */
+  text-align: center;  /* 텍스트 가운데 정렬 */
+}
+
+.event-card:hover {
+  background-color: #f9fafb;
+}
+
+.event-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.event-period {
+  display: flex;
+  flex-direction: column; 
+  gap: 16px; /* 요소 간 간격 */
+  font-size: 14px;
+  color: #555;
+  margin-top: 4px;
+  flex-wrap: wrap; /* 창이 작으면 자동 줄바꿈 */
+  justify-content: center;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  position: relative; /* 중요! */
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  /* width: 400px; */
+  max-width: 70%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 500;
+  font-size:14px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="date"],
+.modal-content input[type="number"],
+.modal-content textarea {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.modal-content textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.form-row label {
+  min-width: 100px;
+  font-weight: 600;
+}
+
+.form-row input,
+.form-row textarea {
+  flex: 1;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.periods-container {
+  display: flex;
+  gap: 15px; /* 기간 항목들 사이 간격 */
+  margin-bottom: 12px;
+  flex-wrap: wrap; /* 화면 작으면 자동 줄바꿈 */
+}
+
+.period-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; 
+  gap: 12px; /* 라벨, input, ~ 사이 간격 */
+}
+
+.period-item label {
+  width: 100px; /* 라벨 고정 너비 */
+  font-weight: 600;
+}
+
+.period-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.modal-close-button {
+  position: absolute; /* 모달 콘텐츠 안에서 위치 지정 */
+  top: 7px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  z-index:2;
+}
+
+/* 등록버튼 */
+.register-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.register-button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: #218838;
+}
