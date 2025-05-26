@@ -9,7 +9,7 @@ export default function LandingPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/"); // 애니메이션 끝나고 자동 이동
-    }, 4200); // 4초 후 이동 (애니메이션 길이에 따라 조절)
+    }, 6000); // 4.5초 후 이동 (애니메이션 길이에 따라 조절)
 
     return () => clearTimeout(timer);
   }, [navigate]);

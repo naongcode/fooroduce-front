@@ -16,6 +16,12 @@
   z-index: 9999; /* navbar보다 앞에 있도록 */
 }
 
+.petal {
+  position: absolute;
+  pointer-events: none;
+  /* z-index: 2; */
+}
+
 .fooroduce-text {
   font-size: 9rem;
   font-weight: bold;

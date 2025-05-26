@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
-import '../style/KakaoMap.css'
+import '../style/KakaoMap3.css'
 
 const KakaoMapLoader = ({
   latitude,
