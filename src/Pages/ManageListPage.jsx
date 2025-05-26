@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import eventData from "../data/eventData.json";
+import axiosInstance from "../api/axiosInstance";
 import '../style/ManageListPage.css'
 
 const tabs = ["전체", "모집예정", "모집중", "모집마감", "투표중", "투표마감"];
@@ -20,10 +19,10 @@ function getEventStatus(today, rStart, rEnd, vStart, vEnd) {
   if (t > ve) return "투표마감";
 }
 
-// console.log('eventData',eventData)
+// console.log('allEvents',allEvents)
 
 export default function ManageListPage() {
-  const [allEvents, setAllEvents] = useState(eventData);
+  const [allEvents, setAllEvents] = useState([]);
   const [selectedTab, setSelectedTab] = useState("전체");
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -35,18 +34,18 @@ export default function ManageListPage() {
   };
 
   const initialFormData = {
-    event_name: "",
-    recruit_start: getTodayMidnight(),
-    recruit_end: getTodayMidnight(),
-    vote_start: getTodayMidnight(),
-    vote_end: getTodayMidnight(),
-    event_start: getTodayMidnight(),
-    event_end: getTodayMidnight(),
-    event_location: "",
-    preferred_menu: "",
-    truck_count: "",
-    event_description: "",
-    event_image: null,
+    eventName: "",
+    recruitStart: getTodayMidnight(),
+    recruitEnd: getTodayMidnight(),
+    voteStart: getTodayMidnight(),
+    voteEnd: getTodayMidnight(),
+    eventStart: getTodayMidnight(),
+    eventEnd: getTodayMidnight(),
+    location: "",
+    eventHost: "",
+    truckCount: "",
+    description: "",
+    eventImage: null,
   };
 
   //입력모달 
@@ -72,32 +71,44 @@ const handleCloseModal = () => {
   setFormData(initialFormData);
 };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("jwt_token");
-  //   axios
-  //     .get("/events/list", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((res) => setAllEvents(res.data));
-  // }, []);
+  // 행사정보 받아오기
+  useEffect(() => {
+    const fetchAllEvents = async () => {
+      try {
+        const res = await axiosInstance.get("/events/list");
+        setAllEvents(res.data);
+        // console.log("✅ 받은 이벤트 목록", res.data);
+      } catch (err) {
+        console.error("❌ 이벤트 목록 조회 실패", err);
+      }
+    };
 
-  // 카멜로 바꿔야됨
+    fetchAllEvents();
+  }, []);
+
+
+  // 행사 상태 탭
   useEffect(() => {
     const now = new Date();
+
+    if (!Array.isArray(allEvents)) {
+     console.warn("🚨 allEvents는 배열이 아닙니다:", allEvents);
+    return;
+  }
+
     const filtered = allEvents.filter((event) => {
       const status = getEventStatus(
         now,
-        event.recruit_start,
-        event.recruit_end,
-        event.vote_start,
-        event.vote_end
+        event.recruitStart,
+        event.recruitEnd,
+        event.voteStart,
+        event.voteEnd
       );
       return selectedTab === "전체" || status === selectedTab;
     });
     setFilteredEvents(filtered);
   }, [allEvents, selectedTab]);
+
 
   return (
     <div className="event-manager-container">
@@ -124,15 +135,15 @@ const handleCloseModal = () => {
       <div className="event-list">
         {filteredEvents.map((event) => (
           <div
-            key={event.event_id}
+            key={event.eventId}
             className="event-card"
-            onClick={() => navigate(`/manager/${event.event_id}`)}
+            onClick={() => navigate(`/manager/${event.eventId}`)}
           >
-            <h2 className="event-title">{event.event_name}</h2>
+            <h2 className="event-title">{event.eventName}</h2>
             <div className="event-period">
-              <p>모집: {event.recruit_start} ~ {event.recruit_end}</p>
-              <p>투표: {event.vote_start} ~ {event.vote_end}</p>
-              <p>행사: {event.event_start} ~ {event.event_end}</p>
+              <p>모집: {event.recruitStart} ~ {event.recruitEnd}</p>
+              <p>투표: {event.voteStart} ~ {event.voteEnd}</p>
+              <p>행사: {event.eventStart} ~ {event.eventEnd}</p>
             </div>
           </div>
         ))}
@@ -153,37 +164,37 @@ const handleCloseModal = () => {
 
             <div className="form-row">
               <label>행사명:</label>
-              <input type="text" name="event_name" onChange={handleChange} value={formData.event_name} />
+              <input type="text" name="event_name" onChange={handleChange} value={formData.eventName} />
             </div>
 
             <div className="form-row">
               <label>주최기관:</label>
-              <input type="text" name="preferred_menu" onChange={handleChange} value={formData.preferred_menu} />
+              <input type="text" name="preferred_menu" onChange={handleChange} value={formData.eventHost} />
             </div>
             
             <div className="periods-container">
               <div className="period-item">
                 <label>모집기간:</label>
                 <div className="period-inputs">
-                  <input type="datetime-local" name="recruit_start" onChange={handleChange} value={formData.recruit_start} />
+                  <input type="datetime-local" name="recruit_start" onChange={handleChange} value={formData.recruitStart} />
                   <span>~</span>
-                  <input type="datetime-local" name="recruit_end" onChange={handleChange} value={formData.recruit_end} />
+                  <input type="datetime-local" name="recruit_end" onChange={handleChange} value={formData.recruitEnd} />
                 </div>
               </div>
               <div className="period-item">
                 <label>투표기간:</label>
                 <div className="period-inputs">
-                  <input type="datetime-local" name="vote_start" onChange={handleChange} value={formData.vote_start} />
+                  <input type="datetime-local" name="vote_start" onChange={handleChange} value={formData.voteStart} />
                   <span>~</span>
-                  <input type="datetime-local" name="vote_end" onChange={handleChange} value={formData.vote_end} />
+                  <input type="datetime-local" name="vote_end" onChange={handleChange} value={formData.voteEnd} />
                 </div>
               </div>
               <div className="period-item">
                 <label>행사기간:</label>
                 <div className="period-inputs">
-                  <input type="datetime-local" name="event_start" onChange={handleChange} value={formData.event_start} />
+                  <input type="datetime-local" name="event_start" onChange={handleChange} value={formData.eventStart} />
                   <span>~</span>
-                  <input type="datetime-local" name="event_end" onChange={handleChange} value={formData.event_end} />
+                  <input type="datetime-local" name="event_end" onChange={handleChange} value={formData.eventEnd} />
                 </div>
               </div>
             </div>
@@ -195,7 +206,7 @@ const handleCloseModal = () => {
 
             <div className="form-row">
               <label>모집트럭수:</label>
-              <input type="number" name="truck_count" onChange={handleChange} value={formData.truck_count} />
+              <input type="number" name="truck_count" onChange={handleChange} value={formData.truckCount} />
             </div>
 
             <div className="form-row">
