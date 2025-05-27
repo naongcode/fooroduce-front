@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
+import useAuthStore from "../api/useAuthStore";
 import '../style/ManageListPage.css'
 
 const tabs = ["전체", "모집예정", "모집중", "모집마감", "투표중", "투표마감"];
@@ -62,8 +63,14 @@ export default function ManageListPage() {
 
 async function handleSubmit() {
   try {
+
+    const { token } = useAuthStore.getState(); 
     console.log("행사 등록 시작");
     console.log("formData:", formData);
+
+     if (!token) {
+      throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
+    }
 
     let imageUrl = null;
 
@@ -73,6 +80,7 @@ async function handleSubmit() {
       });
 
       const presignedUrl = presignedRes.data.uploadURL;
+      const filePath = presignedRes.data.filePath; 
 
       const uploadRes = await fetch(presignedUrl, {
         method: "PUT",
@@ -83,8 +91,10 @@ async function handleSubmit() {
         throw new Error("이미지 업로드 실패");
       }
 
-      const urlObj = new URL(presignedUrl);
-      imageUrl = urlObj.origin + urlObj.pathname;
+      const bucket = "naong2-s3";
+      const region = "ap-northeast-2";
+      imageUrl = `https://${bucket}.s3.${region}.amazonaws.com/image/${filePath}`;
+
     }
 
     const eventPayload = {
@@ -99,16 +109,13 @@ async function handleSubmit() {
       location: formData.location,
       truckCount: formData.truckCount,
       description: formData.description,
-      eventImageUrl: imageUrl,
+      eventImage: imageUrl,
     };
 
-    // ✅ 여기서 token 정의
-    const token = localStorage.getItem("jwt_token");
-
     const res = await axiosInstance.post("/events/create", eventPayload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
     });
 
     console.log("행사 등록 완료:", res.data);
@@ -131,7 +138,7 @@ const handleCloseModal = () => {
       try {
         const res = await axiosInstance.get("/events/list");
         setAllEvents(res.data);
-        // console.log("✅ 받은 이벤트 목록", res.data);
+        // console.log("받은 이벤트 목록", res.data);
       } catch (err) {
         console.error("❌ 이벤트 목록 조회 실패", err);
       }
