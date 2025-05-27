@@ -6,6 +6,10 @@ import '../style/ManageListPage.css'
 
 const tabs = ["전체", "모집예정", "모집중", "모집마감", "투표중", "투표마감"];
 
+function generateUUID() {
+  return crypto.randomUUID(); // 브라우저 내장 함수
+}
+
 function getEventStatus(today, rStart, rEnd, vStart, vEnd) {
   const t = new Date(today);
   const rs = new Date(rStart);
@@ -75,8 +79,12 @@ async function handleSubmit() {
     let imageUrl = null;
 
     if (formData.eventImage) {
+      const uuid = generateUUID();
+      const originalName = formData.eventImage.name;
+      const uniqueName = `${uuid}-${originalName}`;
+
       const presignedRes = await axiosInstance.post("events/presigned-url", {
-        filename: formData.eventImage.name,
+        filename: uniqueName,
       });
 
       const presignedUrl = presignedRes.data.uploadURL;
