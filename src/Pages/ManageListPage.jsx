@@ -53,17 +53,71 @@ export default function ManageListPage() {
   
   function handleChange(e) {
     const { name, value, files } = e.target;
-    if (name === "event_image") {
+    if (name === "eventImage") {
       setFormData((prev) => ({ ...prev, [name]: files[0] }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   }
 
-function handleSubmit() {
-  console.log("등록할 행사 데이터:", formData);
-  setShowRegisterModal(false);
-  setFormData(initialFormData); // 초기화
+async function handleSubmit() {
+  try {
+    console.log("행사 등록 시작");
+    console.log("formData:", formData);
+
+    let imageUrl = null;
+
+    if (formData.eventImage) {
+      const presignedRes = await axiosInstance.post("events/presigned-url", {
+        filename: formData.eventImage.name,
+      });
+
+      const presignedUrl = presignedRes.data.uploadURL;
+
+      const uploadRes = await fetch(presignedUrl, {
+        method: "PUT",
+        body: formData.eventImage,
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error("이미지 업로드 실패");
+      }
+
+      const urlObj = new URL(presignedUrl);
+      imageUrl = urlObj.origin + urlObj.pathname;
+    }
+
+    const eventPayload = {
+      eventName: formData.eventName,
+      eventHost: formData.eventHost,
+      recruitStart: formData.recruitStart,
+      recruitEnd: formData.recruitEnd,
+      voteStart: formData.voteStart,
+      voteEnd: formData.voteEnd,
+      eventStart: formData.eventStart,
+      eventEnd: formData.eventEnd,
+      location: formData.location,
+      truckCount: formData.truckCount,
+      description: formData.description,
+      eventImageUrl: imageUrl,
+    };
+
+    // ✅ 여기서 token 정의
+    const token = localStorage.getItem("jwt_token");
+
+    const res = await axiosInstance.post("/events/create", eventPayload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("행사 등록 완료:", res.data);
+
+    setShowRegisterModal(false);
+    setFormData(initialFormData);
+  } catch (err) {
+    console.error("행사 등록 실패:", err);
+  }
 }
 
 const handleCloseModal = () => {
@@ -164,37 +218,37 @@ const handleCloseModal = () => {
 
             <div className="form-row">
               <label>행사명:</label>
-              <input type="text" name="event_name" onChange={handleChange} value={formData.eventName} />
+              <input type="text" name="eventName" onChange={handleChange} value={formData.eventName} />
             </div>
 
             <div className="form-row">
               <label>주최기관:</label>
-              <input type="text" name="preferred_menu" onChange={handleChange} value={formData.eventHost} />
+              <input type="text" name="eventHost" onChange={handleChange} value={formData.eventHost} />
             </div>
             
             <div className="periods-container">
               <div className="period-item">
                 <label>모집기간:</label>
                 <div className="period-inputs">
-                  <input type="datetime-local" name="recruit_start" onChange={handleChange} value={formData.recruitStart} />
+                  <input type="datetime-local" name="recruitStart" onChange={handleChange} value={formData.recruitStart} />
                   <span>~</span>
-                  <input type="datetime-local" name="recruit_end" onChange={handleChange} value={formData.recruitEnd} />
+                  <input type="datetime-local" name="recruitEnd" onChange={handleChange} value={formData.recruitEnd} />
                 </div>
               </div>
               <div className="period-item">
                 <label>투표기간:</label>
                 <div className="period-inputs">
-                  <input type="datetime-local" name="vote_start" onChange={handleChange} value={formData.voteStart} />
+                  <input type="datetime-local" name="voteStart" onChange={handleChange} value={formData.voteStart} />
                   <span>~</span>
-                  <input type="datetime-local" name="vote_end" onChange={handleChange} value={formData.voteEnd} />
+                  <input type="datetime-local" name="voteEnd" onChange={handleChange} value={formData.voteEnd} />
                 </div>
               </div>
               <div className="period-item">
                 <label>행사기간:</label>
                 <div className="period-inputs">
-                  <input type="datetime-local" name="event_start" onChange={handleChange} value={formData.eventStart} />
+                  <input type="datetime-local" name="eventStart" onChange={handleChange} value={formData.eventStart} />
                   <span>~</span>
-                  <input type="datetime-local" name="event_end" onChange={handleChange} value={formData.eventEnd} />
+                  <input type="datetime-local" name="eventEnd" onChange={handleChange} value={formData.eventEnd} />
                 </div>
               </div>
             </div>
@@ -206,7 +260,7 @@ const handleCloseModal = () => {
 
             <div className="form-row">
               <label>모집트럭수:</label>
-              <input type="number" name="truck_count" onChange={handleChange} value={formData.truckCount} />
+              <input type="number" name="truckCount" onChange={handleChange} value={formData.truckCount} />
             </div>
 
             <div className="form-row">
@@ -217,13 +271,13 @@ const handleCloseModal = () => {
             <div className="form-row">
               <label>사진업로드:</label>
               <input
-                type="file" name="event_image"
+                type="file" name="eventImage"
                 accept="image/*" onChange={handleChange}
               />
             </div>
 
             <div className="register-button-container">
-              <button className="register-button">등록</button>
+              <button className="register-button" onClick={handleSubmit}>등록</button>
             </div>
 
           </div>
