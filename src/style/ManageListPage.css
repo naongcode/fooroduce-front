@@ -208,3 +208,20 @@
 .register-button:hover {
   background-color: #218838;
 }
+
+/* 수정 버튼*/
+.edit-button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  float: right; /* 우측 정렬 */
+}
+
+.edit-button:hover {
+  background-color: #218838;
+}
