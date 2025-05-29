@@ -55,6 +55,7 @@ export default function ManageListPage() {
 
   const [formData, setFormData] = useState(initialFormData);
 
+  // 입력값 받기
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "eventImage") {
@@ -64,6 +65,7 @@ export default function ManageListPage() {
     }
   };
 
+  // 행사등록
   const handleSubmit = async () => {
     try {
       if (!token) throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
@@ -79,6 +81,8 @@ export default function ManageListPage() {
 
         await fetch(data.uploadURL, {
           method: "PUT",
+          headers: {"Cache-Control": "public, max-age=31536000, immutable",
+          },
           body: formData.eventImage,
         });
 
@@ -114,6 +118,7 @@ export default function ManageListPage() {
     }
   };
 
+  // 행사 수정
   const handleEdit = (event) => {
     setEditTargetEvent(event);
     setFormData({
@@ -130,6 +135,7 @@ export default function ManageListPage() {
     setEditTargetEvent(null);
   };
 
+  // 이벤트 목록 가져오기기
   const fetchAllEvents = async () => {
     try {
       const res = await axiosInstance.get("/events/list");
@@ -143,6 +149,7 @@ export default function ManageListPage() {
     fetchAllEvents();
   }, []);
 
+  // 날짜로 필터하기
   useEffect(() => {
     const now = new Date();
     const filtered = allEvents.filter((event) => {
