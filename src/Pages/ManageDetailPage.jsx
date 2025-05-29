@@ -32,6 +32,7 @@ export default function ManageDetailPage() {
       try {
         const res = await axiosInstance.get(`/events/${eventId}`);
         setEventData(res.data);
+        setIsCancelled(res.data.isCancelled); 
         // console.log('eventData', res.data);
       } catch (err) {
         console.error("이벤트 상세 조회 실패", err);
@@ -58,11 +59,11 @@ export default function ManageDetailPage() {
 //     );
 //   };
 
-//   console.log('eventData',eventData)
+  // console.log('eventData',eventData)
 
   if (!eventData) return <div>로딩중...</div>;
 
-  // 카멜로 변경필요
+  
   return (
     <div className="event-detail-container">
       {isCancelled && (
@@ -131,7 +132,7 @@ export default function ManageDetailPage() {
               <td style={{ maxWidth: '150px'}}>{truck.description}</td>
               <td>{voteCount}표</td>
               <td>
-                {truck.status === "pending" ? (
+                {truck.status?.toLowerCase() === "pending" ? (
                   <>
                     <button
                       onClick={() => handleDecision(truck.id, "approved")}

@@ -135,7 +135,7 @@ export default function ManageListPage() {
     setEditTargetEvent(null);
   };
 
-  // 이벤트 목록 가져오기기
+  // 이벤트 목록 가져오기
   const fetchAllEvents = async () => {
     try {
       const res = await axiosInstance.get("/events/list");
