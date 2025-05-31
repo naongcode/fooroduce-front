@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Map, MapMarker } from 'react-kakao-maps-sdk'
+import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk'
 import '../style/KakaoMap3.css'
+import { GiPositionMarker } from 'react-icons/gi'
 
 const KakaoMapLoader = ({
   latitude,
@@ -43,31 +44,71 @@ const KakaoMapLoader = ({
   if (!kakaoMapLoaded) return <div>로딩중</div>
 
   return (
-    <Map
-      center={{ lat: latitude, lng: longitude }}
-      style={style}
-      level={level}
-    >
+    <Map center={{ lat: latitude, lng: longitude }} style={style} level={level}>
       {/* 중심 마커 */}
-      <MapMarker position={{ lat: latitude, lng: longitude }}>
-        <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-          {content}
-        </div>
-      </MapMarker>
+
+      <CustomOverlayMap
+        position={{ lat: latitude, lng: longitude }}
+        yAnchor={1}
+        zIndex={80}
+      >
+        <GiPositionMarker
+          size={50}
+          style={{
+            fill: 'url(#grad1)',
+            stroke: 'none',
+          }}
+        />
+
+        <svg width="0" height="0" style={{ position: 'absolute' }}>
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#4f46e5" /> {/* Indigo-600 */}
+              <stop offset="100%" stopColor="#a78bfa" /> {/* Purple-300 */}
+            </linearGradient>
+          </defs>
+        </svg>
+      </CustomOverlayMap>
+      {/* 정보 카드 역할 */}
+      <CustomOverlayMap
+        position={{ lat: latitude - 0.005, lng: longitude }}
+        yAnchor={2.1}
+        zIndex={90}
+      >
+        <a
+          href={`https://map.kakao.com/link/map/${latitude},${longitude}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-5 rounded-xl shadow-sm flex-1 border border-indigo-100">
+            <h4 className="text-lg font-semibold text-indigo-800 mb-2 flex items-center">
+              <i className="fas fa-map-marker-alt text-indigo-600 mr-2"></i>
+              {content}
+            </h4>
+          </div>
+        </a>
+      </CustomOverlayMap>
 
       {/* 주변 행사 마커들 */}
       {nearbyEvents.map((event) => (
-        <MapMarker
+        <CustomOverlayMap
           key={event.eventId}
           position={{ lat: event.latitude, lng: event.longitude }}
-          onClick={() => window.location.href = `/votes/${event.eventId}`}
+          onClick={() => (window.location.href = `/votes/${event.eventId}`)}
         >
-          <div className="nearby-marker-text">
-            {event.eventName}
+          <div className="w-15 h-15 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 p-[3px]">
+            <div className="w-full h-full rounded-full bg-white overflow-hidden">
+              <img
+                src={event.eventImage}
+                alt="Event"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
-        </MapMarker>
+        </CustomOverlayMap>
       ))}
     </Map>
-  )}
+  )
+}
 
 export default KakaoMapLoader
