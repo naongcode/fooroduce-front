@@ -1,0 +1,103 @@
+/* 전체 컨테이너 */
+.app-truck-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Pretendard', sans-serif;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+/* 헤더 */
+.app-truck-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.app-page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+}
+
+.app-truck-header button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 18px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.app-profile-btn:hover {
+  background-color: #45a049;
+}
+
+/* 섹션 제목 */
+.app-section-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #222;
+}
+
+/* 빈 내역 텍스트 */
+.app-empty-text {
+  font-size: 16px;
+  color: #999;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* 테이블 스타일 */
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.app-table th,
+.app-table td {
+  border: 1px solid #ddd;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.app-table th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+  color: #444;
+}
+
+.app-table-row:hover {
+  background-color: #f0f8ff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+  .app-truck-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .app-page-title {
+    font-size: 24px;
+  }
+
+  .app-table {
+    font-size: 12px;
+  }
+
+  .app-table th,
+  .app-table td {
+    padding: 8px;
+  }
+}
