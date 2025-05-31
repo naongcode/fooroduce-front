@@ -18,11 +18,11 @@ const TruckOwnerPage = () => {
   }, []);
 
   const handleGoToDetail = (applicationId) => {
-    navigate(`/truck/${applicationId}`);
+    navigate(`/owner/${applicationId}`);
   };
 
   const handleGoToProfile = () => {
-    navigate("/truck/profile");
+    navigate("/owner/profile");
   };
 
   return (
