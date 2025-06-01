@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
+import axiosInstance from '../api/axiosInstance'; 
 import {
   Link,
   Outlet,
@@ -11,6 +12,7 @@ import {
 import useVotePageData from '../api/useVotePageData'
 import EventIntroPage from './EventInTroPage'
 import EventVotePage from './EventVotePage'
+import ConfirmModal from '../components/ConfirmModal'
 
 const EventContext = createContext(null)
 export const useEvent = () => useContext(EventContext)
@@ -93,12 +95,25 @@ const EventHeader = () => {
   )
 }
 
+
 const EventTabs = () => {
   const { eventId } = useParams()
-
   const matchVote = useMatch(`/event/${eventId}/votes/*`)
   const matchIntro = useMatch(`/event/${eventId}`)
-  const matchEnroll = useMatch(``)
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const applyTruck = async (eventId, truckId) => {
+    try {
+      const response = await axiosInstance.post('/applications', {
+        eventId,
+        truckId,
+      })
+      alert('행사 참가 신청 완료!')
+    } catch (error) {
+      console.error('참가 신청 실패:', error)
+      alert('참가 신청에 실패했습니다.')
+    }
+  }
 
   const baseClasses =
     'px-8 py-3 rounded-lg font-medium transition-all duration-300 whitespace-nowrap cursor-pointer'
@@ -106,31 +121,39 @@ const EventTabs = () => {
   const inactiveClasses = 'text-white hover:bg-white/10'
 
   return (
-    <div className="flex gap-4">
-      <Link
-        to={`/event/${eventId}`}
-        className={`${baseClasses} ${matchIntro && !matchVote ? activeClasses : inactiveClasses}`}
-      >
-        <i className="fas fa-info-circle mr-2"></i>
-        축제 소개
-      </Link>
+    <>
+      <div className="flex gap-4">
+        <Link
+          to={`/event/${eventId}`}
+          className={`${baseClasses} ${matchIntro && !matchVote ? activeClasses : inactiveClasses}`}
+        >
+          <i className="fas fa-info-circle mr-2"></i>
+          축제 소개
+        </Link>
 
-      <Link
-        to={`/event/${eventId}/votes`}
-        className={`${baseClasses} ${matchVote ? activeClasses : inactiveClasses}`}
-      >
-        <i className="fas fa-vote-yea mr-2"></i>
-        행사 투표
-      </Link>
+        <Link
+          to={`/event/${eventId}/votes`}
+          className={`${baseClasses} ${matchVote ? activeClasses : inactiveClasses}`}
+        >
+          <i className="fas fa-vote-yea mr-2"></i>
+          행사 투표
+        </Link>
 
-      <Link
-        to={`/event/${eventId}/votes`}
-        className={`${baseClasses} ${matchEnroll ? activeClasses : inactiveClasses}`}
-      >
-        <i className="fas fa-vote-yea mr-2"></i>
-        트럭 등록
-      </Link>
-    </div>
+        <button
+          onClick={() => setModalOpen(true)}
+          className={`${baseClasses} ${inactiveClasses}`}
+        >
+          <i className="fas fa-truck mr-2"></i>
+          트럭 등록
+        </button>
+      </div>
+
+      <ConfirmModal
+        isOpen={modalOpen}
+        onConfirm={() => applyTruck(eventId, truckId)}
+        onCancel={() => setModalOpen(false)}
+      />
+    </>
   )
 }
 
