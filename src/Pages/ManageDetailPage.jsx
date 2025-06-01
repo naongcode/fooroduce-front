@@ -33,7 +33,7 @@ export default function ManageDetailPage() {
         const res = await axiosInstance.get(`/events/${eventId}`);
         setEventData(res.data);
         setIsCancelled(res.data.isCancelled); 
-        // console.log('eventData', res.data);
+        console.log('eventData', res.data);
       } catch (err) {
         console.error("이벤트 상세 조회 실패", err);
       }
@@ -51,15 +51,28 @@ export default function ManageDetailPage() {
   // console.log('eventResult',eventResult)
 
 
-//   const handleDecision = (id, decision) => {
-//     setTrucks(prev =>
-//       prev.map(truck =>
-//         truck.id === id ? { ...truck, status: decision } : truck
-//       )
-//     );
-//   };
+// 확정, 거절 
+const handleDecision = async (applicationId, decision) => {
+  try {
+    await axiosInstance.patch(`/applications/${eventId}`, [{
+      applicationId,
+      status: decision === "approved" ? "ACCEPTED" : "REJECTED",
+    }]);
 
-  // console.log('eventData',eventData)
+    // 성공 시 프론트 상태도 반영 (간단히 로컬 업데이트 or 새로고침)
+    setEventData((prevData) => ({
+      ...prevData,
+      trucks: prevData.trucks.map(truck =>
+        truck.applicationId === applicationId
+          ? { ...truck, status: decision === "approved" ? "ACCEPTED" : "REJECTED" }
+          : truck
+      )
+    }));
+  } catch (error) {
+    console.error("결정 처리 실패:", error);
+    alert("푸드트럭 상태 변경에 실패했습니다.");
+  }
+};
 
   if (!eventData) return <div>로딩중...</div>;
 
@@ -135,21 +148,21 @@ export default function ManageDetailPage() {
                 {truck.status?.toLowerCase() === "pending" ? (
                   <>
                     <button
-                      onClick={() => handleDecision(truck.id, "approved")}
+                      onClick={() => handleDecision(truck.applicationId, "approved")}
                       className="accept-btn"
                     >
                       수락
                     </button>
                     <button
-                      onClick={() => handleDecision(truck.id, "rejected")}
+                      onClick={() => handleDecision(truck.applicationId, "rejected")}
                       className="reject-btn"
                     >
                       거절
                     </button>
                   </>
                 ) : (
-                  <span className={truck.status === "approved" ? "status-approved" : "status-rejected"}>
-                    {truck.status === "approved" ? "✅ 수락됨" : "❌ 거절됨"}
+                  <span className={truck.status === "ACCEPTED" ? "status-approved" : "status-rejected"}>
+                    {truck.status === "ACCEPTED" ? "✅ 수락됨" : "❌ 거절됨"}
                   </span>
                 )}
               </td>
