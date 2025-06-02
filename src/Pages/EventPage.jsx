@@ -1,291 +1,323 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import { getVoteResults, voteAsGuest, voteAsMember } from '../api/vote.js'
-import { geocodeAddress } from '../api/map.js'
-import { useEffect, useState, useRef } from 'react'
-import { isLoggedIn } from '../api/auth.js'
-import KaKaoMap from '../components/KaKaoMap.jsx'
-import '../style/EventPage.css'
-import axiosInstance from '../api/axiosInstance.js'
-import { getNearbyEvents } from '../api/eventNearby.js'
+import React, { createContext, useContext, useState } from 'react'
+import axiosInstance from '../api/axiosInstance'; 
+import {
+  Link,
+  Outlet,
+  Route,
+  Routes,
+  useMatch,
+  useNavigate,
+  useParams,
+} from 'react-router-dom'
+import useVotePageData from '../api/useVotePageData'
+import EventIntroPage from './EventInTroPage'
+import EventVotePage from './EventVotePage'
+import ConfirmModal from '../components/ConfirmModal'
+
+const EventContext = createContext(null)
+export const useEvent = () => useContext(EventContext)
 
 export default function EventPage() {
+  return (
+    <Routes>
+      <Route path="/" element={<EventLayout />}>
+        <Route index element={<EventIntroPage />} />
+        <Route path="votes" element={<EventVotePage />} />
+      </Route>
+    </Routes>
+  )
+}
 
-  // 경로에서 eventId 받아오기
+const EventLayout = () => {
   const { eventId } = useParams()
-  // console.log("eventId:", eventId);
-  const navigate = useNavigate();
-    
-  const [eventData, setEventData] = useState(null);
-  const [eventResult, setEventResult] = useState([])
-  const [coords, setCoords] = useState({ lat: 0, lng: 0 })
 
-  const [votedTruckIds, setVotedTruckIds] = useState([]);
-  const [nearbyEvents, setNearbyEvents] = useState([]);
-
-  const truckListRef = useRef(null); //이 트럭 투표하러 가기 버튼을 누르면 해당란으로 이동
-  const [isPopularVisible, setIsPopularVisible] = useState(true); // 광고 트럭 섹션을 보여줄지 여부
-
-  // 행사상세 가져오기 
-  useEffect(() => {
-    const fetchEventData = async () => {
-      try {
-        const res = await axiosInstance.get(`/events/${eventId}`);
-        setEventData(res.data);
-        // console.log('eventData', res.data);
-      } catch (err) {
-        console.error("이벤트 상세 조회 실패", err);
-      }
-    };
-
-    fetchEventData();
-  }, [eventId]);
-
-
-  // const eventData = eventArray.find((event) => event.event_id === +eventId)
-  // const isEnd = eventData?.voteEnd < new Date(); // Optional chaining
-
-  // const applyData = applyArray.find((event) => event.event_id === +eventId)
-  // const applyData = useMemo(() => {
-  //   return applyArray.find((event) => event.event_id === +eventId);
-  // }, [eventId]);
-
-
-  // 투표가 끝난 경우에만 결과를 가져옴
-  // useEffect(() => {
-  //   if (eventData && new Date(eventData.vote_end) < new Date()) {
-  //     fetchVoteResult();
-  //   }
-  // }, [eventData])
-
-  // 투표 결과
-  useEffect(() => {
-      fetchVoteResult();
-  }, [eventId])
-
-  const fetchVoteResult = async () => {
-    try {
-      const response = await getVoteResults(eventId)
-      setEventResult(response.data)
-      // console.log('eventResult',response.data)
-
-    } catch (e) {
-      console.log('fetch result failed', e)
-    }
-  } 
-  
-  // 투표를 이미 했는지 확인
-  useEffect(() => {
-    const fetchVoteStatus = async () => {
-      try {
-        // jwt, fingerprint 꺼내서 API 호출
-        const token = localStorage.getItem('jwtToken')
-        const fingerprint = localStorage.getItem('fingerprint')
-
-        if (!token && !fingerprint) {
-          // 투표 상태 알 수 없으면 그냥 return
-          return
-        }
-
-        // 인증 토큰 넣고, fingerprint는 query param으로 보내는 식으로 가정
-        const config = {
-          headers: {},
-          params: {},
-        }
-        if (token) config.headers['Authorization'] = `Bearer ${token}`
-        if (fingerprint) config.params['fingerprint'] = fingerprint
-
-        const res = await axiosInstance.get(`/votes/status/${eventId}`, config)
-        
-        const votedIds = res.data
-          .filter(item => item.alreadyVoted)
-          .map(item => item.truckId);
-
-        // console.log('res.data',res.data)
-        // console.log('votedIds',votedIds)
-        setVotedTruckIds(votedIds)
-      } catch (e) {
-        console.error('투표 상태 조회 실패', e)
-      }
-    }
-
-    fetchVoteStatus()
-  }, [eventId])
-
-
-  {/* 지도 관련 */}
-  useEffect(() => {
-    const fetchGeocode = async () => {
-        try {
-          const response = await geocodeAddress(eventData.location);
-          // console.log("받은 응답:", response); // 응답 전체 출력
-          const { latitude, longitude } = response.data; // 응답에서 위경도 값 추출
-          // console.log("응답 받은 위경도:", latitude, longitude)
-          setCoords({ lat: latitude, lng: longitude });
-        } catch (e) {
-          console.error(e);
-          alert('주소 변환 실패');
-        }
-    };
-
-    if (eventData?.location) {
-      fetchGeocode();
-    }
-  }, [eventData]); // eventData가 변경될 때마다 호출
-
-
-  // 주변행사추천
-  useEffect(() => {
-    const fetchNearbyEvents = async () => {
-      try {
-        if (coords.lat === 0 && coords.lng === 0) return;
-        const res = await getNearbyEvents(coords.lng, coords.lat );
-        setNearbyEvents(res.data);
-        console.log('Nearby events:', res.data);
-      } catch (err) {
-        console.error('주변 행사 추천 실패', err);
-      }
-    };
-
-    fetchNearbyEvents();
-  }, [coords, eventId]);
-
-
-  // if (loading) return <p>로딩 중...</p>;
-  // if (error) return <p>에러 발생: {error.message}</p>;
-  // if (!eventId) return null;
-  if (!eventData) return <p>데이터 없음</p>;
-
-  // 투표하기
-  const handleVote = async (truck_id) => {
-    try {
-      // console.log("로그인 상태:", isLoggedIn());
-      // console.log("truck_id:", truck_id );
-
-      if (isLoggedIn()) {
-        await voteAsMember({ eventId: eventId, truckId: truck_id });
-      } else {
-        await voteAsGuest({ eventId: eventId, truckId: truck_id });
-      }
-
-      // window.location.reload();
-    } catch (e) {
-      console.log('vote failed', e);
-    }
-  };
-
-   // 컴포넌트에 전달할 이미지 모음
-  const imageUrls = eventData.trucks.flatMap(truck =>
-    truck.menus.map(menu => menu.menuImage)
-  );
-  //  console.log('imageUrls',imageUrls)
-
-  // eventData.trucks 와 eventResult (투표 결과)를 활용해서 인기 트럭 3개 추출
-  const popularTrucks = eventData.trucks
-  .map(truck => {
-    const voteInfo = eventResult.find(v => v.truckId === truck.truckId);
-    return {
-      ...truck,
-      voteCount: voteInfo ? voteInfo.voteCount : 0
-    };
-  })
-  .sort((a, b) => {
-    if (b.voteCount !== a.voteCount) {
-      return b.voteCount - a.voteCount; // 투표 수 내림차순
-    } 
-    return a.truckName.localeCompare(b.truckName); // 투표 수 같으면 이름 오름차순
-  })
-  .slice(0, 3);
+  const {
+    eventData,
+    eventResult,
+    votedTruckIds,
+    setVotedTruckIds,
+    fetchVoteResult,
+  } = useVotePageData(eventId)
 
   return (
-    <div className="event-page">
-      <div className="event-hero">
-        <img
-          src={eventData.eventImage}
-          alt="축제 대문 이미지"
-          className="event-hero-image"
-        />
-        <div className="event-hero-title">
-          <h1>{eventData.eventName}</h1>
+    <EventContext.Provider
+      value={{
+        eventData,
+        eventResult,
+        votedTruckIds,
+        setVotedTruckIds,
+        fetchVoteResult,
+      }}
+    >
+      <EventHeader />
+      <section className="py-20 bg-gradient-to-b from-white to-indigo-50 z-100">
+        <div className="container mx-auto px-6">
+          <Outlet />
+        </div>
+      </section>
+      <EventFooter />
+      <RecommendationTruck />
+    </EventContext.Provider>
+  )
+}
+
+const EventHeader = () => {
+  const { eventData } = useEvent()
+  console.log(eventData)
+
+  return (
+    <div className="relative w-full h-[400px]">
+      {/* 배경 이미지 */}
+      <img
+        src={eventData?.eventImage}
+        alt={eventData?.eventName}
+        className="w-full h-full object-cover"
+      />
+
+      {/* 어두운 오버레이 */}
+      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+      {/* 텍스트 & 탭 영역 */}
+      <div className="absolute inset-0 flex flex-col justify-center items-center px-4 text-center">
+        <h1
+          className="text-4xl font-extrabold tracking-tight
+          bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400
+          bg-clip-text text-transparent"
+        >
+          {eventData?.eventName}
+        </h1>
+
+        <div className="mt-6 bg-white/20 backdrop-blur-sm rounded-xl p-2 shadow-inner">
+          <EventTabs />
         </div>
       </div>
-      {/* 축제 정보 */}
-      <div className="event-info">
-        {/* <h1>{eventData.eventName}</h1> */}
- 
-          <div className="event-details">
-            <p>주최 : {eventData.eventHost}</p>
-            <p>행사내용 : {eventData.description}</p>
-            <p>모집 트럭 수 : {eventData.truckCount}대</p>
-            <p>모집 기간 : {eventData.recruitStart.slice(0, 10)} ~ {eventData.recruitEnd.slice(0, 10)}</p>
-            <p>투표 기간 : {eventData.voteStart.slice(0, 10)} ~ {eventData.voteEnd.slice(0, 10)}</p>
-            <p>행사 기간 : {eventData.eventStart.slice(0, 10)} ~ {eventData.eventEnd.slice(0, 10)}</p>
+    </div>
+  )
+}
+
+const EventTabs = () => {
+  const { eventId } = useParams()
+  const matchVote = useMatch(`/event/${eventId}/votes/*`)
+  const matchIntro = useMatch(`/event/${eventId}`)
+
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalMessage, setModalMessage] = useState("트럭 등록하시겠습니까?")
+  const [modalType, setModalType] = useState("confirm") 
+
+  const applyTruck = async (eventId) => {
+  try {
+    await axiosInstance.post('/applications', { eventId });
+    setModalMessage("행사 참가 신청이 완료되었습니다.");
+    setModalType("info"); 
+  } catch (error) {
+    console.error('참가 신청 실패:', error);
+    setModalMessage("참가 신청에 실패했습니다.");
+    setModalType("info"); 
+  }
+};
+
+  const baseClasses =
+    'px-8 py-3 rounded-lg font-medium transition-all duration-300 whitespace-nowrap cursor-pointer'
+  const activeClasses = 'bg-white text-indigo-700 shadow-md'
+  const inactiveClasses = 'text-white hover:bg-white/10'
+
+  return (
+    <>
+      <div className="flex gap-4">
+        <Link
+          to={`/event/${eventId}`}
+          className={`${baseClasses} ${matchIntro && !matchVote ? activeClasses : inactiveClasses}`}
+        >
+          <i className="fas fa-info-circle mr-2"></i>
+          축제 소개
+        </Link>
+
+        <Link
+          to={`/event/${eventId}/votes`}
+          className={`${baseClasses} ${matchVote ? activeClasses : inactiveClasses}`}
+        >
+          <i className="fas fa-vote-yea mr-2"></i>
+          행사 투표
+        </Link>
+
+        <button
+          onClick={() => setModalOpen(true)}
+          className={`${baseClasses} ${inactiveClasses}`}
+        >
+          <i className="fas fa-truck mr-2"></i>
+          트럭 등록
+        </button>
+      </div>
+
+      <ConfirmModal
+        isOpen={modalOpen}
+        message={modalMessage}
+        onConfirm={() => {
+          if (modalType === "confirm") {
+            applyTruck(eventId)
+          } else {
+            setModalOpen(false)
+            setModalMessage("트럭 등록하시겠습니까?") 
+            setModalType("confirm")
+          }
+        }}
+        onCancel={() => setModalOpen(false)}
+        showCancel={modalType === "confirm"}
+      />
+    </>
+  )
+}
+
+const EventFooter = () => {
+  const { eventData } = useEvent()
+  return (
+    <footer className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-16">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <div className="flex items-center mb-6">
+              <h3 className="text-2xl font-bold">{eventData?.eventName}</h3>
+            </div>
+            <div className="flex space-x-5">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors cursor-pointer w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-indigo-600"
+              >
+                <i className="fab fa-facebook-f text-xl">페이스북</i>
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors cursor-pointer w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-indigo-600"
+              >
+                <i className="fab fa-twitter text-xl">인스타</i>
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors cursor-pointer w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-indigo-600"
+              >
+                <i className="fab fa-instagram text-xl"></i>
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors cursor-pointer w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-indigo-600"
+              >
+                <i className="fab fa-youtube text-xl"></i>
+              </a>
+            </div>
           </div>
-        
+          <div>
+            <h3 className="text-xl font-bold mb-6 border-b border-gray-700 pb-3">
+              주최/주관
+            </h3>
+            <ul className="space-y-4">
+              <li className="flex items-center">
+                <i className="fas fa-building text-indigo-400 mr-3 w-6"></i>
+                <span>{eventData?.eventHost}</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-6 border-b border-gray-700 pb-3">
+              빠른 링크
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  to="."
+                  className="text-gray-300 hover:text-white transition-colors flex items-center cursor-pointer"
+                >
+                  <i className="fas fa-chevron-right text-indigo-400 mr-3 text-sm"></i>
+                  축제 소개
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="votes"
+                  className="text-gray-300 hover:text-white transition-colors flex items-center cursor-pointer"
+                >
+                  <i className="fas fa-chevron-right text-indigo-400 mr-3 text-sm"></i>
+                  푸드트럭 투표
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:text-white transition-colors flex items-center cursor-pointer"
+                >
+                  <i className="fas fa-chevron-right text-indigo-400 mr-3 text-sm"></i>
+                  개인정보처리방침
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+          <p>© 2025 서울 푸드트럭 페스티벌. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+  )
+}
 
-        {/* 지도 */}
-        <div className="map-section">
-          <h3>행사위치 : {eventData.location}</h3>
-          <KaKaoMap
-            key={`${coords.lat}-${coords.lng}`} // 좌표가 바뀌면 컴포넌트 재마운트
-            longitude={coords.lng}
-            latitude={coords.lat}
-            style={{ width: '70%', height: '400px', borderRadius: '12px', marginTop: '1rem' }}
-            content={eventData.eventName}
-            level={7}
-            nearbyEvents={nearbyEvents} // 주변 행사 데이터
-            
-          />
+const RecommendationTruck = () => {
+  const [isPopularVisible, setIsPopularVisible] = useState(true)
+  const { eventData, eventResult } = useEvent()
+  const navigate = useNavigate()
 
-          {nearbyEvents.length > 0 && (
-            <div className="nearby-events-section">
-              <h3>📍 주변 추천 행사</h3>
-              <div className="nearby-event-cards">
-                {nearbyEvents.map((event) => (
-                  <div key={event.eventId} className="nearby-event-card" onClick={() => navigate(`/event/${event.eventId}`)} style ={{ cursor: 'pointer' }}>
-                    <img src={event.eventImage} alt="행사 이미지" className="nearby-event-image" />
-                    <div className="nearby-event-info">
-                      <h4>{event.eventName}</h4>
-                    </div>
-                  </div>
-                ))}
+  // eventData.trucks 와 eventResult (투표 결과)를 활용해서 인기 트럭 3개 추출
+  const popularTrucks = () => {
+    if (eventData?.trucks)
+      return eventData.trucks
+        .map((truck) => {
+          const voteInfo = eventResult?.find((v) => v.truckId === truck.truckId)
+          return {
+            ...truck,
+            voteCount: voteInfo ? voteInfo.voteCount : 0,
+          }
+        })
+        .sort((a, b) => {
+          if (b.voteCount !== a.voteCount) {
+            return b.voteCount - a.voteCount // 투표 수 내림차순
+          }
+          return a.truckName.localeCompare(b.truckName) // 투표 수 같으면 이름 오름차순
+        })
+        .slice(0, 3)
+  }
+
+  return (
+    <div className="sticky-ads">
+      <div className="ads-header">
+        <h3 className="ads-title">✨ AD 맛난 푸드트럭 ✨</h3>
+        <button
+          className="ads-toggle-button"
+          onClick={() => setIsPopularVisible((prev) => !prev)}
+        >
+          {isPopularVisible ? '최소화' : '펼치기'}
+        </button>
+      </div>
+
+      {isPopularVisible && eventData?.trucks && (
+        <div className="ads-truck-list">
+          {popularTrucks().map((truck) => (
+            <div key={truck.truckId} className="ads-truck-card">
+              <img
+                src={truck.menus[0]?.menuImage}
+                alt="대표 메뉴"
+                className="ads-truck-image"
+              />
+              <div className="ads-truck-info">
+                <p className="ads-truck-name">{truck.truckName}</p>
+                <button
+                  onClick={() => navigate(`votes`)}
+                  className="goto-vote-button"
+                >
+                  이 트럭 투표하러 가기
+                </button>
               </div>
             </div>
-          )}
-
+          ))}
         </div>
-      </div>
-
-      {/* 광고 트럭 섹션 추가 (최소화 기능 포함) */}
-      <div className="sticky-ads">
-        <div className="ads-header">
-          <h3 className="ads-title">✨ AD 맛난 푸드트럭 ✨</h3>
-          <button
-            className="ads-toggle-button"
-            onClick={() => setIsPopularVisible((prev) => !prev)}
-          >
-            {isPopularVisible ? '최소화' : '펼치기'}
-          </button>
-        </div>
-
-        {isPopularVisible && (
-          <div className="ads-truck-list">
-            {popularTrucks.map((truck) => (
-              <div key={truck.truckId} className="ads-truck-card">
-                <img src={truck.menus[0]?.menuImage} alt="대표 메뉴" className="ads-truck-image" />
-                <div className="ads-truck-info">
-                  <p className="ads-truck-name">{truck.truckName}</p>
-                 <button
-                    onClick={() => navigate(`/votes/${eventId}`)}
-                    className="goto-vote-button">
-                    이 트럭 투표하러 가기
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-    </div> 
+      )}
+    </div>
   )
 }
