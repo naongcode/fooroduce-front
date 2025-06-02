@@ -95,25 +95,26 @@ const EventHeader = () => {
   )
 }
 
-
 const EventTabs = () => {
   const { eventId } = useParams()
   const matchVote = useMatch(`/event/${eventId}/votes/*`)
   const matchIntro = useMatch(`/event/${eventId}`)
-  const [modalOpen, setModalOpen] = useState(false)
 
-  const applyTruck = async (eventId, truckId) => {
-    try {
-      const response = await axiosInstance.post('/applications', {
-        eventId,
-        truckId,
-      })
-      alert('행사 참가 신청 완료!')
-    } catch (error) {
-      console.error('참가 신청 실패:', error)
-      alert('참가 신청에 실패했습니다.')
-    }
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalMessage, setModalMessage] = useState("트럭 등록하시겠습니까?")
+  const [modalType, setModalType] = useState("confirm") 
+
+  const applyTruck = async (eventId) => {
+  try {
+    await axiosInstance.post('/applications', { eventId });
+    setModalMessage("행사 참가 신청이 완료되었습니다.");
+    setModalType("info"); // 확인만 있는 모달로 변경
+  } catch (error) {
+    console.error('참가 신청 실패:', error);
+    setModalMessage("참가 신청에 실패했습니다.");
+    setModalType("info"); // 오류도 확인만
   }
+};
 
   const baseClasses =
     'px-8 py-3 rounded-lg font-medium transition-all duration-300 whitespace-nowrap cursor-pointer'
@@ -150,8 +151,18 @@ const EventTabs = () => {
 
       <ConfirmModal
         isOpen={modalOpen}
-        onConfirm={() => applyTruck(eventId, truckId)}
+        message={modalMessage}
+        onConfirm={() => {
+          if (modalType === "confirm") {
+            applyTruck(eventId)
+          } else {
+            setModalOpen(false)
+            setModalMessage("트럭 등록하시겠습니까?") // 초기화
+            setModalType("confirm")
+          }
+        }}
         onCancel={() => setModalOpen(false)}
+        showCancel={modalType === "confirm"}
       />
     </>
   )
