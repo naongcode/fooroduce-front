@@ -12,7 +12,8 @@ const useAuthStore = create((set) => ({
   setAuthStoreLogin: (token, user) => {
     localStorage.setItem('jwt_token', token);
     localStorage.setItem('user_id', user.userId);
-    set({ isLoggedIn: true, token, user, userId: user.userId });
+    localStorage.setItem('role', user.role);
+    set({ isLoggedIn: true, token, user, userId: user.userId, role: user.role });
   },
 
   // Zustand 전용 로그아웃 처리

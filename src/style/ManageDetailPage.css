@@ -133,3 +133,46 @@ td img {
   border-radius: 4px;
   font-weight: bold;
 }
+
+
+/*행사 취소 버튼*/
+.cancel-event-btn {
+  margin-top: 20px;
+  padding: 10px 16px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width:200px
+}
+
+.cancel-event-btn:hover {
+  background-color: #ff7875;
+}
+
+/* 오버레이 전체 */
+.cancel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* 반투명 검정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 최상단 */
+}
+
+/* 오버레이 안 문구 */
+.cancel-message {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+}

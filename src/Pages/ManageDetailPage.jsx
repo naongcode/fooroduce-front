@@ -9,9 +9,22 @@ export default function ManageDetailPage() {
     const navigate = useNavigate();
     const [eventData, setEventData] = useState(null);
     const { eventResult, fetchVoteResult } = useVotePageData(eventId);
+    const [isCancelled, setIsCancelled] = useState(eventData?.isCancelled || false);
 
   // console.log('eventId',eventId)
   
+  const handleCancelEvent = async () => {
+  try {
+    // 서버에 취소 요청 (PATCH or POST로 isCancelled 상태 변경)
+    await axiosInstance.patch(`/events/${eventId}/cancel`);
+    
+    // 성공 시 상태 변경
+    setIsCancelled(true);
+  } catch (error) {
+    console.error("행사 취소 실패", error);
+    alert("행사 취소에 실패했습니다.");
+  }
+};
 
   // 행사 정보
   useEffect(() => {
@@ -19,7 +32,8 @@ export default function ManageDetailPage() {
       try {
         const res = await axiosInstance.get(`/events/${eventId}`);
         setEventData(res.data);
-        // console.log('eventData', res.data);
+        setIsCancelled(res.data.isCancelled); 
+        console.log('eventData', res.data);
       } catch (err) {
         console.error("이벤트 상세 조회 실패", err);
       }
@@ -37,21 +51,39 @@ export default function ManageDetailPage() {
   // console.log('eventResult',eventResult)
 
 
-//   const handleDecision = (id, decision) => {
-//     setTrucks(prev =>
-//       prev.map(truck =>
-//         truck.id === id ? { ...truck, status: decision } : truck
-//       )
-//     );
-//   };
+// 확정, 거절 
+const handleDecision = async (applicationId, decision) => {
+  try {
+    await axiosInstance.patch(`/applications/${eventId}`, [{
+      applicationId,
+      status: decision === "approved" ? "ACCEPTED" : "REJECTED",
+    }]);
 
-//   console.log('eventData',eventData)
+    // 성공 시 프론트 상태도 반영 (간단히 로컬 업데이트 or 새로고침)
+    setEventData((prevData) => ({
+      ...prevData,
+      trucks: prevData.trucks.map(truck =>
+        truck.applicationId === applicationId
+          ? { ...truck, status: decision === "approved" ? "ACCEPTED" : "REJECTED" }
+          : truck
+      )
+    }));
+  } catch (error) {
+    console.error("결정 처리 실패:", error);
+    alert("푸드트럭 상태 변경에 실패했습니다.");
+  }
+};
 
   if (!eventData) return <div>로딩중...</div>;
 
-  // 카멜로 변경필요
+  
   return (
     <div className="event-detail-container">
+      {isCancelled && (
+        <div className="cancel-overlay">
+          <div className="cancel-message">이 행사는 취소 되었습니다.</div>
+        </div>
+      )}
       <div className="event-detail-inner">
         <div className="event-image-wrapper">
           <img src={eventData?.eventImage} alt="행사 이미지" className="event-image" />
@@ -65,6 +97,11 @@ export default function ManageDetailPage() {
           <p><strong>투표:</strong> {eventData.voteStart} ~ {eventData.voteEnd}</p>
           <p><strong>행사:</strong> {eventData.eventStart} ~ {eventData.eventEnd}</p>
           <p><strong>트럭 수:</strong> {eventData.truckCount}대</p>
+          {!isCancelled && (
+            <button className="cancel-event-btn" onClick={handleCancelEvent}>
+              행사 취소
+            </button>
+          )}
         </div>
       </div>
 
@@ -108,24 +145,24 @@ export default function ManageDetailPage() {
               <td style={{ maxWidth: '150px'}}>{truck.description}</td>
               <td>{voteCount}표</td>
               <td>
-                {truck.status === "pending" ? (
+                {truck.status?.toLowerCase() === "pending" ? (
                   <>
                     <button
-                      onClick={() => handleDecision(truck.id, "approved")}
+                      onClick={() => handleDecision(truck.applicationId, "approved")}
                       className="accept-btn"
                     >
                       수락
                     </button>
                     <button
-                      onClick={() => handleDecision(truck.id, "rejected")}
+                      onClick={() => handleDecision(truck.applicationId, "rejected")}
                       className="reject-btn"
                     >
                       거절
                     </button>
                   </>
                 ) : (
-                  <span className={truck.status === "approved" ? "status-approved" : "status-rejected"}>
-                    {truck.status === "approved" ? "✅ 수락됨" : "❌ 거절됨"}
+                  <span className={truck.status === "ACCEPTED" ? "status-approved" : "status-rejected"}>
+                    {truck.status === "ACCEPTED" ? "✅ 수락됨" : "❌ 거절됨"}
                   </span>
                 )}
               </td>

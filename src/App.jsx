@@ -12,6 +12,7 @@ import { useRef, useState, useEffect } from 'react'
 import useAuthStore from './api/useAuthStore';
 import ManageListPage from './Pages/ManageListPage.jsx'
 import ManageDetailPage from './Pages/ManageDetailPage.jsx'
+import TruckProfilePage from './Pages/TruckProfilePage.jsx'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="manager" element={<ManageListPage />} />
           <Route path="manager/:eventId" element={<ManageDetailPage />} />
           <Route path="owner" element={<TruckOwnerPage />} />
+          <Route path="owner/profile" element={<TruckProfilePage />} />
         </Route>
       </Routes>
     </div>

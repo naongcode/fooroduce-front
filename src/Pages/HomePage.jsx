@@ -41,7 +41,7 @@ export default function HomePage() {
 
       {/* 해당권한만 보이게해야함 */}
       <button onClick={() => navigate('/manager')}>행사관리</button>
-      <button onClick={() => navigate('/manager')}>트럭관리</button>
+      <button onClick={() => navigate('/owner')}>트럭관리</button>
     </div>
 
     <div className="homepage-container">
