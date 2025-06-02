@@ -108,11 +108,11 @@ const EventTabs = () => {
   try {
     await axiosInstance.post('/applications', { eventId });
     setModalMessage("행사 참가 신청이 완료되었습니다.");
-    setModalType("info"); // 확인만 있는 모달로 변경
+    setModalType("info"); 
   } catch (error) {
     console.error('참가 신청 실패:', error);
     setModalMessage("참가 신청에 실패했습니다.");
-    setModalType("info"); // 오류도 확인만
+    setModalType("info"); 
   }
 };
 
@@ -157,7 +157,7 @@ const EventTabs = () => {
             applyTruck(eventId)
           } else {
             setModalOpen(false)
-            setModalMessage("트럭 등록하시겠습니까?") // 초기화
+            setModalMessage("트럭 등록하시겠습니까?") 
             setModalType("confirm")
           }
         }}
