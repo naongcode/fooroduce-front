@@ -66,7 +66,7 @@ const EventHeader = () => {
   console.log(eventData)
 
   return (
-    <div className="relative w-full h-[400px]">
+    <div className="relative w-full h-[300px]">
       {/* 배경 이미지 */}
       <img
         src={eventData?.eventImage}
@@ -287,7 +287,7 @@ const RecommendationTruck = () => {
   return (
     <div className="sticky-ads">
       <div className="ads-header">
-        <h3 className="ads-title">✨ AD 맛난 푸드트럭 ✨</h3>
+        <h3 className="ads-title">✨ AD 맛난트럭 ✨</h3>
         <button
           className="ads-toggle-button"
           onClick={() => setIsPopularVisible((prev) => !prev)}

@@ -130,7 +130,7 @@
 /* 광고 트럭 섹션 고정 위치 */
 .sticky-ads {
   position: fixed;
-  top: 600px;
+  top: 400px;
   right: 30px; /* 오른쪽 고정 */
   width: 250px;
   background-color: #fff;
@@ -143,10 +143,10 @@
 
 /* 제목 스타일 */
 .ads-title {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
-  margin-bottom: 12px;
   text-align: center;
+  margin: 0;
 }
 
 /* 트럭 리스트 */
@@ -199,6 +199,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom:5px;
 }
 
 .ads-toggle-button {
@@ -208,6 +209,7 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 15px;
 }
 
 /* 좁은 화면에서는 세로로 */
