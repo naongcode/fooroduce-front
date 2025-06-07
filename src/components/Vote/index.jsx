@@ -1,0 +1,5 @@
+export { default as MenuDetail } from './MenuDetail'
+export { default as VoteAfterModal } from './Modal'
+export { default as TruckNotFound } from './NotFound'
+export { default as RankedTruck } from './RankedTruck'
+export { default as TruckCard } from './TruckCard'

@@ -10,7 +10,7 @@ import {
   TruckCard,
   TruckNotFound,
   VoteAfterModal,
-} from '../components/index.jsx'
+} from '../components/Vote/index.jsx'
 
 export default function EventVotePage() {
   const { eventId } = useParams()
