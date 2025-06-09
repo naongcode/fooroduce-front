@@ -5,7 +5,7 @@ import { getNearbyEvents } from '../api/eventNearby.js'
 import EventDetailCard from '../components/EventCard.jsx'
 import RecommendationList from '../components/PostCard.jsx'
 import KakaoMapLoader from '../components/KaKaoMap.jsx'
-import { useEvent } from './eventPage.jsx'
+import { useEvent } from './EventPage.jsx'
 
 export default function EventIntroPage() {
   const [coords, setCoords] = useState({ lat: 0, lng: 0 })
