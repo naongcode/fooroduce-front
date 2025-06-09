@@ -9,7 +9,7 @@ export const login = async (data) => {
   try {
     const res = await axios.post('/users/login', data);
     const { setAuthStoreLogin } = useAuthStore.getState();
-     setAuthStoreLogin(res.data.token, { userId: res.data.userId });
+     setAuthStoreLogin(res.data.token, { userId: res.data.userId }, res.data.role);
 
  
     return res.data;
