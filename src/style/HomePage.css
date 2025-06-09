@@ -82,7 +82,8 @@
 }
 
 .homepage-text h2{
-  font-size: 1.7rem;
+  font-size: 1.5rem;
+  font-weight: 700;
   color:rgb(0, 89, 255);
   flex: 1;
 }

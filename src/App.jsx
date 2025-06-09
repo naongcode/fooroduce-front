@@ -82,9 +82,9 @@ function AppLayout() {
           <button className="nav-button" onClick={() => handleNavigation('/')}>
             Fooroduce
           </button>
-          <button className="nav-button" onClick={toggleAudio}>
+          {/* <button className="nav-button" onClick={toggleAudio}>
             {isPlaying ? '⏸️ 정지' : '▶️ 재생'}
-          </button>
+          </button> */}
         </div>
 
         <div className="nav-right">
@@ -114,9 +114,9 @@ function AppLayout() {
         </div>
       </nav>
 
-      <audio ref={audioRef} loop>
+      {/* <audio ref={audioRef} loop>
         <source src="/pickme.mp3" type="audio/mp3" />
-      </audio>
+      </audio> */}
 
       <Outlet />
     </div>
