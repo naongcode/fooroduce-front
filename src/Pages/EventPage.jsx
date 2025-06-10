@@ -284,40 +284,40 @@ const RecommendationTruck = () => {
         .slice(0, 3)
   }
 
-  return (
-    <div className="sticky-ads">
-      <div className="ads-header">
-        <h3 className="ads-title">✨ AD 맛난트럭 ✨</h3>
-        <button
-          className="ads-toggle-button"
-          onClick={() => setIsPopularVisible((prev) => !prev)}
-        >
-          {isPopularVisible ? '최소화' : '펼치기'}
-        </button>
-      </div>
+  // return (
+  //   <div className="sticky-ads">
+  //     <div className="ads-header">
+  //       <h3 className="ads-title">✨ AD 맛난트럭 ✨</h3>
+  //       <button
+  //         className="ads-toggle-button"
+  //         onClick={() => setIsPopularVisible((prev) => !prev)}
+  //       >
+  //         {isPopularVisible ? '최소화' : '펼치기'}
+  //       </button>
+  //     </div>
 
-      {isPopularVisible && eventData?.trucks && (
-        <div className="ads-truck-list">
-          {popularTrucks().map((truck) => (
-            <div key={truck.truckId} className="ads-truck-card">
-              <img
-                src={truck.menus[0]?.menuImage}
-                alt="대표 메뉴"
-                className="ads-truck-image"
-              />
-              <div className="ads-truck-info">
-                <p className="ads-truck-name">{truck.truckName}</p>
-                <button
-                  onClick={() => navigate(`votes`)}
-                  className="goto-vote-button"
-                >
-                  이 트럭 투표하러 가기
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )
+  //     {isPopularVisible && eventData?.trucks && (
+  //       <div className="ads-truck-list">
+  //         {popularTrucks().map((truck) => (
+  //           <div key={truck.truckId} className="ads-truck-card">
+  //             <img
+  //               src={truck.menus[0]?.menuImage}
+  //               alt="대표 메뉴"
+  //               className="ads-truck-image"
+  //             />
+  //             <div className="ads-truck-info">
+  //               <p className="ads-truck-name">{truck.truckName}</p>
+  //               <button
+  //                 onClick={() => navigate(`votes`)}
+  //                 className="goto-vote-button"
+  //               >
+  //                 이 트럭 투표하러 가기
+  //               </button>
+  //             </div>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     )}
+  //   </div>
+  // )
 }
