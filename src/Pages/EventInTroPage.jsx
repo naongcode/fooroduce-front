@@ -86,7 +86,7 @@ export default function EventIntroPage() {
             longitude={coords.lng}
             latitude={coords.lat}
             style={{
-              width: '70%',
+              width: '100%',
               height: '400px',
               borderRadius: '12px',
               marginTop: '1rem',

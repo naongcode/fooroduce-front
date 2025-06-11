@@ -35,20 +35,20 @@ const EventDetailCard = ({ eventData }) => {
         </h2>
         <div className="flex flex-wrap gap-2 mt-3">
           <span className="bg-pink-100 text-pink-700 text-base font-medium px-3 py-1 rounded-full">
-            "태그1"
+            "축제"
           </span>
           <span className="bg-green-100 text-green-700 text-base font-medium px-3 py-1 rounded-full">
-            "태그2"
+            "행사"
           </span>
           <span className="bg-blue-100 text-blue-700 text-base font-meduim px-3 py-1 rounded-full">
-            "태그3"
+            "태그"
           </span>
         </div>
         <p className="text-sm text-gray-600 mt-2">{eventData.description}</p>
       </header>
 
       {/* 요약 박스 */}
-      <div className="grid grid-cols-3 gap-4 text-center text-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 text-center text-sm">
         <SummaryCard label="모집 트럭 수" value={eventData.truckCount} />
         <SummaryCard
           label="모집 기간"
