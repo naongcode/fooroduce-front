@@ -48,6 +48,7 @@
   padding: 1.5rem;
   border: 1px solid #e5e7eb;
   transition: box-shadow 0.3s ease;
+  height : 100%;
 }
 
 .homepage-card:hover {
