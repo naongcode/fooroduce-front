@@ -17,9 +17,9 @@ const TruckOwnerPage = () => {
       });
   }, []);
 
-  const handleGoToDetail = (applicationId) => {
-    navigate(`/owner/${applicationId}`);
-  };
+  // const handleGoToDetail = (applicationId) => {
+  //   navigate(`/owner/${applicationId}`);
+  // };
 
   const handleGoToProfile = () => {
     navigate("/owner/profile");
