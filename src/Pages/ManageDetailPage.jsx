@@ -1,39 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../style/ManageDetailPage.css";
-import axiosInstance from '../api/axiosInstance.js'
-import useVotePageData from "../api/useVotePageData.js"
+import axiosInstance from '../api/axiosInstance.js';
+import useVotePageData from "../api/useVotePageData.js";
+import MessageModal from "../components/MessageModal"; 
 
 export default function ManageDetailPage() {
-    const { eventId } = useParams();
-    const navigate = useNavigate();
-    const [eventData, setEventData] = useState(null);
-    const { eventResult, fetchVoteResult } = useVotePageData(eventId);
-    const [isCancelled, setIsCancelled] = useState(eventData?.isCancelled || false);
+  const { eventId } = useParams();
+  const navigate = useNavigate();
+  const [eventData, setEventData] = useState(null);
+  const { eventResult, fetchVoteResult } = useVotePageData(eventId);
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [showEmailSentModal, setShowEmailSentModal] = useState(false);
 
-  // console.log('eventId',eventId)
-  
   const handleCancelEvent = async () => {
-  try {
-    // 서버에 취소 요청 (PATCH or POST로 isCancelled 상태 변경)
-    await axiosInstance.patch(`/events/${eventId}/cancel`);
-    
-    // 성공 시 상태 변경
-    setIsCancelled(true);
-  } catch (error) {
-    console.error("행사 취소 실패", error);
-    alert("행사 취소에 실패했습니다.");
-  }
-};
+    try {
+      await axiosInstance.patch(`/events/${eventId}/cancel`);
+      setIsCancelled(true);
+    } catch (error) {
+      console.error("행사 취소 실패", error);
+      alert("행사 취소에 실패했습니다.");
+    }
+  };
 
-  // 행사 정보
   useEffect(() => {
     const fetchEventData = async () => {
       try {
         const res = await axiosInstance.get(`/events/${eventId}`);
         setEventData(res.data);
-        setIsCancelled(res.data.isCancelled); 
-        console.log('eventData', res.data);
+        setIsCancelled(res.data.isCancelled);
       } catch (err) {
         console.error("이벤트 상세 조회 실패", err);
       }
@@ -42,41 +37,35 @@ export default function ManageDetailPage() {
     fetchEventData();
   }, [eventId]);
 
-  // 투표 결과
   useEffect(() => {
-      fetchVoteResult();
-  }, [eventId])
+    fetchVoteResult();
+  }, [eventId]);
 
-  // console.log('eventData',eventData)
-  // console.log('eventResult',eventResult)
+  const handleDecision = async (applicationId, decision) => {
+    try {
+      await axiosInstance.patch(`/applications/${eventId}`, [{
+        applicationId,
+        status: decision === "approved" ? "ACCEPTED" : "REJECTED",
+      }]);
 
+      setEventData((prevData) => ({
+        ...prevData,
+        trucks: prevData.trucks.map(truck =>
+          truck.applicationId === applicationId
+            ? { ...truck, status: decision === "approved" ? "ACCEPTED" : "REJECTED" }
+            : truck
+        )
+      }));
 
-// 확정, 거절 
-const handleDecision = async (applicationId, decision) => {
-  try {
-    await axiosInstance.patch(`/applications/${eventId}`, [{
-      applicationId,
-      status: decision === "approved" ? "ACCEPTED" : "REJECTED",
-    }]);
-
-    // 성공 시 프론트 상태도 반영 (간단히 로컬 업데이트 or 새로고침)
-    setEventData((prevData) => ({
-      ...prevData,
-      trucks: prevData.trucks.map(truck =>
-        truck.applicationId === applicationId
-          ? { ...truck, status: decision === "approved" ? "ACCEPTED" : "REJECTED" }
-          : truck
-      )
-    }));
-  } catch (error) {
-    console.error("결정 처리 실패:", error);
-    alert("푸드트럭 상태 변경에 실패했습니다.");
-  }
-};
+      setShowEmailSentModal(true);
+    } catch (error) {
+      console.error("결정 처리 실패:", error);
+      alert("푸드트럭 상태 변경에 실패했습니다.");
+    }
+  };
 
   if (!eventData) return <div>로딩중...</div>;
 
-  
   return (
     <div className="event-detail-container">
       {isCancelled && (
@@ -105,75 +94,68 @@ const handleDecision = async (applicationId, decision) => {
         </div>
       </div>
 
-    {/* 참여업체 */}
-    <hr/>
+      <hr />
 
-    <div>
-      <h2>참여 신청 푸드트럭</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>참여업체</th>
-            <th>메뉴</th>
-            <th>연락처</th>
-            <th>설명</th>
-            <th>득표수</th>
-            <th>최종확정</th>
-          </tr>
-        </thead>
-        <tbody>
-          {eventData.trucks.map(truck => {
-            const matchingResult = eventResult.find(result => result.truckId === truck.truckId);
-            const voteCount = matchingResult ? matchingResult.voteCount : 0;
-
-            return (
-            <tr key={truck.truckId}>
-              <td>{truck.truckName}</td>
-              <td style={{ minWidth: '150px'}}>
-                <div className="manage-menu-list">
-                  {truck.menus?.map((menu, idx) => (
-                    <div key={idx} className="manage-menu-item">
-                        <div>{menu.menuName}</div>
-                        <img src={menu.menuImage} alt={menu.menuName} 
-                        className="manage-menu-image"/>
-                        <div>{menu.menuPrice}원</div>
-                    </div>
-                  ))}
-                </div>
-              </td>
-              <td style={{ minWidth: '150px'}}>{truck.phoneNumber}</td>
-              <td style={{ maxWidth: '150px'}}>{truck.description}</td>
-              <td>{voteCount}표</td>
-              <td>
-                {truck.status?.toLowerCase() === "pending" ? (
-                  <>
-                    <button
-                      onClick={() => handleDecision(truck.applicationId, "approved")}
-                      className="accept-btn"
-                    >
-                      수락
-                    </button>
-                    <button
-                      onClick={() => handleDecision(truck.applicationId, "rejected")}
-                      className="reject-btn"
-                    >
-                      거절
-                    </button>
-                  </>
-                ) : (
-                  <span className={truck.status === "ACCEPTED" ? "status-approved" : "status-rejected"}>
-                    {truck.status === "ACCEPTED" ? "✅ 수락됨" : "❌ 거절됨"}
-                  </span>
-                )}
-              </td>
+      <div>
+        <h2>참여 신청 푸드트럭</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>참여업체</th>
+              <th>메뉴</th>
+              <th>연락처</th>
+              <th>설명</th>
+              <th>득표수</th>
+              <th>최종확정</th>
             </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {eventData.trucks.map(truck => {
+              const matchingResult = eventResult.find(result => result.truckId === truck.truckId);
+              const voteCount = matchingResult ? matchingResult.voteCount : 0;
 
-    
+              return (
+                <tr key={truck.truckId}>
+                  <td>{truck.truckName}</td>
+                  <td style={{ minWidth: '150px' }}>
+                    <div className="manage-menu-list">
+                      {truck.menus?.map((menu, idx) => (
+                        <div key={idx} className="manage-menu-item">
+                          <div>{menu.menuName}</div>
+                          <img src={menu.menuImage} alt={menu.menuName} className="manage-menu-image" />
+                          <div>{menu.menuPrice}원</div>
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                  <td style={{ minWidth: '150px' }}>{truck.phoneNumber}</td>
+                  <td style={{ maxWidth: '150px' }}>{truck.description}</td>
+                  <td>{voteCount}표</td>
+                  <td>
+                    {truck.status?.toLowerCase() === "pending" ? (
+                      <>
+                        <button onClick={() => handleDecision(truck.applicationId, "approved")} className="accept-btn">수락</button>
+                        <button onClick={() => handleDecision(truck.applicationId, "rejected")} className="reject-btn">거절</button>
+                      </>
+                    ) : (
+                      <span className={truck.status === "ACCEPTED" ? "status-approved" : "status-rejected"}>
+                        {truck.status === "ACCEPTED" ? "✅ 수락됨" : "❌ 거절됨"}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      
+      <MessageModal
+        isOpen={showEmailSentModal}
+        message="이메일을 발송했습니다."
+        onClose={() => setShowEmailSentModal(false)}
+      />
     </div>
   );
 }
