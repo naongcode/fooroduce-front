@@ -7,10 +7,16 @@ export const getAllEvents = async () => {
   return response.data
 }
 
-//현재 투표가능한 행사목록
-export const getOngoingEvents = async () => {
+// 현재 투표가능한 행사 목록 - 페이지네이션 요청
+export const getOngoingEvents = async (page = 0, size = 5, sort = 'voteEnd,asc') => {
   try {
-    const response = await axiosInstance.get('/events/ongoing')
+    const response = await axiosInstance.get('/events/ongoing', {
+      params: {
+        page,
+        size,
+        sort
+      }
+    })
     return response.data
   } catch (error) {
     console.error('Error fetching ongoing events:', error)

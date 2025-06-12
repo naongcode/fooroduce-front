@@ -63,7 +63,7 @@ const EventLayout = () => {
 
 const EventHeader = () => {
   const { eventData } = useEvent()
-  console.log(eventData)
+  // console.log(eventData)
 
   return (
     <div className="relative w-full h-[300px]">

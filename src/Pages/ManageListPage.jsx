@@ -211,7 +211,7 @@ export default function ManageListPage() {
         <div className="modal-backdrop" onClick={(e) => {
           if (e.target.classList.contains("modal-backdrop")) handleCloseModal();
         }}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content-manage" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close-button" onClick={handleCloseModal}>×</button>
             <h2 className="modal-title">{editTargetEvent ? "행사 수정" : "행사 등록"}</h2>
 

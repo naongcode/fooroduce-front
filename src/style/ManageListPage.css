@@ -90,7 +90,7 @@
   align-items: center;
 }
 
-.modal-content {
+.modal-content-manage {
   position: relative; /* 중요! */
   background-color: white;
   padding: 24px;
@@ -100,17 +100,17 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.modal-content label {
+.modal-content-manage label {
   display: block;
   margin-bottom: 12px;
   font-weight: 500;
   font-size:14px;
 }
 
-.modal-content input[type="text"],
-.modal-content input[type="date"],
-.modal-content input[type="number"],
-.modal-content textarea {
+.modal-content-manage input[type="text"],
+.modal-content-manage input[type="date"],
+.modal-content-manage input[type="number"],
+.modal-content-manage textarea {
   width: 100%;
   padding: 6px 8px;
   margin-top: 4px;
@@ -120,7 +120,7 @@
   font-size: 14px;
 }
 
-.modal-content textarea {
+.modal-content-manage textarea {
   resize: vertical;
   min-height: 60px;
 }
