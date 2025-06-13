@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import useVote from '../api/useVote.js'
@@ -7,45 +8,48 @@ import truckImg from '../data/icon/truck.png'
 import useOnClickOutside from '../hooks/useOnClickOutside.js'
 import { useEvent } from './EventPage.jsx'
 
-function classifyMenu(name) {
-  const lower = name.toLowerCase()
-  if (
-    ['치킨', '닭', '덮밥', '갈비', '불고기', '비빔밥'].some((x) =>
-      lower.includes(x),
-    )
-  )
-    return '한식'
-  if (
-    ['버거', '핫도그', '피자', '파스타', '감자튀김'].some((x) =>
-      lower.includes(x),
-    )
-  )
-    return '양식'
-  if (
-    ['라멘', '우동', '오코노미야끼', '타코야끼'].some((x) => lower.includes(x))
-  )
-    return '일식'
-  if (['타코', '나쵸', '케사디야', '케밥'].some((x) => lower.includes(x)))
-    return '멕시칸'
-  if (['붕어빵', '어묵', '떡볶이', '순대'].some((x) => lower.includes(x)))
-    return '분식'
-  if (
-    ['티라미수', '브라우니', '라떼', '커피', '딸기'].some((x) =>
-      lower.includes(x),
-    )
-  )
-    return '디저트'
-  return '기타'
-}
+// function classifyMenu(name) {
+//   const lower = name.toLowerCase()
+//   if (
+//     ['치킨', '닭', '덮밥', '갈비', '불고기', '비빔밥'].some((x) =>
+//       lower.includes(x),
+//     )
+//   )
+//     return '한식'
+//   if (
+//     ['버거', '핫도그', '피자', '파스타', '감자튀김'].some((x) =>
+//       lower.includes(x),
+//     )
+//   )
+//     return '양식'
+//   if (
+//     ['라멘', '우동', '오코노미야끼', '타코야끼'].some((x) => lower.includes(x))
+//   )
+//     return '일식'
+//   if (['타코', '나쵸', '케사디야', '케밥'].some((x) => lower.includes(x)))
+//     return '멕시칸'
+//   if (['붕어빵', '어묵', '떡볶이', '순대'].some((x) => lower.includes(x)))
+//     return '분식'
+//   if (
+//     ['티라미수', '브라우니', '라떼', '커피', '딸기'].some((x) =>
+//       lower.includes(x),
+//     )
+//   )
+//     return '디저트'
+//   return '기타'
+// }
 
-function classifyTruckCategory(truck) {
-  const menuNames = truck.menus?.map((m) => m.menuName) || []
-  for (const name of menuNames) {
-    const category = classifyMenu(name)
-    if (category !== '기타') return category
-  }
-  return '기타'
-}
+// function classifyTruckCategory(truck) {
+//   const menuNames = truck.menus?.map((m) => m.menuName) || []
+//   for (const name of menuNames) {
+//     const category = classifyMenu(name)
+//     if (category !== '기타') return category
+//   }
+//   return '기타'
+// }
+
+
+
 
 export default function EventVotePage() {
   const { eventId } = useParams()
@@ -64,14 +68,14 @@ export default function EventVotePage() {
   const [selectedTruck, setSelectTruck] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
-  const merged = eventData?.trucks.map((truckA) => {
-    const matched = eventResult.find(
-      (truckB) => truckA.truckId === truckB.truckId,
-    )
-    return matched ? { ...truckA, ...matched } : truckA
-  })
+  const merged = eventData?.trucks.map(truckA => {
+  const matched = eventResult.find(truckB => truckA.truckId === truckB.truckId);
+  return matched ? { ...truckA, ...matched } : truckA;
+});
 
   console.log(eventData, eventResult)
+
+ 
 
   const sorted = [...(merged || [])].sort((a, b) => b.voteCount - a.voteCount)
   console.log('sort', sorted)
@@ -87,6 +91,7 @@ export default function EventVotePage() {
   }
 
   const showMenuDetail = (truck) => {
+    console.log('selected truck:', truck)
     setSelectTruck(truck)
   }
 
@@ -106,10 +111,8 @@ export default function EventVotePage() {
   const filteredTrucks =
     activeCategory === '전체'
       ? merged || []
-      : merged?.filter(
-          (truck) => classifyTruckCategory(truck) === activeCategory,
-        )
-
+      : merged?.filter((truck) => truck.menuType === activeCategory)
+  
   return (
     <div>
       <div className="vote-wrapper">
@@ -197,7 +200,6 @@ const TruckNotFound = () => {
     </div>
   )
 }
-
 const TruckCard = ({ truck, handleVote, isVoted }) => {
   const [expandedMenus, setExpandedMenus] = useState([])
   const toggleMenu = (truckId) => {
@@ -207,6 +209,7 @@ const TruckCard = ({ truck, handleVote, isVoted }) => {
       setExpandedMenus([...expandedMenus, truckId])
     }
   }
+  
   return (
     <div
       key={truck.truckId}
@@ -227,7 +230,7 @@ const TruckCard = ({ truck, handleVote, isVoted }) => {
         </div>
         <div className="absolute top-4 right-4">
           <span className="bg-white/90 backdrop-blur-sm text-indigo-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
-            {'한식'}
+            {truck?.menus[1]?.menuType ?? '기타'}
           </span>
         </div>
       </div>
