@@ -1,9 +1,9 @@
 /* HomePage.css */
 .homepage-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* 화면 크기에 따라 자동으로 카드 개수 조정 */
+  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); /* 화면 크기에 따라 자동으로 카드 개수 조정 */
   gap: 1.5rem;
-  padding: 1.5rem;
+  /* padding: 1em; */
 }
 
 /*투표중, 종료된 행사 버튼*/
@@ -12,6 +12,7 @@
   gap: 0.6rem;
   margin-top: 1rem;
   margin-left: 1rem;
+  margin-bottom: 1rem;
 }
 
 .homepage-buttons button {
@@ -45,10 +46,11 @@
   background-color: white;
   border-radius: 1rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
+  padding: 1.0rem;
   border: 1px solid #e5e7eb;
   transition: box-shadow 0.3s ease;
   height : 100%;
+  text-align:center;
 }
 
 .homepage-card:hover {

@@ -87,7 +87,7 @@ const EventHeader = () => {
           {eventData?.eventName}
         </h1>
 
-        <div className="mt-6 bg-white/20 backdrop-blur-sm rounded-xl p-2 shadow-inner">
+        <div className="mt-6 bg-white/20 backdrop-blur-sm rounded-xl p-2 shadow-inner sm:max-w-lg">
           <EventTabs />
         </div>
       </div>
@@ -123,12 +123,12 @@ const EventTabs = () => {
 
   return (
     <>
-      <div className="flex gap-4">
+      <div className="flex gap-2 ">
         <Link
           to={`/event/${eventId}`}
           className={`${baseClasses} ${matchIntro && !matchVote ? activeClasses : inactiveClasses}`}
         >
-          <i className="fas fa-info-circle mr-2"></i>
+          <i className="fas fa-info-circle mr-1"></i>
           축제 소개
         </Link>
 
@@ -136,7 +136,7 @@ const EventTabs = () => {
           to={`/event/${eventId}/votes`}
           className={`${baseClasses} ${matchVote ? activeClasses : inactiveClasses}`}
         >
-          <i className="fas fa-vote-yea mr-2"></i>
+          <i className="fas fa-vote-yea mr-1 text-sm"></i>
           행사 투표
         </Link>
 
@@ -144,7 +144,7 @@ const EventTabs = () => {
           onClick={() => setModalOpen(true)}
           className={`${baseClasses} ${inactiveClasses}`}
         >
-          <i className="fas fa-truck mr-2"></i>
+          <i className="fas fa-truck mr-1"></i>
           트럭 등록
         </button>
       </div>

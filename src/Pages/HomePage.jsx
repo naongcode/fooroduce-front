@@ -103,7 +103,7 @@ export default function HomePage() {
               <div className="homepage-image">
                 <img src={event.eventImage} alt="행사 사진" className="event-image" />
                 <div className="homepage-text">
-                  <h2>주최 : {event.eventHost}</h2>
+                  <h2>주최 : {event.eventHost}</h2><br></br>
                   <p>모집기간 :</p><p>{event.recruitStart?.slice(0, 10)} ~ {event.recruitEnd?.slice(0, 10)}</p>
                   <p>투표기간 :</p><p>{event.voteStart?.slice(0, 10)} ~ {event.voteEnd?.slice(0, 10)}</p>
                   <p>행사기간 :</p><p>{event.eventStart?.slice(0, 10)} ~ {event.eventEnd?.slice(0, 10)}</p>

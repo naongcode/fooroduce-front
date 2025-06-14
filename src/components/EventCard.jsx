@@ -61,7 +61,7 @@ const EventDetailCard = ({ eventData }) => {
       </div>
 
       {/* 추가 일정 */}
-      <div className="border-t pt-4 space-y-2 text-gray-700">
+      <div className="border-t pt-4 space-y-2 text-gray-700 text-sm sm:text-base md:text-lg lg:text-xl">
         <div className="flex justify-between">
           <span className="font-semibold">행사 기간</span>
           <span>
