@@ -126,11 +126,8 @@ export default function EventVotePage() {
         <hr className="event-divider" />
       </div>
       {/* vote animation */}
-      {/* <VoteRanking
-        setShowPodium={setShowPodium}
-        showPodium={showPodium}
-        sorted={sorted}
-      /> */}
+
+
 
       <div className="text-center mb-16">
         <h2 className="text-4xl font-extrabold mb-4 text-indigo-800 tracking-tight inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
@@ -194,6 +191,12 @@ export default function EventVotePage() {
       )}
       {/* 투표 성공 모달 */}
       {showModal && <VoteAfterModal />}
+
+      <VoteRanking
+      setShowPodium={setShowPodium}
+      showPodium={showPodium}
+      sorted={sorted}
+      />
     </div>
   )
 }
@@ -474,8 +477,11 @@ const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
 
 const VoteRanking = ({ showPodium, setShowPodium, sorted }) => {
   return (
-    <div className="podium-container">
-      <h1 className="porium-vote-title">이벤트 투표 결과</h1>
+    <div className="text-center mb-16 mt-16 ">
+        <h2 className="text-4xl font-extrabold mb-4 text-indigo-800 tracking-tight inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">  
+      이벤트 투표 결과</h2>
+        <div className="w-24 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
+
       <div className="arrow-group">
         <div className="arrow">↘ </div>
         <div className="arrow">↓ </div>
