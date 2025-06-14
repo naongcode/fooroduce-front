@@ -8,22 +8,22 @@ import truckImg from '../data/icon/truck.png'
 import useOnClickOutside from '../hooks/useOnClickOutside.js'
 import { useEvent } from './EventPage.jsx'
 import Pagination from '../components/Pagination'
+import axiosInstance from '../api/axiosInstance.js'
 
 export default function EventVotePage() {
   const { eventId } = useParams()
   const {
-    eventData,
-    eventResult,
-    votedTruckIds,
-    setVotedTruckIds,
-    fetchVoteResult,
+    eventResult, votedTruckIds, setVotedTruckIds, fetchVoteResult,
   } = useEvent()
+
   const [showPodium, setShowPodium] = useState(false)
   const { vote } = useVote(eventId)
 
   const [activeCategory, setActiveCategory] = useState('전체')
   const [selectedTruck, setSelectTruck] = useState(null)
   const [showModal, setShowModal] = useState(false)
+
+    const [eventData, setEventData] = useState(null);
 
   // --- 페이지네이션 관련 상태 추가 ---
   const [currentPage, setCurrentPage] = useState(1) // 현재 페이지
@@ -34,16 +34,31 @@ export default function EventVotePage() {
     return matched ? { ...truckA, ...matched } : truckA;
   });
 
-  console.log(eventData, eventResult)
+  // console.log(eventData, eventResult)
 
   const sorted = [...(merged || [])].sort((a, b) => b.voteCount - a.voteCount)
-  console.log('sort', sorted)
+  // console.log('sort', sorted)
 
   // 카테고리 변경 시 현재 페이지를 1로 초기화 (선택 사항)
   useEffect(() => {
     setCurrentPage(1);
   }, [activeCategory]);
 
+  // 행사정보 가져오기
+  useEffect(() => {
+    const fetchEventData = async () => {
+      try {
+      const res = await axiosInstance.get(`/events/${eventId}?page=${currentPage-1}&size=3`);
+        setEventData(res.data);
+        console.log('eventData',res.data)
+      } catch (err) {
+        console.error("이벤트 상세 조회 실패", err);
+      }
+    };
+    fetchEventData();
+  }, [eventId, currentPage]);
+
+  
   const handleVote = async (truckId) => {
     await vote(truckId)
     setVotedTruckIds((prev) => [...prev, truckId])
@@ -59,7 +74,7 @@ export default function EventVotePage() {
     setSelectTruck(truck)
   }
 
-  console.log(eventResult)
+  // console.log(eventResult)
 
   const allCategories = [
     '전체','한식','양식','일식','멕시칸','분식','디저트','기타',
@@ -72,16 +87,18 @@ export default function EventVotePage() {
   
 
   // --- 페이지네이션 로직 추가 ---
-  const totalPages = Math.ceil(filteredTrucks.length / itemsPerPage)
+  const totalPages = eventData?.totalPages || 0
   const startIndex = (currentPage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
-  const paginatedTrucks = filteredTrucks.slice(startIndex, endIndex)
+  const paginatedTrucks = filteredTrucks
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
     // 페이지 변경 시 스크롤을 맨 위로 올리는 것이 일반적입니다.
     // window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // console.log('filteredTrucks',filteredTrucks)
 
   return (
     <div>
@@ -310,7 +327,7 @@ const TruckCard = ({ truck, handleVote, isVoted }) => {
 }
 
 const RankedTruck = ({ showMenuDetail, sorted, selectedTruck }) => {
-  console.log('ranked', sorted)
+  // console.log('ranked', sorted)
   return (
     <div>
       <div className="text-center mb-16">
@@ -335,7 +352,7 @@ const RankedTruck = ({ showMenuDetail, sorted, selectedTruck }) => {
 }
 
 const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
-  console.log('card', truck)
+  // console.log('card', truck)
   return (
     <div
       key={truck?.truckId}
