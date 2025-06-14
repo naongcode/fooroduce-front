@@ -47,7 +47,7 @@ export default function EventVotePage() {
         console.error('Top 3 트럭 정보를 불러오는 중 오류 발생:', err)
       }
     }
-
+    console.log('topTrucks',topTrucks)
     fetchTopTrucks()
   }, [eventId])
 
@@ -96,7 +96,14 @@ export default function EventVotePage() {
     '전체','한식','양식','일식','멕시칸','분식','디저트','기타',
   ]
 
-  const filteredTrucks = eventData?.trucks || [];
+  // 투표결과 합치기 
+  const filteredTrucks = (eventData?.trucks || []).map(truck => {
+    const match = eventResult.find(result => result.truckId === truck.truckId);
+    return {
+      ...truck,
+      voteCount: match?.voteCount || 0,
+    };
+  });
 
   // --- 페이지네이션 로직 추가 ---
   const totalPages = eventData?.totalPages || 0
