@@ -49,7 +49,7 @@ const PodiumModal = ({ results, onClose }) => {
       <div className="podium" onClick={handleModalClick}>
         {/* Silver */}
         <div className="podium-item">
-          <img src={silver.menuImage} className="podium-image silver" />
+          <img src={silver.menus[0].menuImage} className="podium-image silver" />
           <div className="podium-rank silver-rank">2위</div>
           <span className="podium-label">
             {silver.truckName} ({silver.voteCount}표)
@@ -58,7 +58,7 @@ const PodiumModal = ({ results, onClose }) => {
 
         {/* Gold */}
         <div className="podium-item">
-          <img src={gold.menuImage} className="podium-image gold" />
+          <img src={gold.menus[0].menuImage} className="podium-image gold" />
           <div className="podium-rank gold-rank">1위</div>
           <span className="podium-label">
             {gold.truckName} ({gold.voteCount}표)
@@ -67,7 +67,7 @@ const PodiumModal = ({ results, onClose }) => {
 
         {/* Bronze */}
         <div className="podium-item">
-          <img src={bronze.menuImage} className="podium-image bronze" />
+          <img src={bronze.menus[0].menuImage} className="podium-image bronze" />
           <div className="podium-rank bronze-rank">3위</div>
           <span className="podium-label">
             {bronze.truckName} ({bronze.voteCount}표)

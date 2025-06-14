@@ -195,7 +195,7 @@ export default function EventVotePage() {
       <VoteRanking
       setShowPodium={setShowPodium}
       showPodium={showPodium}
-      sorted={sorted}
+      sorted={topTrucks}
       />
     </div>
   )
