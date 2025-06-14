@@ -1,5 +1,9 @@
 /* LandingAnimation.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+
 .landing-wrapper {
+  font-family: 'Dongle', sans-serif;
   position: fixed; /* 화면 전체를 덮음 */
   top: 0;
   left: 0;

@@ -56,7 +56,7 @@ const EventLayout = () => {
         </div>
       </section>
       <EventFooter />
-      <RecommendationTruck />
+      {/* <RecommendationTruck /> */}
     </EventContext.Provider>
   )
 }
@@ -252,37 +252,37 @@ const EventFooter = () => {
           </div>
         </div>
         <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
-          <p>© 2025 서울 푸드트럭 페스티벌. All Rights Reserved.</p>
+          <p>© 2025 7팀's 푸드트럭 플랫폼. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
   )
 }
 
-const RecommendationTruck = () => {
-  const [isPopularVisible, setIsPopularVisible] = useState(true)
-  const { eventData, eventResult } = useEvent()
-  const navigate = useNavigate()
+// const RecommendationTruck = () => {
+//   const [isPopularVisible, setIsPopularVisible] = useState(true)
+//   const { eventData, eventResult } = useEvent()
+//   const navigate = useNavigate()
 
-  // eventData.trucks 와 eventResult (투표 결과)를 활용해서 인기 트럭 3개 추출
-  const popularTrucks = () => {
-    if (eventData?.trucks)
-      return eventData.trucks
-        .map((truck) => {
-          const voteInfo = eventResult?.find((v) => v.truckId === truck.truckId)
-          return {
-            ...truck,
-            voteCount: voteInfo ? voteInfo.voteCount : 0,
-          }
-        })
-        .sort((a, b) => {
-          if (b.voteCount !== a.voteCount) {
-            return b.voteCount - a.voteCount // 투표 수 내림차순
-          }
-          return a.truckName.localeCompare(b.truckName) // 투표 수 같으면 이름 오름차순
-        })
-        .slice(0, 3)
-  }
+//   // eventData.trucks 와 eventResult (투표 결과)를 활용해서 인기 트럭 3개 추출
+//   const popularTrucks = () => {
+//     if (eventData?.trucks)
+//       return eventData.trucks
+//         .map((truck) => {
+//           const voteInfo = eventResult?.find((v) => v.truckId === truck.truckId)
+//           return {
+//             ...truck,
+//             voteCount: voteInfo ? voteInfo.voteCount : 0,
+//           }
+//         })
+//         .sort((a, b) => {
+//           if (b.voteCount !== a.voteCount) {
+//             return b.voteCount - a.voteCount // 투표 수 내림차순
+//           }
+//           return a.truckName.localeCompare(b.truckName) // 투표 수 같으면 이름 오름차순
+//         })
+//         .slice(0, 3)
+//   }
 
   // return (
   //   <div className="sticky-ads">
@@ -320,4 +320,4 @@ const RecommendationTruck = () => {
   //     )}
   //   </div>
   // )
-}
+// }

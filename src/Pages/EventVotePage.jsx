@@ -7,49 +7,7 @@ import '../style/VotePage.css'
 import truckImg from '../data/icon/truck.png'
 import useOnClickOutside from '../hooks/useOnClickOutside.js'
 import { useEvent } from './EventPage.jsx'
-
-// function classifyMenu(name) {
-//   const lower = name.toLowerCase()
-//   if (
-//     ['치킨', '닭', '덮밥', '갈비', '불고기', '비빔밥'].some((x) =>
-//       lower.includes(x),
-//     )
-//   )
-//     return '한식'
-//   if (
-//     ['버거', '핫도그', '피자', '파스타', '감자튀김'].some((x) =>
-//       lower.includes(x),
-//     )
-//   )
-//     return '양식'
-//   if (
-//     ['라멘', '우동', '오코노미야끼', '타코야끼'].some((x) => lower.includes(x))
-//   )
-//     return '일식'
-//   if (['타코', '나쵸', '케사디야', '케밥'].some((x) => lower.includes(x)))
-//     return '멕시칸'
-//   if (['붕어빵', '어묵', '떡볶이', '순대'].some((x) => lower.includes(x)))
-//     return '분식'
-//   if (
-//     ['티라미수', '브라우니', '라떼', '커피', '딸기'].some((x) =>
-//       lower.includes(x),
-//     )
-//   )
-//     return '디저트'
-//   return '기타'
-// }
-
-// function classifyTruckCategory(truck) {
-//   const menuNames = truck.menus?.map((m) => m.menuName) || []
-//   for (const name of menuNames) {
-//     const category = classifyMenu(name)
-//     if (category !== '기타') return category
-//   }
-//   return '기타'
-// }
-
-
-
+import Pagination from '../components/Pagination'
 
 export default function EventVotePage() {
   const { eventId } = useParams()
@@ -64,21 +22,27 @@ export default function EventVotePage() {
   const { vote } = useVote(eventId)
 
   const [activeCategory, setActiveCategory] = useState('전체')
-
   const [selectedTruck, setSelectTruck] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
+  // --- 페이지네이션 관련 상태 추가 ---
+  const [currentPage, setCurrentPage] = useState(1) // 현재 페이지
+  const itemsPerPage = 3 // 한 페이지에 보여줄 트럭 수 (예시: 6개)
+
   const merged = eventData?.trucks.map(truckA => {
-  const matched = eventResult.find(truckB => truckA.truckId === truckB.truckId);
-  return matched ? { ...truckA, ...matched } : truckA;
-});
+    const matched = eventResult.find(truckB => truckA.truckId === truckB.truckId);
+    return matched ? { ...truckA, ...matched } : truckA;
+  });
 
   console.log(eventData, eventResult)
 
- 
-
   const sorted = [...(merged || [])].sort((a, b) => b.voteCount - a.voteCount)
   console.log('sort', sorted)
+
+  // 카테고리 변경 시 현재 페이지를 1로 초기화 (선택 사항)
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory]);
 
   const handleVote = async (truckId) => {
     await vote(truckId)
@@ -98,14 +62,7 @@ export default function EventVotePage() {
   console.log(eventResult)
 
   const allCategories = [
-    '전체',
-    '한식',
-    '양식',
-    '일식',
-    '멕시칸',
-    '분식',
-    '디저트',
-    '기타',
+    '전체','한식','양식','일식','멕시칸','분식','디저트','기타',
   ]
 
   const filteredTrucks =
@@ -113,6 +70,19 @@ export default function EventVotePage() {
       ? merged || []
       : merged?.filter((truck) => truck.menuType === activeCategory)
   
+
+  // --- 페이지네이션 로직 추가 ---
+  const totalPages = Math.ceil(filteredTrucks.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const paginatedTrucks = filteredTrucks.slice(startIndex, endIndex)
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+    // 페이지 변경 시 스크롤을 맨 위로 올리는 것이 일반적입니다.
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   return (
     <div>
       <div className="vote-wrapper">
@@ -159,19 +129,32 @@ export default function EventVotePage() {
           </button>
         ))}
       </div>
-      {filteredTrucks.length == 0 && <TruckNotFound />}
+      {/* {filteredTrucks.length == 0 && <TruckNotFound />} */}
+      {paginatedTrucks.length === 0 && <TruckNotFound />} {/* 수정된 부분 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredTrucks.map((truck) => {
+        {paginatedTrucks.map((truck) => { // 수정된 부분
           const isVoted = votedTruckIds.includes(truck.truckId)
           return (
             <TruckCard
               handleVote={handleVote}
               isVoted={isVoted}
               truck={truck}
+              key={truck.truckId} // key prop 추가 (React 리스트 렌더링에 필요)
             />
           )
         })}
       </div>
+
+      {/* --- Pagination 컴포넌트 추가 --- */}
+      {filteredTrucks.length > 0 && ( // 트럭이 있을 때만 페이지네이션 표시
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+      {/* --- Pagination 컴포넌트 추가 끝 --- */}
+
       {/* 메뉴 상세 모달 */}
       {selectedTruck && (
         <MenuDetail
@@ -189,7 +172,7 @@ export default function EventVotePage() {
 
 const TruckNotFound = () => {
   return (
-    <div className="h-[500px] flex justify-center items-center">
+    <div className="h-[400px] flex justify-center items-center">
       <div className="relative w-[300px] h-24 flex flex-col gap-3">
         <img
           src={truckImg}

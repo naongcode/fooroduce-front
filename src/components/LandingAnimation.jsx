@@ -5,17 +5,8 @@ import "../style/LandingAnimation.css";
 export default function LandingAnimation() {
   // const [show, setShow] = useState(true);
 
-  const NUM_PETALS = 40; // 벚꽃 개수
+  const NUM_PETALS = 60; // 벚꽃 개수
   const getRandom = (min, max) => Math.random() * (max - min) + min;
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShow(false);
-  //   }, 4500); // 4.5초 후에 사라짐
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // if (!show) return null;
 
   return (
     <div className="landing-wrapper">
@@ -48,17 +39,12 @@ export default function LandingAnimation() {
               duration: getRandom(6, 10),
               repeat: Infinity,
               ease: "linear",
-              delay: getRandom(0, 4),
+              delay: getRandom(0, 3),
               repeatType: "loop",
             }}
           />
         );
       })}
-
-      {/* 배경 음악 추가 */}
-      <audio autoPlay loop>
-        <source src="/pickme.mp3" type="audio/mp3" />
-      </audio>
 
       {/* 문구 애니메이션 */}
       <div className="fooroduce-text">

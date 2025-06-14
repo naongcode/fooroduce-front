@@ -6,19 +6,20 @@ export default function useVotePageData(eventId) {
   const [eventData, setEventData] = useState(null);
   const [eventResult, setEventResult] = useState([]);
   const [votedTruckIds, setVotedTruckIds] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1)
 
   // 행사정보 가져오기
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const res = await axiosInstance.get(`/events/${eventId}`);
+      const res = await axiosInstance.get(`/events/${eventId}?page=${currentPage}&size=5`);
         setEventData(res.data);
       } catch (err) {
         console.error("이벤트 상세 조회 실패", err);
       }
     };
     fetchEventData();
-  }, [eventId]);
+  }, [eventId, currentPage]);
 
   // 투표결과 가져오기
   const fetchVoteResult = async () => {
