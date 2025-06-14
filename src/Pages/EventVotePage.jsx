@@ -63,7 +63,8 @@ export default function EventVotePage() {
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-      const res = await axiosInstance.get(`/events/${eventId}?page=${currentPage-1}&size=3`);
+      // const encodedCategory = encodeURIComponent(activeCategory);
+      const res = await axiosInstance.get(`/events/${eventId}?page=${currentPage-1}&size=3&menuType=${activeCategory}`);
         setEventData(res.data);
         console.log('eventData',res.data)
       } catch (err) {
@@ -71,7 +72,7 @@ export default function EventVotePage() {
       }
     };
     fetchEventData();
-  }, [eventId, currentPage]);
+  }, [eventId, currentPage, activeCategory]);
 
   
   const handleVote = async (truckId) => {
@@ -95,11 +96,7 @@ export default function EventVotePage() {
     '전체','한식','양식','일식','멕시칸','분식','디저트','기타',
   ]
 
-  const filteredTrucks =
-    activeCategory === '전체'
-      ? merged || []
-      : merged?.filter((truck) => truck.menuType === activeCategory)
-  
+  const filteredTrucks = eventData?.trucks || [];
 
   // --- 페이지네이션 로직 추가 ---
   const totalPages = eventData?.totalPages || 0

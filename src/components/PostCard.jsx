@@ -29,7 +29,6 @@ const PostCard = ({ post }) => {
 }
 
 const RecommendationList = ({ posts }) => {
-  // console.log('posts', posts)
   return (
     <section className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-gray-800 mb-10">주변 추천 행사</h2>
