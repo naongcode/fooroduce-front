@@ -9,6 +9,7 @@ import useOnClickOutside from '../hooks/useOnClickOutside.js'
 import { useEvent } from './EventPage.jsx'
 import Pagination from '../components/Pagination'
 import axiosInstance from '../api/axiosInstance.js'
+import { getTop3Trucks } from '../api/getTop3Trucks.js'
 
 export default function EventVotePage() {
   const { eventId } = useParams()
@@ -35,6 +36,20 @@ export default function EventVotePage() {
   });
 
   // console.log(eventData, eventResult)
+
+  const [topTrucks, setTopTrucks] = useState([])
+  useEffect(() => {
+    const fetchTopTrucks = async () => {
+      try {
+        const data = await getTop3Trucks(eventId)
+        setTopTrucks(data)
+      } catch (err) {
+        console.error('Top 3 트럭 정보를 불러오는 중 오류 발생:', err)
+      }
+    }
+
+    fetchTopTrucks()
+  }, [eventId])
 
   const sorted = [...(merged || [])].sort((a, b) => b.voteCount - a.voteCount)
   // console.log('sort', sorted)
@@ -108,7 +123,7 @@ export default function EventVotePage() {
             eventData={eventData}
             selectedTruck={selectedTruck}
             showMenuDetail={showMenuDetail}
-            sorted={sorted}
+            sorted={topTrucks}
           />
         )}
         <hr className="event-divider" />
