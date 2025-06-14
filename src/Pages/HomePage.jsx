@@ -69,7 +69,7 @@ export default function HomePage() {
           fetchEvents(page)
         }
       },
-      { threshold: 1 }
+      { threshold: 0.1 }
     )
 
     if (loaderRef.current) observer.observe(loaderRef.current)
@@ -115,7 +115,7 @@ export default function HomePage() {
       </div>
 
       {/* 옵저버 타겟 */}
-      <div ref={loaderRef} className="loader" />
+      <div ref={loaderRef} className="loader" style={{ height: '10px' }}/>
 
     </div>
   )
