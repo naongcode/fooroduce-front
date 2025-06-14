@@ -75,13 +75,13 @@ const EventHeader = () => {
       />
 
       {/* 어두운 오버레이 */}
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
 
       {/* 텍스트 & 탭 영역 */}
       <div className="absolute inset-0 flex flex-col justify-center items-center px-4 text-center">
         <h1
           className="text-4xl font-extrabold tracking-tight
-          bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400
+          bg-gradient-to-r from-purple-200 via-orange-200 to-yellow-300
           bg-clip-text text-transparent"
         >
           {eventData?.eventName}

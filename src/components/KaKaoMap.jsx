@@ -71,7 +71,7 @@ const KakaoMapLoader = ({
       </CustomOverlayMap>
       {/* 정보 카드 역할 */}
       <CustomOverlayMap
-        position={{ lat: latitude - 0.005, lng: longitude }}
+        position={{ lat: latitude - 0.002, lng: longitude }}
         yAnchor={2.1}
         zIndex={90}
       >
@@ -96,7 +96,7 @@ const KakaoMapLoader = ({
           position={{ lat: event.latitude, lng: event.longitude }}
           onClick={() => (window.location.href = `/votes/${event.eventId}`)}
         >
-          <div className="w-15 h-15 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 p-[3px]">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-yellow-400 p-[5px] shadow-lg">
             <div className="w-full h-full rounded-full bg-white overflow-hidden">
               <img
                 src={event.eventImage}

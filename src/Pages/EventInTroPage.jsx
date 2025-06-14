@@ -92,7 +92,7 @@ export default function EventIntroPage() {
               marginTop: '1rem',
             }}
             content={eventData.eventName}
-            level={7}
+            level={6}
             nearbyEvents={nearbyEvents} // 주변 행사 데이터
           />
         </div>

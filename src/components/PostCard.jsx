@@ -20,7 +20,7 @@ const PostCard = ({ post }) => {
           {post.title}
         </h3>
         <div className="flex flex-col items-start text-base text-gray-600 mb-4">
-          <span className="mr-4 font-semibold text-xl">{post.eventHost}</span>
+          <span className="mr-4 font-semibold text-xl">{post.eventName}</span>
           <span className="mr-4">{post.description}</span>
         </div>
       </div>
