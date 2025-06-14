@@ -103,9 +103,6 @@ export default function EventVotePage() {
 
   // --- 페이지네이션 로직 추가 ---
   const totalPages = eventData?.totalPages || 0
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
-  const paginatedTrucks = filteredTrucks
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
@@ -161,10 +158,9 @@ export default function EventVotePage() {
           </button>
         ))}
       </div>
-      {/* {filteredTrucks.length == 0 && <TruckNotFound />} */}
-      {paginatedTrucks.length === 0 && <TruckNotFound />} {/* 수정된 부분 */}
+      {filteredTrucks.length == 0 && <TruckNotFound />}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {paginatedTrucks.map((truck) => { // 수정된 부분
+        {filteredTrucks.map((truck) => { // 수정된 부분
           const isVoted = votedTruckIds.includes(truck.truckId)
           return (
             <TruckCard
@@ -424,7 +420,7 @@ const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
         </h4>
         <div className="flex justify-between items-center">
           <span className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
-            {truck?.category ?? '한식'}
+            {truck?.menus[1].menuType ?? '한식'}
           </span>
           <span
             className={`font-bold text-lg ${
