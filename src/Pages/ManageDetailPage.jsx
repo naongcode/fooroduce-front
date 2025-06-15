@@ -120,7 +120,7 @@ export default function ManageDetailPage() {
                   <td style={{ minWidth: '150px' }}>
                     <div className="manage-menu-list">
                       {truck.menus?.map((menu, idx) => (
-                        <div key={idx} className="manage-menu-item">
+                        <div key={idx} className="manage-menu-item w-[32%]">
                           <div>{menu.menuName}</div>
                           <img src={menu.menuImage} alt={menu.menuName} className="manage-menu-image" />
                           <div>{menu.menuPrice}원</div>

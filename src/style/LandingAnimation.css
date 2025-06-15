@@ -47,3 +47,14 @@
   margin-top: 1rem;
   color: #4b2e2e; /* 진한 보라색으로 자연스러운 느낌 */
 }
+
+@media (max-width: 440px) {
+  .fooroduce-text {
+    font-size: 6rem;
+  }
+
+  .subtext {
+  font-size: 3rem;
+
+}
+}

@@ -22,16 +22,12 @@ export default function EventVotePage() {
 
   const [showPodium, setShowPodium] = useState(false)
   const { vote } = useVote(eventId)
-
   const [activeCategory, setActiveCategory] = useState('전체')
   const [selectedTruck, setSelectTruck] = useState(null)
   const [showModal, setShowModal] = useState(false)
-
   const [eventData, setEventData] = useState(null)
   const [isVotingEnded, setIsVotingEnded] = useState(false)
-
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 3
 
   const merged = eventData?.trucks.map((truckA) => {
     const matched = eventResult.find((truckB) => truckA.truckId === truckB.truckId)
@@ -157,7 +153,7 @@ export default function EventVotePage() {
         <div className="w-24 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           {isVotingEnded
-            ? '투표가 종료되었습니다. 최종 결과를 확인해 주세요!'
+            ? '투표 종료'
             : '페스티벌에서 만나고 싶은 푸드트럭에 투표해 주세요!'}
         </p>
       </div>
@@ -224,6 +220,7 @@ export default function EventVotePage() {
       {showPodium && (
         <PodiumModal results={topTrucks} onClose={() => setShowPodium(false)} />
       )}
+
       {!isVotingEnded && (
         <VoteRanking
           setShowPodium={setShowPodium}
@@ -343,9 +340,9 @@ const TruckNotFound = () => {
           </div>
   
           <div className="flex justify-between items-center">
-            <div className="text-indigo-700 bg-indigo-50 px-4 py-2 rounded-full">
+            <div className="text-indigo-700 bg-indigo-50 px-4 py-2 rounded-full flex items-center">
+              <span className="text-xl ml-1">❤️</span>
               <span className="font-bold text-lg">{truck.voteCount}</span>
-              <span className="text-sm ml-1">투표</span>
             </div>
             <button
               onClick={() => handleVote(truck.truckId)}
