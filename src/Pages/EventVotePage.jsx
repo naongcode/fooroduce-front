@@ -70,7 +70,7 @@ export default function EventVotePage() {
         const voteEndDate = new Date(res.data.voteEnd)
         const currentDate = new Date()
         const hasVotingEnded = currentDate > voteEndDate; // 투표 종료 여부 판별
-        setIsVotingEnded(hasVotingEnded); // 상태 업데이트
+        setIsVotingEnded(hasVotingEnded);
 
         // 투표가 종료되었다면 포디움을 자동으로 표시
         if (hasVotingEnded) {
@@ -84,7 +84,7 @@ export default function EventVotePage() {
     fetchEventData()
   }, [eventId, currentPage, activeCategory])
 
-  // 투표 종료 시간을 실시간으로 체크 (선택 사항)
+  // 투표 종료 시간을 실시간으로 체크 
   useEffect(() => {
     if (eventData && eventData.voteEnd) {
       const voteEndDate = new Date(eventData.voteEnd);
@@ -92,7 +92,7 @@ export default function EventVotePage() {
         const currentDate = new Date();
         if (currentDate > voteEndDate) {
           setIsVotingEnded(true);
-          setShowPodium(true); // 실시간 체크 중에도 종료되면 포디움 표시
+          setShowPodium(true); 
           clearInterval(timer);
         }
       }, 1000); // 1초마다 체크하여 더 정확하게 반영
@@ -205,7 +205,7 @@ export default function EventVotePage() {
         </>
       ) : (
         <div className="text-center py-20">
-          {/* 투표 종료 시 추가될 내용 (예: 메시지, 이미지 등) */}
+          {'투표가 종료되었습니다. 최종 결과를 확인해 주세요!'}
         </div>
       )}
 
@@ -220,19 +220,10 @@ export default function EventVotePage() {
       )}
       {showModal && <VoteAfterModal />}
 
-      {/* 포디움은 이제 isVotingEnded에 따라 자동으로 표시되므로 버튼을 제거하거나,
-          여전히 수동으로 볼 수 있는 옵션을 제공하려면 버튼을 유지하고 showPodium 조건부 렌더링을 사용합니다.
-          여기서는 투표가 종료되면 버튼 없이 바로 모달이 뜨도록 수정할게요.
-      */}
-      {showPodium && ( // showPodium 상태가 true일 때만 렌더링
+   
+      {showPodium && (
         <PodiumModal results={topTrucks} onClose={() => setShowPodium(false)} />
       )}
-
-      {/* 투표 종료 전에는 이 버튼이 표시되고, 투표 종료 후에는 숨겨집니다.
-          투표 종료 후에는 `showPodium`이 자동으로 `true`가 되면서 모달이 뜨게 됩니다.
-          만약 투표 종료 후에도 버튼을 눌러야만 포디움이 뜨도록 하려면 이 부분을 다시 조정해야 합니다.
-          현재는 `isVotingEnded` 일 때 버튼을 숨기고 자동으로 포디움이 뜨도록 합니다.
-      */}
       {!isVotingEnded && (
         <VoteRanking
           setShowPodium={setShowPodium}
@@ -243,10 +234,6 @@ export default function EventVotePage() {
     </div>
   )
 }
-
-// TruckNotFound, TruckCard, RankedTruck, RankedTruckCard, VoteRanking, VoteAfterModal, MenuDetail 컴포넌트는 이전과 동일합니다.
-// 단, TruckCard와 MenuDetail 컴포넌트 내의 isVotingEnded를 사용하는 로직은 그대로 유지해야 합니다.
-// 위에 `TruckCard`와 `MenuDetail` 컴포넌트 코드도 포함되어 있으니, 해당 부분만 확인하시면 됩니다.
 
 const TruckNotFound = () => {
     return (
@@ -370,15 +357,15 @@ const TruckNotFound = () => {
               disabled={isVoted || isVotingEnded} // 투표가 종료되었거나 이미 투표했으면 비활성화
             >
               {isVotingEnded ? (
-                // 투표가 종료되었을 때
+               
                 <>투표 종료</>
               ) : isVoted ? (
-                // 이미 투표했을 때
+               
                 <>
                   <i className="fas fa-check-circle mr-2"></i>투표 완료
                 </>
               ) : (
-                // 투표 가능할 때
+               
                 <>
                   <i className="fas fa-vote-yea mr-2"></i>투표하기
                 </>
@@ -543,7 +530,6 @@ const TruckNotFound = () => {
             현재 1위는 <span className="question-mark">?</span>
           </button>
         </div>
-        {/* PodiumModal은 이제 EventVotePage에서 직접 제어됩니다. */}
       </div>
     )
   }
@@ -569,7 +555,7 @@ const TruckNotFound = () => {
     setSelectTruck,
     votedTruckIds,
     handleVote,
-    isVotingEnded, // props로 추가
+    isVotingEnded,
   }) => {
     const ref = useRef()
     useOnClickOutside(ref, () => {
