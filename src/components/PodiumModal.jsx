@@ -3,7 +3,21 @@ import confetti from "canvas-confetti";
 import "../style/Podium.css";
 
 const PodiumModal = ({ results, onClose }) => {
-  const [gold, silver, bronze] = results;
+  // results 배열이 비어있거나 유효하지 않은 경우를 처리
+  if (!results || results.length === 0) {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="podium" onClick={(e) => e.stopPropagation()}>
+          <button onClick={onClose} className="close-button">×</button>
+          <h2 className="modal-title">🌟 최종 투표 결과 🌟</h2>
+          <p className="no-results-message">아직 투표 결과가 없습니다.</p>
+        </div>
+      </div>
+    );
+  }
+
+
+  const [gold, silver, bronze] = results.slice(0, 3); 
 
   useEffect(() => {
     const canvas = document.createElement("canvas");
@@ -47,32 +61,56 @@ const PodiumModal = ({ results, onClose }) => {
 
       {/* Podium */}
       <div className="podium" onClick={handleModalClick}>
-        {/* Silver */}
-        <div className="podium-item">
-          <img src={silver.menus[0].menuImage} className="podium-image silver" />
-          <div className="podium-rank silver-rank">2위</div>
-          <span className="podium-label">
-            {silver.truckName} ({silver.voteCount}표)
-          </span>
-        </div>
+        {/* Silver - 2위 */}
+        {silver ? ( // silver 객체가 존재하는지 먼저 확인
+          <div className="podium-item">
+            <img 
+              src={silver.menus?.[0]?.menuImage || DEFAULT_IMAGE} 
+              alt={silver.truckName}
+              className="podium-image silver" 
+            />
+            <div className="podium-rank silver-rank">2위</div>
+            <span className="podium-label">
+              {silver.truckName} ({silver.voteCount}표)
+            </span>
+          </div>
+        ) : (
+          <div className="podium-item placeholder"></div> // 2위가 없을 경우 빈 공간 처리
+        )}
 
-        {/* Gold */}
-        <div className="podium-item">
-          <img src={gold.menus[0].menuImage} className="podium-image gold" />
-          <div className="podium-rank gold-rank">1위</div>
-          <span className="podium-label">
-            {gold.truckName} ({gold.voteCount}표)
-          </span>
-        </div>
+        {/* Gold - 1위 */}
+        {gold ? ( // gold 객체가 존재하는지 먼저 확인
+          <div className="podium-item">
+            <img 
+              src={gold.menus?.[0]?.menuImage || DEFAULT_IMAGE} 
+              alt={gold.truckName}
+              className="podium-image gold" 
+            />
+            <div className="podium-rank gold-rank">1위</div>
+            <span className="podium-label">
+              {gold.truckName} ({gold.voteCount}표)
+            </span>
+          </div>
+        ) : (
+          <div className="podium-item placeholder"></div> 
+        )}
 
-        {/* Bronze */}
-        <div className="podium-item">
-          <img src={bronze.menus[0].menuImage} className="podium-image bronze" />
-          <div className="podium-rank bronze-rank">3위</div>
-          <span className="podium-label">
-            {bronze.truckName} ({bronze.voteCount}표)
-          </span>
-        </div>
+        {/* Bronze - 3위 */}
+        {bronze ? ( // bronze 객체가 존재하는지 먼저 확인
+          <div className="podium-item">
+            <img 
+              src={bronze.menus?.[0]?.menuImage || DEFAULT_IMAGE} // 옵셔널 체이닝 및 기본 이미지 폴백
+              alt={bronze.truckName}
+              className="podium-image bronze" 
+            />
+            <div className="podium-rank bronze-rank">3위</div>
+            <span className="podium-label">
+              {bronze.truckName} ({bronze.voteCount}표)
+            </span>
+          </div>
+        ) : (
+          <div className="podium-item placeholder"></div> // 3위가 없을 경우 빈 공간 처리
+        )}
       </div>
 
       {/* Close Button */}
