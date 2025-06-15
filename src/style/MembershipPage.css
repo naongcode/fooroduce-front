@@ -58,3 +58,50 @@
 .submit-btn:hover {
   background-color: #45a049;
 }
+
+@media (max-width: 768px) {
+  .membership-form {
+    width: 90%; 
+    padding: 1.5rem 1.2rem; 
+  }
+
+  .membership-form h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .check-btn,
+  .submit-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .membership-form {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .membership-form h2 {
+    font-size: 1.2rem;
+  }
+
+  .check-btn,
+  .submit-btn {
+    width: 100%;  
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .id-check {
+    flex-direction: column; 
+    gap: 0.3rem;
+  }
+}

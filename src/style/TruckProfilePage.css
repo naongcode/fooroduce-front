@@ -104,3 +104,70 @@
 .modal-content .truck-btn {
   margin-right: 10px;
 }
+
+
+@media (max-width: 768px) {
+  .truck-profile-page {
+    padding: 20px 10px;
+  }
+
+  .truck-menu-view ul {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .truck-menu-view li {
+    width: 45%; 
+  }
+
+  .modal-content {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  .modal-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .modal-content input,
+  .modal-content textarea {
+    font-size: 0.95rem;
+  }
+
+  .truck-btn {
+    padding: 7px 14px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .truck-menu-view ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .truck-menu-view li {
+    width: 100%; 
+  }
+
+  .modal-content {
+    padding: 16px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.1rem;
+  }
+
+  .truck-btn {
+    width: 100%;
+    margin: 8px 0;
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .modal-content .truck-btn {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}

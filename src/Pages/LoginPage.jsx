@@ -55,7 +55,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-container">
+    <div className="login-page">
+      <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         {/* 로그인 에러메세지 출력 */}
         {errormessage &&(
@@ -96,6 +97,7 @@ export default function LoginPage() {
         </button>
       </div>
     </div>
+  </div>
   )
 
 }

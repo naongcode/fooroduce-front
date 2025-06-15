@@ -237,7 +237,7 @@ const TruckCard = ({ truck, handleVote, isVoted }) => {
     >
       <div className="h-56 overflow-hidden relative group">
         <img
-          src={truck?.menus[1]?.menuImage}
+          src={truck?.menus[0]?.menuImage}
           alt={truck?.truckName + ' 이미지'}
           className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
         />
@@ -248,7 +248,7 @@ const TruckCard = ({ truck, handleVote, isVoted }) => {
         </div>
         <div className="absolute top-4 right-4">
           <span className="bg-white/90 backdrop-blur-sm text-indigo-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
-            {truck?.menus[1]?.menuType ?? '기타'}
+            {truck?.menus[0].menuType ?? '기타'}
           </span>
         </div>
       </div>
@@ -427,7 +427,7 @@ const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
         </h4>
         <div className="flex justify-between items-center">
           <span className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
-            {truck?.menus[1].menuType ?? '한식'}
+            {truck?.menus[0].menuType ?? '한식'}
           </span>
           <span
             className={`font-bold text-lg ${

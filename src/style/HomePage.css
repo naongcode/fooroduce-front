@@ -95,17 +95,6 @@
   text-decoration: none; /* 링크 스타일 제거 */
 }
 
-@media (max-width: 767px) {
-  .homepage-image {
-    flex-direction: column;  /* 작은 화면에서는 이미지를 위로 배치 */
-    align-items: center;
-  }
-
-  .homepage-image img {
-    width: 60%;  /* 작은 화면에서는 이미지가 100% 너비 차지 */
-    margin-bottom: 1rem;
-  }
-}
 
 /* 네비게이션 바와 어울리도록 색상 조정 */
 .homepage-card {
@@ -127,3 +116,42 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
+@media (max-width: 768px) {
+  .homepage-container {
+    grid-template-columns: 1fr; /* 모바일에서는 한 줄에 하나씩 */
+    padding: 1rem;
+  }
+
+  .homepage-buttons {
+    flex-direction: column; /* 버튼을 세로로 정렬 */
+    align-items: flex-start;
+    margin: 1rem;
+  }
+
+  .homepage-buttons button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .homepage-image {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .homepage-image img {
+    width: 100%; /* 모바일에서는 전체 너비 */
+  }
+
+  .homepage-text h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .homepage-card h1 {
+    font-size: 1.5rem;
+  }
+
+  .homepage-card p {
+    font-size: 0.95rem;
+  }
+}
