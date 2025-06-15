@@ -85,12 +85,12 @@ const EventHeader = () => {
           {eventData?.eventName}
         </h1>
         <div className="mt-4 text-lg sm:text-xl text-white/90">
-          <div class="mt-6 bg-white/20 backdrop-blur-sm rounded-xl p-2 shadow-inner sm:max-w-lg">
+          <div className="mt-6 bg-white/20 backdrop-blur-sm rounded-xl p-2 shadow-inner sm:max-w-lg">
               <EventTabs />
-            </div>
           </div>
         </div>
       </div>
+    </div>
   )
 }
 
