@@ -176,3 +176,90 @@ td img {
   border-radius: 12px;
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
 }
+
+@media (max-width: 768px) {
+  .event-detail-container {
+    padding: 16px;
+  }
+
+  .event-detail-inner {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .event-image-wrapper {
+    max-width: 100%;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .manage-event-info {
+    width: 100%;
+    gap: 8px;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .event-info h1 {
+    font-size: 22px;
+  }
+
+  .event-info p {
+    font-size: 18px;
+  }
+
+  table {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  td img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .manage-menu-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .manage-menu-item {
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .manage-menu-image {
+    width: 45px;
+    height: 45px;
+    margin-right: 0;
+  }
+
+  .manage-menu-item div {
+    font-size: 16px;
+  }
+
+  .accept-btn, .reject-btn, .status-approved, .status-rejected {
+    font-size: 14px;
+    padding: 5px 8px;
+    margin-right: 4px;
+  }
+
+  .cancel-event-btn {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .cancel-message {
+    font-size: 1.5rem;
+    padding: 16px 24px;
+    text-align: center;
+  }
+}

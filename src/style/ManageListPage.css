@@ -225,3 +225,98 @@
 .edit-button:hover {
   background-color: #218838;
 }
+
+@media (max-width: 768px) {
+  .event-manager-container {
+    padding: 16px;
+  }
+
+  .event-manager-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .event-tabs {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tab-button,
+  .register-button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .event-list {
+    grid-template-columns: 1fr; 
+  }
+
+  .event-card {
+    padding: 12px;
+  }
+
+  .event-title {
+    font-size: 16px;
+  }
+
+  .event-period {
+    font-size: 13px;
+  }
+
+  .modal-content-manage {
+    max-width: 95%;
+    padding: 16px;
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-row label {
+    min-width: auto;
+    margin-bottom: 4px;
+  }
+
+  .periods-container {
+    flex-direction: column;
+  }
+
+  .period-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .period-item label {
+    width: auto;
+    margin-bottom: 4px;
+  }
+
+  .period-inputs {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .modal-close-button {
+    top: 4px;
+    right: 8px;
+    font-size: 24px;
+  }
+
+  .register-button,
+  .edit-button {
+    width: 100%;
+    text-align: center;
+    float: none;
+  }
+
+  .register-button-container {
+    justify-content: center;
+  }
+}

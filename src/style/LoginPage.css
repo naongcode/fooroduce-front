@@ -1,7 +1,15 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
 .login-container {
-  max-width: 400px;
+  width: 100%;
+  max-width: 400px; 
   margin: 3rem auto;
-  padding: 2rem;
+  padding: 3rem 3rem;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
@@ -42,15 +50,15 @@
 .kakao-login-ctn {
   cursor: pointer;
   display: flex;
-  justify-content: center;  /* 수평 정렬 */
-  align-items: center;      /* 수직 정렬 */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: none;
   border-radius: 12px;
 }
 
-.kakao-login-ctn:hover{
-    transform: translateY(-1px); /* 위로 살짝 올라오는 효과 */
+.kakao-login-ctn:hover {
+  transform: translateY(-1px);
 }
 
 .kakao-login-button {
@@ -59,12 +67,49 @@
 }
 
 .kakao-login-button:hover {
-  /* transform: translateY(-1px); 위로 살짝 올라오는 효과 */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .login-divider {
   margin: 2rem 0;
   border: none;
   border-top: 1px solid #eee;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .login-container {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .login-input,
+  .login-button {
+    font-size: 0.95rem;
+    padding: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0.5rem;
+    padding: 1rem;
+  }
+
+  .login-label {
+    font-size: 0.9rem;
+  }
+
+  .login-input,
+  .login-button {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .kakao-login-ctn {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
 }
