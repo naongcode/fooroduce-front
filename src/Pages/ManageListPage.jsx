@@ -4,7 +4,7 @@ import axiosInstance from "../api/axiosInstance";
 import useAuthStore from "../api/useAuthStore";
 import '../style/ManageListPage.css';
 
-const tabs = ["전체", "모집예정", "모집중", "모집마감", "투표중", "투표마감"];
+const tabs = ["전체", "투표중", "투표마감"];
 
 function generateUUID() {
   return crypto.randomUUID();
