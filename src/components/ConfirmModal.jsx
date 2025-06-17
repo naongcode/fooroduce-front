@@ -4,7 +4,8 @@ const ConfirmModal = ({ isOpen, message, onConfirm, onCancel, showCancel = true 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-md text-center">
-        <p className="text-lg font-medium mb-4 text-black">{message}</p>
+        {/* <p className="text-lg font-medium mb-4 text-black">{message}</p> */}
+        <p className="text-black font-medium mb-4">{message}</p>
         <div className="flex justify-center gap-4">
           <button
             onClick={onConfirm}
