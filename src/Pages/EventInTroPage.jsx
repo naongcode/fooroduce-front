@@ -6,13 +6,14 @@ import EventDetailCard from '../components/EventCard.jsx'
 import RecommendationList from '../components/PostCard.jsx'
 import KakaoMapLoader from '../components/KaKaoMap.jsx'
 import { useEvent } from './EventPage.jsx'
+import { useParams } from 'react-router-dom';
 
 export default function EventIntroPage() {
   const [coords, setCoords] = useState({ lat: 0, lng: 0 })
-
   const [nearbyEvents, setNearbyEvents] = useState([])
-
   const { eventData } = useEvent()
+  const { eventId } = useParams();
+
   // 행사상세 가져오기
 
   // const eventData = eventArray.find((event) => event.event_id === +eventId)
@@ -59,14 +60,14 @@ export default function EventIntroPage() {
     const fetchNearbyEvents = async () => {
       try {
         if (coords.lat === 0 && coords.lng === 0) return
-        const res = await getNearbyEvents(coords.lng, coords.lat)
+        const res = await getNearbyEvents(coords.lng, coords.lat, Number(eventId))
         setNearbyEvents(res.data)
         console.log('Nearby events:', res.data)
       } catch (err) {
         console.error('주변 행사 추천 실패', err)
       }
     }
-
+    console.log('eventId',eventId)
     fetchNearbyEvents()
   }, [coords])
 

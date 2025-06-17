@@ -153,7 +153,7 @@ export default function EventVotePage() {
         <div className="w-24 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           {isVotingEnded
-            ? '투표가 종료되었습니다. 최종 결과를 확인해 주세요!'
+            ? '투표가 종료되었습니다!'
             : '페스티벌에서 만나고 싶은 푸드트럭에 투표해 주세요!'}
         </p>
       </div>
@@ -225,7 +225,7 @@ export default function EventVotePage() {
       {showModal && <VoteAfterModal />}
 
       {/* 투표 종료 시에는 랭킹 섹션 숨김 (PodiumModal이 대신 나타남) */}
-      {!isVotingEnded && (
+      {isVotingEnded && (
         <VoteRanking
           setShowPodium={setShowPodium}
           showPodium={showPodium}
@@ -357,9 +357,9 @@ const TruckCard = ({ truck, handleVote, isVoted, isVotingEnded, activeCategory }
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="text-indigo-700 bg-indigo-50 px-4 py-2 rounded-full">
+          <div className="text-indigo-700 bg-indigo-50 px-4 py-2 rounded-full flex items-center">
             <span className="font-bold text-lg">{truck.voteCount}</span>
-            <span className="text-sm ml-1">투표</span>
+            <span className="text-xl ml-1">❤️</span>
           </div>
           <button
             onClick={() => handleVote(truck.truckId)}
@@ -491,22 +491,23 @@ const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
 
   
         <div className="mt-4 pt-4 border-t border-indigo-50">
-          <div className="flex overflow-x-auto pb-2 space-x-3">
-           
-            {truck?.menus?.map((item, idx) => (
-              <div key={idx} className="flex-shrink-0 w-20">
-                <div className="w-20 h-20 rounded-lg overflow-hidden mb-1">
-                  <img
-                    src={item.menuImage} 
-                    alt={item.menuName} 
-                    className="w-full h-full object-cover"
-                  />
+          <div className="flex justify-center overflow-x-auto pb-2">
+            <div className=" inline-flex space-x-4 pl-4 pr-4">
+              {truck?.menus?.map((item, idx) => (
+                <div key={idx} className="flex-shrink-0 w-24">
+                  <div className="w-24 h-24 rounded-lg overflow-hidden mb-1">
+                    <img
+                      src={item.menuImage}
+                      alt={item.menuName}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="text-sm text-center font-medium text-gray-700 truncate">
+                    {item.menuName}
+                  </p>
                 </div>
-                <p className="text-xs text-center font-medium text-gray-700 truncate">
-                  {item.menuName}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -540,7 +541,7 @@ const VoteRanking = ({ showPodium, setShowPodium, sorted }) => {
       </div>
       <div className="result-btn-container">
         <button onClick={() => setShowPodium(true)} className="result-btn">
-          현재 1위는 <span className="question-mark">?</span>
+          최종 1위는 <span className="question-mark">?</span>
         </button>
       </div>
       {showPodium && <PodiumModal results={sorted} onClose={() => setShowPodium(false)} />}
