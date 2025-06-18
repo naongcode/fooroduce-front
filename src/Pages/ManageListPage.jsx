@@ -35,7 +35,10 @@ export default function ManageListPage() {
 
   const getTodayMidnight = () => {
     const today = new Date();
-    return today.toISOString().split("T")[0] + "T00:00";
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}T00:00`;
   };
 
   const initialFormData = {
@@ -54,18 +57,22 @@ export default function ManageListPage() {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [previewImage, setPreviewImage] = useState(null);
 
-  // 입력값 받기
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "eventImage") {
       setFormData((prev) => ({ ...prev, [name]: files[0] }));
+      if (files && files[0]) {
+        setPreviewImage(URL.createObjectURL(files[0]));
+      } else {
+        setPreviewImage(null);
+      }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  // 행사등록
   const handleSubmit = async () => {
     try {
       if (!token) throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
@@ -81,7 +88,9 @@ export default function ManageListPage() {
 
         await fetch(data.uploadURL, {
           method: "PUT",
-          headers: {"Cache-Control": "public, max-age=31536000, immutable",
+          headers: {
+            "Content-Type": formData.eventImage.type,
+            "Cache-Control": "public, max-age=31536000, immutable",
           },
           body: formData.eventImage,
         });
@@ -89,21 +98,21 @@ export default function ManageListPage() {
         const bucket = "naong2-s3";
         const region = "ap-northeast-2";
         imageUrl = `https://${bucket}.s3.${region}.amazonaws.com/image/${data.filePath}`;
+      } else if (editTargetEvent && typeof editTargetEvent.eventImage === 'string') {
+        imageUrl = editTargetEvent.eventImage;
       }
 
       const payload = {
         ...formData,
         truckCount: Number(formData.truckCount),
-        eventImage: imageUrl || (editTargetEvent?.eventImage ?? null),
+        eventImage: imageUrl,
       };
 
       if (editTargetEvent) {
-        // 수정
         await axiosInstance.patch(`/events/${editTargetEvent.eventId}/update`, payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
       } else {
-        // 신규 등록
         await axiosInstance.post("/events/create", payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -112,20 +121,32 @@ export default function ManageListPage() {
       setShowRegisterModal(false);
       setFormData(initialFormData);
       setEditTargetEvent(null);
-      fetchAllEvents(); // 등록/수정 후 목록 갱신
+      setPreviewImage(null);
+      fetchAllEvents();
     } catch (err) {
       console.error("행사 등록/수정 실패:", err);
+      alert("행사 정보를 저장하는 데 실패했습니다.");
     }
   };
 
-  // 행사 수정
   const handleEdit = (event) => {
     setEditTargetEvent(event);
     setFormData({
       ...event,
+      recruitStart: event.recruitStart ? new Date(event.recruitStart).toISOString().slice(0, 16) : getTodayMidnight(),
+      recruitEnd: event.recruitEnd ? new Date(event.recruitEnd).toISOString().slice(0, 16) : getTodayMidnight(),
+      voteStart: event.voteStart ? new Date(event.voteStart).toISOString().slice(0, 16) : getTodayMidnight(),
+      voteEnd: event.voteEnd ? new Date(event.voteEnd).toISOString().slice(0, 16) : getTodayMidnight(),
+      eventStart: event.eventStart ? new Date(event.eventStart).toISOString().slice(0, 16) : getTodayMidnight(),
+      eventEnd: event.eventEnd ? new Date(event.eventEnd).toISOString().slice(0, 16) : getTodayMidnight(),
       truckCount: event.truckCount.toString(),
       eventImage: null,
     });
+    if (event.eventImage && typeof event.eventImage === 'string') {
+      setPreviewImage(event.eventImage);
+    } else {
+      setPreviewImage(null);
+    }
     setShowRegisterModal(true);
   };
 
@@ -133,9 +154,9 @@ export default function ManageListPage() {
     setShowRegisterModal(false);
     setFormData(initialFormData);
     setEditTargetEvent(null);
+    setPreviewImage(null);
   };
 
-  // 이벤트 목록 가져오기
   const fetchAllEvents = async () => {
     try {
       const res = await axiosInstance.get("/events/list");
@@ -149,7 +170,6 @@ export default function ManageListPage() {
     fetchAllEvents();
   }, []);
 
-  // 날짜로 필터하기
   useEffect(() => {
     const now = new Date();
     const filtered = allEvents.filter((event) => {
@@ -185,6 +205,7 @@ export default function ManageListPage() {
             setShowRegisterModal(true);
             setEditTargetEvent(null);
             setFormData(initialFormData);
+            setPreviewImage(null);
           }}
         >
           + 행사 등록
@@ -194,7 +215,7 @@ export default function ManageListPage() {
       <div className="event-list">
         {filteredEvents.map((event) => (
           <div key={event.eventId} className="event-card">
-            <div onClick={() => navigate(`/manager/${event.eventId}`)}>
+            <div onClick={() => navigate(`/manager/${event.eventId}`)} className="event-card-content">
               <h2 className="event-title">{event.eventName}</h2>
               <div className="event-period">
                 <p>모집: {event.recruitStart} ~ {event.recruitEnd}</p>
@@ -202,67 +223,147 @@ export default function ManageListPage() {
                 <p>행사: {event.eventStart} ~ {event.eventEnd}</p>
               </div>
             </div>
-            <button className="edit-button" onClick={() => handleEdit(event)}>수정</button>
+            <div className="edit-button-container">
+                <button className="edit-button" onClick={() => handleEdit(event)}>수정</button>
+            </div>
           </div>
         ))}
       </div>
 
       {showRegisterModal && (
-        <div className="modal-backdrop" onClick={(e) => {
-          if (e.target.classList.contains("modal-backdrop")) handleCloseModal();
-        }}>
-          <div className="modal-content-manage" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-button" onClick={handleCloseModal}>×</button>
-            <h2 className="modal-title">{editTargetEvent ? "행사 수정" : "행사 등록"}</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl overflow-hidden shadow-xl z-10 p-6 relative w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto">
+            <button
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-3xl font-bold"
+              onClick={handleCloseModal}
+            >
+              &times;
+            </button>
+            <h2 className="text-2xl font-bold mb-4">{editTargetEvent ? "행사 수정" : "행사 등록"}</h2>
 
-            <div className="form-row">
-              <label>행사명:</label>
-              <input type="text" name="eventName" onChange={handleChange} value={formData.eventName} />
-            </div>
+            <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="flex flex-col space-y-4">
 
-            <div className="form-row">
-              <label>주최기관:</label>
-              <input type="text" name="eventHost" onChange={handleChange} value={formData.eventHost} />
-            </div>
+              <div className="form-row flex flex-col">
+                <label className="text-gray-700 text-sm font-bold mb-1">행사명:</label>
+                <input
+                  type="text"
+                  name="eventName"
+                  onChange={handleChange}
+                  value={formData.eventName}
+                  className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
 
-            <div className="periods-container">
-              {["recruit", "vote", "event"].map((period) => (
-                <div key={period} className="period-item">
-                  <label>{period === "recruit" ? "모집" : period === "vote" ? "투표" : "행사"}기간:</label>
-                  <div className="period-inputs">
-                    <input type="datetime-local" name={`${period}Start`} onChange={handleChange} value={formData[`${period}Start`]} />
-                    <span>~</span>
-                    <input type="datetime-local" name={`${period}End`} onChange={handleChange} value={formData[`${period}End`]} />
+              <div className="form-row flex flex-col">
+                <label className="text-gray-700 text-sm font-bold mb-1">주최기관:</label>
+                <input
+                  type="text"
+                  name="eventHost"
+                  onChange={handleChange}
+                  value={formData.eventHost}
+                  className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
+
+              <div className="periods-container flex flex-col space-y-4">
+                {["recruit", "vote", "event"].map((period) => (
+                  <div key={period} className="period-item flex flex-col">
+                    <label className="text-gray-700 text-sm font-bold mb-1">
+                      {period === "recruit" ? "모집" : period === "vote" ? "투표" : "행사"}기간:
+                    </label>
+                    <div className="period-inputs flex space-x-2">
+                      <input
+                        type="datetime-local"
+                        name={`${period}Start`}
+                        onChange={handleChange}
+                        value={formData[`${period}Start`]}
+                        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 flex-1"
+                      />
+                      <span className="flex items-center text-gray-500">~</span>
+                      <input
+                        type="datetime-local"
+                        name={`${period}End`}
+                        onChange={handleChange}
+                        value={formData[`${period}End`]}
+                        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 flex-1"
+                      />
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              <div className="form-row flex flex-col">
+                <label className="text-gray-700 text-sm font-bold mb-1">행사위치:</label>
+                <input
+                  type="text"
+                  name="location"
+                  onChange={handleChange}
+                  value={formData.location}
+                  className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
+
+              <div className="form-row flex flex-col">
+                <label className="text-gray-700 text-sm font-bold mb-1">모집트럭수:</label>
+                <input
+                  type="number"
+                  name="truckCount"
+                  onChange={handleChange}
+                  value={formData.truckCount}
+                  className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
+
+              <div className="form-row flex flex-col">
+                <label className="text-gray-700 text-sm font-bold mb-1">행사설명:</label>
+                <textarea
+                  name="description"
+                  onChange={handleChange}
+                  value={formData.description}
+                  rows="4"
+                  className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-y"
+                />
+              </div>
+
+              <div className="form-row flex flex-col">
+                <label htmlFor="eventImage" className="block text-gray-700 text-sm font-bold mb-1">사진업로드:</label>
+                <input
+                  id="eventImage"
+                  type="file"
+                  name="eventImage"
+                  accept="image/*"
+                  onChange={handleChange}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                />
+              </div>
+
+              {previewImage && (
+                <div className="mt-2 flex justify-center">
+                  <img
+                    src={previewImage}
+                    alt="행사 이미지 미리보기"
+                    className="w-40 h-40 object-cover rounded-md border border-gray-200"
+                  />
                 </div>
-              ))}
-            </div>
+              )}
 
-            <div className="form-row">
-              <label>행사위치:</label>
-              <input type="text" name="location" onChange={handleChange} value={formData.location} />
-            </div>
-
-            <div className="form-row">
-              <label>모집트럭수:</label>
-              <input type="number" name="truckCount" onChange={handleChange} value={formData.truckCount} />
-            </div>
-
-            <div className="form-row">
-              <label>행사설명:</label>
-              <textarea name="description" onChange={handleChange} value={formData.description} />
-            </div>
-
-            <div className="form-row">
-              <label>사진업로드:</label>
-              <input type="file" name="eventImage" accept="image/*" onChange={handleChange} />
-            </div>
-
-            <div className="register-button-container">
-              <button className="register-button" onClick={handleSubmit}>
-                {editTargetEvent ? "수정" : "등록"}
-              </button>
-            </div>
+              <div className="flex justify-end space-x-2 mt-4">
+                <button
+                  type="submit"
+                  style={{ backgroundColor: '#4f46e5' }}
+                  className="text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition duration-200"
+                >
+                  {editTargetEvent ? "수정" : "등록"}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-200"
+                >
+                  취소
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

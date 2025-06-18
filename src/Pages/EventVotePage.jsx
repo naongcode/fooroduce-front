@@ -421,7 +421,7 @@ const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
       key={truck?.truckId}
       className={`bg-white rounded-2xl overflow-hidden shadow-xl border-2 ${
         index === 0
-          ? 'border-yellow-400  z-10'
+          ? 'border-yellow-400 z-10'
           : index === 1
             ? 'border-gray-300'
             : index === 2
@@ -430,7 +430,7 @@ const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
       }`}
     >
       <div className="relative">
-        
+
         <img
           src={truck?.menus[0]?.menuImage}
           alt={'트럭 이미지'}
@@ -470,7 +470,7 @@ const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
       <div className="p-6">
         <h4 className="text-xl font-bold text-gray-800 mb-3">{truck?.truckName}</h4>
         <div className="flex justify-between items-center">
-         
+
           <span className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
             {truck?.menus[0]?.menuType ?? '한식'}
           </span>
@@ -489,10 +489,10 @@ const RankedTruckCard = ({ truck, index, selectedTruck, showMenuDetail }) => {
           </span>
         </div>
 
-  
+
         <div className="mt-4 pt-4 border-t border-indigo-50">
           <div className="flex justify-center overflow-x-auto pb-2">
-            <div className=" inline-flex space-x-4 pl-4 pr-4">
+            <div className="inline-flex space-x-4 px-10">
               {truck?.menus?.map((item, idx) => (
                 <div key={idx} className="flex-shrink-0 w-24">
                   <div className="w-24 h-24 rounded-lg overflow-hidden mb-1">

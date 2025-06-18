@@ -231,12 +231,15 @@
   box-shadow: 0 0 6px #3b82f6;
 }
 
+
+
 /* 반응형 */
 @media (max-width: 768px) {
   .truck-list {
     grid-template-columns: 1fr;
   }
-
+  
+  
   .truck-summary {
     flex-direction: column;
     align-items: flex-start;
@@ -304,7 +307,6 @@
   .vote-button {
     font-size: 0.9rem;
   }
-
   .result-btn {
     font-size: 0.9rem;
     padding: 10px 20px;
