@@ -99,7 +99,7 @@ function AppLayout() {
         <div className="nav-right desktop-menu"> 
           {isLoggedIn ? (
             <>
-              <span className="nav-user">안녕하세요 {userId}</span>
+              <span className="nav-user">안녕하세요 {userId}님</span>
               <button className="nav-button" onClick={handleLogout}>
                 로그아웃
               </button>

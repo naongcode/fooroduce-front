@@ -83,15 +83,17 @@ export default function HomePage() {
     <div>
       <div className="homepage-buttons">
         <button onClick={() => setView('all')} className={`nav-button ${view === 'all' ? 'active' : ''}`}>전체</button>
-        <button onClick={() => setView('ongoing')} className={`nav-button ${view === 'ongoing' ? 'active' : ''}`}>현재 투표 중</button>
-        <button onClick={() => setView('closed')} className={`nav-button ${view === 'closed' ? 'active' : ''}`}>종료된 행사</button>
+        <button onClick={() => setView('ongoing')} className={`nav-button ${view === 'ongoing' ? 'active' : ''}`}>투표 중</button>
+        <button onClick={() => setView('closed')} className={`nav-button ${view === 'closed' ? 'active' : ''}`}>행사종료</button>
 
         {/* 권한에 따라 조건부 버튼 표시 */}
         {role === 'EVENT_MANAGER' && (
-          <button onClick={() => navigate('/manager')}>행사관리</button>
+          <button onClick={() => navigate('/manager')} className='nav-button'>
+            행사 관리</button>
         )}
         {role === 'TRUCK_OWNER' && (
-          <button onClick={() => navigate('/owner')}>트럭관리</button>
+          <button onClick={() => navigate('/owner')} className='nav-button'>
+            트럭 관리</button>
         )}
       </div>
 
@@ -99,16 +101,18 @@ export default function HomePage() {
         {events.map((event) => (
           <Link to={`/event/${event.eventId}`} key={event.eventId} className="homepage-card-link">
             <div className="homepage-card">
-              <h1>{event.eventName}</h1>
               <div className="homepage-image">
                 <img src={event.eventImage} alt="행사 사진" className="event-image" />
                 <div className="homepage-text">
-                  <h2>{event.eventHost}</h2><br></br>
+                  {/* <h2>{event.eventHost}</h2><br></br> */}
                  {/*추가 */}
                   <div className="event-periods">
+                    <h1>{event.eventName}</h1>
                     {/* <p>모집기간 :</p><p>{event.recruitStart?.slice(5, 10)} ~ {event.recruitEnd?.slice(5, 10)}</p>
                     <p>투표기간 :</p><p>{event.voteStart?.slice(5, 10)} ~ {event.voteEnd?.slice(5, 10)}</p> */}
-                    <p>행사기간 :</p><p>{event.eventStart?.slice(5, 10)} ~ {event.eventEnd?.slice(5, 10)}</p>
+                    <p>기간 : {event.eventStart?.slice(5, 10)} ~ {event.eventEnd?.slice(5, 10)}</p>
+                    <p>장소 : {event.location?.split(" ").slice(0, 2).join(" ")}</p>
+                    <p>주최 : {event.eventHost}</p>
                   </div>
                 </div>
               </div>

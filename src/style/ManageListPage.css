@@ -65,7 +65,10 @@
 .event-list {
   display: grid;
   gap: 16px; 
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
+  grid-template-columns: repeat(auto-fill, 400px); 
+  justify-content: center;
+  margin: 0 auto; /* 수평 가운데 정렬 */
+
 }
 
 .event-card {
@@ -343,6 +346,7 @@
 
   .event-list {
     grid-template-columns: 1fr;
+    justify-content: center;
   }
 
   .event-card {

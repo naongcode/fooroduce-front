@@ -1,31 +1,51 @@
 /* HomePage.css */
 .homepage-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); /* 화면 크기에 따라 자동으로 카드 개수 조정 */
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, 400px); /* 화면 크기에 따라 자동으로 카드 개수 조정 */
+  gap: 1.3rem;
+  justify-content: center;
   /* padding: 1em; */
 }
 
 /*투표중, 종료된 행사 버튼*/
 .homepage-buttons {
-  display: flex;
-  gap: 0.6rem;
+  /* display: flex;
   margin-top: 1rem;
   margin-left: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem; */
+  gap: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 430px;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); */
 }
 
 .homepage-buttons button {
-  background-color: #BFA5E3; /* 연보라 배경 */
-  color: white; /* 텍스트는 흰색 */
+  /* background-color: #BFA5E3;
+  color: white;
   font-size: 1.05rem;
   font-weight: 600;
   padding: 0.4rem 1rem;
   border-radius: 0.5rem;
-  border: 2px solid #A275D8; /* 더 부드러운 보라 계열로 테두리 조정 */
+  border: 2px solid #A275D8;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
- 
+  */
+  flex: 1; /* 모든 탭 균등 너비 */
+  padding: 0.6rem 0.4rem;
+  font-size: 0.8rem;
+  background-color: #f5f5fa;
+  /* color: #5b3c88;  */
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .homepage-buttons button:hover {
@@ -41,15 +61,14 @@
 }
 
 .homepage-buttons .active {
-  background-color: #8a2be2; 
-  color: #ffffff; 
-  border-color: #6a0dad; 
-
-  
   background-image: none;
+  color: white;
+  font-weight: 700;
+  
+  /* background-image: none;
   -webkit-background-clip: initial;
   background-clip: initial;
-  -webkit-text-fill-color: initial;
+  -webkit-text-fill-color: initial; */
   
 }
 
@@ -64,23 +83,35 @@
   height : 100%;
   /* min-height: 200px;
   height: auto; */
+  width: 100%; 
+  max-width: 450px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  
 }
 
 .homepage-card:hover {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   transform: translateY(-5px); /* hover 시 카드 살짝 떠오르게 */
+  transform: scale(1.05); /* hover 시 약간의 확대 효과 */
 }
 
 .homepage-card h1 {
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #6a0dad; 
   margin-bottom: 1rem;
+
+    /* 말줄임표 처리 추가 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .homepage-card p {
   color: #6b7280;
   margin-bottom: 0.5rem;
+  font-weight: 550;
 }
 
 .homepage-image {
@@ -89,12 +120,18 @@
 }
 
 .homepage-image img {
-  width: 50%; /* 이미지 크기 설정 */
+  width: 40%;
+  height: 100%;
+  object-fit: cover; /* 🔥 핵심 */
+  aspect-ratio: 1 / 1.2; /* 정사각형 비율 유지 */
   border-radius: 12px;
+  overflow: hidden;
+  object-position: top center; 
 }
 
 .homepage-text {
   flex: 1;
+  min-width: 0;
 }
 
 .homepage-text h2{
@@ -106,18 +143,6 @@
 
 .homepage-card-link {
   text-decoration: none; /* 링크 스타일 제거 */
-}
-
-
-/* 네비게이션 바와 어울리도록 색상 조정 */
-.homepage-card {
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-}
-
-.homepage-card:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* hover 시 그라디언트 효과 추가 */
-  transform: scale(1.05); /* hover 시 약간의 확대 효과 */
 }
 
 /* 텍스트 색상 */
@@ -133,18 +158,37 @@
   .homepage-container {
     grid-template-columns: 1fr;
     padding: 1rem;
+    width: 280px;  
+    margin: 0 auto;
+  }
+
+  .homepage-card  {
+    width: 300px;  
   }
 
   .homepage-buttons {
-    flex-direction: column;
+    /* flex-direction: column;
     align-items: flex-start;
-    margin: 1rem;
+    margin: 1rem; */
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1rem auto;
+    max-width: 300px;
   }
 
   .homepage-buttons button {
-    width: 100%;
+    width: auto;
+    /* width: 100%; */
     text-align: center;
     white-space: normal;
+
+    /* flex: 1 1 calc(50% - 0.6rem); 
+    max-width: calc(50% - 0.6rem);
+    box-sizing: border-box;
+    white-space: normal;
+    text-align: center;
+    font-size: 0.95rem; */
   }
 
   .homepage-image {
@@ -153,8 +197,8 @@
   }
 
   .homepage-image img {
-    width: 80%; 
-    max-width: 300px; 
+    width: 60%; 
+    max-width: 200px; 
     height: auto;
   }
 
@@ -165,7 +209,7 @@
   }
 
   .homepage-card h1 {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
   }
 
   .homepage-card p {
@@ -175,10 +219,10 @@
 
   .event-periods { 
     display: flex;
-    flex-wrap: wrap; 
+    flex-direction: column;
     justify-content: center;
     align-items: center; 
-    gap: 0.3rem; 
+    gap: 0.2rem; 
   }
 
   .event-periods p {

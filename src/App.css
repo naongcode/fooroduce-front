@@ -33,21 +33,26 @@
   border: none;
 
   /* 기본 상태: 보라 그라데이션 버튼 */
-  background-image: linear-gradient(to right, #4F46E5, #8B5CF6); /* from-indigo-600 to-purple-600 */
-  color: white;
+  background-color: #e5d4ff;
+  color: #472c7a;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .nav-button:hover {
-  color: #ffffff;
-  background-color: #8a2be2;
-  border-color: #6a0dad;
-  background-image: linear-gradient(to right, #4338CA, #7C3AED); /* 더 진한 그라데이션 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #b499ff;
+  background-image: none;
+  color: #3b276a;
+}
+
+.nav-button.active {
+  background-color: #a074f9;
+  background-image: none;
+  color: white;
+  font-weight: 700;
 }
 
 .nav-user {
-  font-size: 1.3rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -97,7 +102,7 @@
   display: none; 
   flex-direction: column; 
   width: 100%; 
-  background-color: rgb(180, 150, 230); 
+  background-color: rgb(240, 230, 255); 
   position: absolute; 
   top: 100%; 
   left: 0; 
