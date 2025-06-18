@@ -16,23 +16,15 @@
 }
 
 .homepage-buttons button {
-  background-color: #ffffff; 
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 0.3rem 1rem;
+  background-color: #BFA5E3; /* 연보라 배경 */
+  color: white; /* 텍스트는 흰색 */
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
   border-radius: 0.5rem;
-  border: 2px solid #9C27B0; 
+  border: 2px solid #A275D8; /* 더 부드러운 보라 계열로 테두리 조정 */
   cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap; 
-  line-height: 1.4;
-  text-align: center;
-
-  background-image: linear-gradient(to right, #9C27B0, #E91E63); 
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent; 
+  transition: background-color 0.3s ease, transform 0.2s ease;
  
 }
 

@@ -1,5 +1,5 @@
 /* 버튼 */
-.truck-btn {
+/* .truck-btn {
   margin: 10px 5px;
   padding: 8px 16px;
   border: none;
@@ -9,11 +9,15 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s ease;
+} */
+
+.btn-gradient {
+  @apply px-5 py-2.5 rounded-lg transition-all duration-300 font-medium whitespace-nowrap cursor-pointer bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-md hover:shadow-lg mt-4;
 }
 
-.truck-btn:hover {
+/* .truck-btn:hover {
   background-color: #4338ca;
-}
+} */
 
 /* 전체 페이지 레이아웃 */
 .truck-profile-page {
@@ -35,6 +39,7 @@
   padding: 0;
   list-style: none;
   margin: 0;
+  justify-content: center;
 }
 
 /* 메뉴 카드 */
@@ -49,11 +54,11 @@
 }
 
 .truck-menu-view img {
-  width: 100%;
-  height: auto;
+  /* width: 100%; */
+  /* height: auto; */
   border-radius: 6px;
   margin-top: 10px;
-  object-fit: cover;
+  /* object-fit: cover; */
 }
 
 /* 모달 배경 오버레이 */

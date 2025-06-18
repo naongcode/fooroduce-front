@@ -106,9 +106,9 @@ export default function HomePage() {
                   <h2>{event.eventHost}</h2><br></br>
                  {/*추가 */}
                   <div className="event-periods">
-                    <p>모집기간 :</p><p>{event.recruitStart?.slice(0, 10)} ~ {event.recruitEnd?.slice(0, 10)}</p>
-                    <p>투표기간 :</p><p>{event.voteStart?.slice(0, 10)} ~ {event.voteEnd?.slice(0, 10)}</p>
-                    <p>행사기간 :</p><p>{event.eventStart?.slice(0, 10)} ~ {event.eventEnd?.slice(0, 10)}</p>
+                    {/* <p>모집기간 :</p><p>{event.recruitStart?.slice(5, 10)} ~ {event.recruitEnd?.slice(5, 10)}</p>
+                    <p>투표기간 :</p><p>{event.voteStart?.slice(5, 10)} ~ {event.voteEnd?.slice(5, 10)}</p> */}
+                    <p>행사기간 :</p><p>{event.eventStart?.slice(5, 10)} ~ {event.eventEnd?.slice(5, 10)}</p>
                   </div>
                 </div>
               </div>

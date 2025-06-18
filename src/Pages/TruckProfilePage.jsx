@@ -78,8 +78,9 @@ const handleSubmitMenu = (menuData) => {
     <div className="truck-profile-page">
 
         {/* 트럭 기본 정보 표시 */}
-        <div className="truck-info-view">
-            <h2>트럭 기본 정보</h2>
+        <div className="truck-info-view text-center mb-16">
+            <h2 className="text-4xl font-extrabold mb-4 text-indigo-800 tracking-tight inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+              트럭 기본 정보</h2>
             {truckInfo ? (
             <div>
                 <p><strong>트럭명:</strong> {truckInfo.name}</p>
@@ -89,30 +90,32 @@ const handleSubmitMenu = (menuData) => {
             ) : (
             <p>등록된 정보가 없습니다.</p>
             )}
-            <button onClick={() => setShowTruckModal(true)} className="truck-btn">
+            <button onClick={() => setShowTruckModal(true)} 
+            className="btn-gradient">
             {truckInfo ? "수정하기" : "등록하기"}
             </button>
         </div>
 <hr/>
         {/* 메뉴 목록 표시 */}
-        <div className="truck-menu-view">
-            <h2>메뉴 정보</h2>
+        <div className="truck-menu-view text-center mb-16">
+            <h2 className="text-4xl font-extrabold mb-4 text-indigo-800 tracking-tight inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+              메뉴 정보</h2>
             {menus.length > 0 ? (
-            <ul>
+            <ul className="flex flex-row items-center gap-6 mt-4">
                 {menus.map((menu, idx) => (
-                <li key={idx}>
+                <li key={idx} >
                     <p><strong>이름:</strong> {menu.menuName}</p>
                     <p><strong>가격:</strong> {menu.menuPrice}원</p>
-                    <img src={menu.menuImage} alt="메뉴 이미지" width="100" />
+                    <img src={menu.menuImage} alt="메뉴 이미지"   className="w-36 h-36 object-cover rounded-md mx-auto" />
                     <button onClick={() => handleEditMenu(idx)}
-                        className="truck-btn">수정</button>
+                        className="btn-gradient">수정</button>
                 </li>
                 ))}
             </ul>
             ) : (
             <p>등록된 메뉴가 없습니다.</p>
             )}
-            <button onClick={() => setShowMenuModal(true)} className="truck-btn">
+            <button onClick={() => setShowMenuModal(true)} className="btn-gradient">
                 메뉴 추가</button>
         </div>
 

@@ -1,5 +1,7 @@
 .navbar {
-  background-color: rgb(180, 150, 230);
+  background: rgba(180, 150, 230, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(150, 100, 200, 0.2);
   padding: 0.7rem;
   display: flex;
   justify-content: space-between;
@@ -21,32 +23,27 @@
 }
 
 .nav-button {
-  background-color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 0.3rem 0.7rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
   border-radius: 0.5rem;
-  border: 2px solid #9C27B0;
-  cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
 
-  /* 텍스트 그라데이션 */
-  background-image: linear-gradient(to right, #9C27B0, #E91E63);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  /* 기본 상태: 보라 그라데이션 버튼 */
+  background-image: linear-gradient(to right, #4F46E5, #8B5CF6); /* from-indigo-600 to-purple-600 */
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .nav-button:hover {
   color: #ffffff;
   background-color: #8a2be2;
   border-color: #6a0dad;
-  background-image: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  -webkit-text-fill-color: initial;
-  color: #ffffff;
+  background-image: linear-gradient(to right, #4338CA, #7C3AED); /* 더 진한 그라데이션 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .nav-user {
