@@ -45,18 +45,19 @@
 
 .check-btn,
 .submit-btn {
-  background-color: #4caf50;
+  background-color: #4f46e5;
   color: white;
   border: none;
   padding: 0.6rem 1rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
 .check-btn:hover,
 .submit-btn:hover {
-  background-color: #45a049;
+  background-color: #4338ca;
 }
 
 @media (max-width: 768px) {

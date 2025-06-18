@@ -16,30 +16,49 @@
 }
 
 .homepage-buttons button {
-  background-color: #ffffff;        
-  color: #d68b8b;                   
+  background-color: #ffffff; 
   font-size: 1.1rem;
   font-weight: bold;
   padding: 0.3rem 1rem;
   border-radius: 0.5rem;
-  border: 2px solid #d68b8b;       
+  border: 2px solid #9C27B0; 
   cursor: pointer;
   transition: all 0.3s ease;
-  white-space: nowrap;        /* 텍스트 줄바꿈 방지 */
-  line-height: 1.4;  
+  white-space: nowrap; 
+  line-height: 1.4;
   text-align: center;
+
+  background-image: linear-gradient(to right, #9C27B0, #E91E63); 
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; 
+ 
 }
 
 .homepage-buttons button:hover {
-  color: #ffffff;                  
-  background-color: #f87171;
-  border-color: #d68b8b;
+  color: #ffffff; 
+  background-color: #8a2be2;
+  border-color: #6a0dad; 
+
+  background-image: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: initial;
+  color: #ffffff; 
 }
 
 .homepage-buttons .active {
-  background-color: #f87171;
-  color: #ffffff;
-  border-color: #d68b8b;
+  background-color: #8a2be2; 
+  color: #ffffff; 
+  border-color: #6a0dad; 
+
+  
+  background-image: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: initial;
+  
 }
 
 .homepage-card {
@@ -63,7 +82,7 @@
 .homepage-card h1 {
   font-size: 2rem;
   font-weight: 700;
-  color: #F43F5E; /* 핑크색으로 강조 */
+  color: #6a0dad; 
   margin-bottom: 1rem;
 }
 
@@ -89,7 +108,7 @@
 .homepage-text h2{
   font-size: 1.5rem;
   font-weight: 700;
-  color:rgb(0, 89, 255);
+  color: rgb(55, 48, 163); 
   flex: 1;
 }
 
@@ -120,12 +139,12 @@
 
 @media (max-width: 768px) {
   .homepage-container {
-    grid-template-columns: 1fr; /* 모바일에서는 한 줄에 하나씩 */
+    grid-template-columns: 1fr;
     padding: 1rem;
   }
 
   .homepage-buttons {
-    flex-direction: column; /* 버튼을 세로로 정렬 */
+    flex-direction: column;
     align-items: flex-start;
     margin: 1rem;
   }
@@ -142,12 +161,15 @@
   }
 
   .homepage-image img {
-    width: 100%; /* 모바일에서는 전체 너비 */
+    width: 80%; 
+    max-width: 300px; 
+    height: auto;
   }
+
 
   .homepage-text h2 {
     font-size: 1.2rem;
-    text-align: center;
+    text-align: center; 
   }
 
   .homepage-card h1 {
@@ -156,5 +178,20 @@
 
   .homepage-card p {
     font-size: 0.95rem;
+  }
+
+
+  .event-periods { 
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: center; 
+    gap: 0.3rem; 
+  }
+
+  .event-periods p {
+    white-space: nowrap; 
+    margin: 0;
+
   }
 }

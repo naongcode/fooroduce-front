@@ -1,17 +1,17 @@
-import { Link, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
-import './App.css'
-import LoginPage from './Pages/LoginPage.jsx'
-import MembershipPage from './Pages/MembershipPage.jsx'
-import HomePage from './Pages/HomePage.jsx'
-import KakaoCallbackPage from './Pages/AuthPage.jsx'
-import LandingPage from './Pages/LangdingPage.jsx'
-import TruckOwnerPage from './Pages/TruckOwnerPage.jsx'
-import { useRef, useState, useEffect } from 'react'
-import useAuthStore from './api/useAuthStore'
-import ManageListPage from './Pages/ManageListPage.jsx'
-import ManageDetailPage from './Pages/ManageDetailPage.jsx'
-import TruckProfilePage from './Pages/TruckProfilePage.jsx'
-import EventPage from './Pages/EventPage.jsx'
+import { Link, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
+import './App.css';
+import LoginPage from './Pages/LoginPage.jsx';
+import MembershipPage from './Pages/MembershipPage.jsx';
+import HomePage from './Pages/HomePage.jsx';
+import KakaoCallbackPage from './Pages/AuthPage.jsx';
+import LandingPage from './Pages/LangdingPage.jsx';
+import TruckOwnerPage from './Pages/TruckOwnerPage.jsx';
+import { useRef, useState, useEffect } from 'react';
+import useAuthStore from './api/useAuthStore';
+import ManageListPage from './Pages/ManageListPage.jsx';
+import ManageDetailPage from './Pages/ManageDetailPage.jsx';
+import TruckProfilePage from './Pages/TruckProfilePage.jsx';
+import EventPage from './Pages/EventPage.jsx';
 
 function App() {
   return (
@@ -34,46 +34,54 @@ function App() {
         </Route>
       </Routes>
     </div>
-  )
+  );
 }
 
 function AppLayout() {
-  const navigate = useNavigate()
-  const { isLoggedIn, resetAuthStore, userId } = useAuthStore() // Zustand 상태 감지
+  const navigate = useNavigate();
+  const { isLoggedIn, resetAuthStore, userId } = useAuthStore(); // Zustand 상태 감지
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 추가
+
   const handleNavigation = (path) => {
-    navigate(path) // 지정된 path로 네비게이션
-  }
+    navigate(path); // 지정된 path로 네비게이션
+    setIsMobileMenuOpen(false); // 추가
+  };
 
   const handleLogout = () => {
-    resetAuthStore() // Zustand 상태 초기화
-    navigate('/') // 홈으로 이동
-    window.location.reload()
-  }
+    resetAuthStore(); // Zustand 상태 초기화
+    navigate('/'); // 홈으로 이동
+    window.location.reload();
+  };
 
   // 음악관련
-  const audioRef = useRef(null)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const toggleAudio = () => {
-    const audio = audioRef.current
+    const audio = audioRef.current;
 
-    if (!audio) return
+    if (!audio) return;
 
     if (isPlaying) {
-      audio.pause()
-      setIsPlaying(false)
+      audio.pause();
+      setIsPlaying(false);
     } else {
       audio
         .play()
         .then(() => {
-          setIsPlaying(true)
+          setIsPlaying(true);
         })
         .catch((err) => {
-          console.error('재생 실패:', err)
-        })
+          console.error('재생 실패:', err);
+        });
     }
-  }
+  };
   // 음악 끝
+
+  // 토글 함수 추가
+  const toggleMobileMenu = () => { 
+    setIsMobileMenuOpen(!isMobileMenuOpen); 
+  };
 
   return (
     <div>
@@ -87,7 +95,8 @@ function AppLayout() {
           </button> */}
         </div>
 
-        <div className="nav-right">
+        {/* 데스크톱에서 보이는 메뉴 */} 
+        <div className="nav-right desktop-menu"> 
           {isLoggedIn ? (
             <>
               <span className="nav-user">안녕하세요 {userId}</span>
@@ -112,6 +121,46 @@ function AppLayout() {
             </>
           )}
         </div>
+
+        {/* 햄버거 버튼 (모바일에서만 보임) */} 
+        <div className="hamburger-menu"> 
+          <button 
+            className={`hamburger-icon ${isMobileMenuOpen ? 'open' : ''}`} 
+            onClick={toggleMobileMenu} 
+            aria-label="메뉴 열기/닫기" 
+          > 
+            <span className="bar"></span>
+            <span className="bar"></span> 
+            <span className="bar"></span> 
+          </button> 
+        </div> 
+
+        {/* 모바일에서 보이는 메뉴 */} 
+        <div className={`mobile-nav-links ${isMobileMenuOpen ? 'open' : ''}`}> 
+          {isLoggedIn ? ( 
+            <>
+              <span className="nav-user">안녕하세요 {userId}</span> 
+              <button className="nav-button" onClick={() => { handleLogout(); toggleMobileMenu(); }}> 
+                로그아웃 
+              </button> 
+            </> 
+          ) : ( 
+            <> 
+              <button 
+                className="nav-button" 
+                onClick={() => handleNavigation('/login')} 
+              > 
+                로그인 
+              </button> 
+              <button 
+                className="nav-button"
+                onClick={() => handleNavigation('/membership')} 
+              >
+                회원가입 
+              </button> 
+            </> 
+          )} 
+        </div> 
       </nav>
 
       {/* <audio ref={audioRef} loop>
@@ -120,7 +169,7 @@ function AppLayout() {
 
       <Outlet />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
