@@ -18,6 +18,26 @@
   overflow: hidden;
   gap: 24px;
   z-index: 9999; /* navbar보다 앞에 있도록 */
+  animation: bgFade 5s ease-in-out forwards;
+
+}
+
+/* 덧씌울 보라색 배경 */
+.landing-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #e6e6fa, #dcd0ff);
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+  z-index: -1;
+}
+
+/* 연보라로 천천히 전환될 트리거 클래스 */
+.landing-wrapper.fade-to-purple::after {
+  opacity: 1;
 }
 
 .petal {

@@ -8,6 +8,14 @@ export default function LandingAnimation() {
   const NUM_PETALS = 60; // 벚꽃 개수
   const getRandom = (min, max) => Math.random() * (max - min) + min;
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      document.querySelector(".landing-wrapper")?.classList.add("fade-to-purple");
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="landing-wrapper">
       {/* 벚꽃 애니메이션 */}

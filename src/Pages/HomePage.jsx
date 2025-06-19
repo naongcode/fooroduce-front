@@ -111,8 +111,8 @@ export default function HomePage() {
                     {/* <p>모집기간 :</p><p>{event.recruitStart?.slice(5, 10)} ~ {event.recruitEnd?.slice(5, 10)}</p>
                     <p>투표기간 :</p><p>{event.voteStart?.slice(5, 10)} ~ {event.voteEnd?.slice(5, 10)}</p> */}
                     <p>기간 : {event.eventStart?.slice(5, 10)} ~ {event.eventEnd?.slice(5, 10)}</p>
-                    <p>장소 : {event.location?.split(" ").slice(0, 2).join(" ")}</p>
-                    <p>주최 : {event.eventHost}</p>
+                    <p className="truncate-text">장소 : {event.location?.split(" ").slice(0, 2).join(" ")}</p>
+                    <p className="truncate-text">주최 : {event.eventHost}</p>
                   </div>
                 </div>
               </div>

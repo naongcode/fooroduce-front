@@ -31,7 +31,7 @@ const EventDetailCard = ({ eventData }) => {
       <header>
         <h3 className="text-xl text-gray-700">{eventData.eventHost}</h3>
         <h2 className="text-3xl font-bold mt-1 text-gray-900">
-          [푸드트럭 모집] {eventData?.eventName}푸드트럭 참여 안내
+          [푸드트럭 모집] {eventData?.eventName} 참여 안내
         </h2>
         <div className="flex flex-wrap gap-2 mt-3">
           <span className="bg-pink-100 text-pink-700 text-base font-medium px-3 py-1 rounded-full">
@@ -74,8 +74,8 @@ const EventDetailCard = ({ eventData }) => {
           <span>{eventData.eventHost}</span>
         </div>
         <div className="flex justify-between">
-          <span className="font-semibold">문의</span>
-          <span>전화번호</span>
+          <span className="font-semibold">장소</span>
+          <span>{eventData.location}</span>
         </div>
       </div>
     </section>

@@ -154,6 +154,14 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
+.truncate-text {
+  white-space: nowrap;      /* 줄바꿈 없이 한 줄 */
+  overflow: hidden;         /* 넘친 내용 숨김 */
+  text-overflow: ellipsis;  /* 말줄임표(...) 처리 */
+  max-width: 100%;          /* 최대 너비 제한 (부모 크기 기준) */
+  display: block;           /* p태그는 기본 block이라 생략 가능 */
+}
+
 @media (max-width: 768px) {
   .homepage-container {
     grid-template-columns: 1fr;
