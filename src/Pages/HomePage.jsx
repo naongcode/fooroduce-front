@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAllEvents, getOngoingEvents, getClosedEvents } from '../api/eventArray'
 import '../style/HomePage.css'
+import ShinyCard from '../components/ShinyCard.jsx'
 
 export default function HomePage() {
   const [events, setEvents] = useState([])  
@@ -12,6 +13,9 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const loaderRef = useRef(null)
+
+  // 예: 반짝이 줄 ID
+  const shinyEventIds = [1, 3, 5, 14]
 
   // 페이지가 로드될 때 로컬스토리지에서 역할(role) 가져오기
   useEffect(() => {
@@ -98,27 +102,43 @@ export default function HomePage() {
       </div>
 
       <div className="homepage-container">
-        {events.map((event) => (
-          <Link to={`/event/${event.eventId}`} key={event.eventId} className="homepage-card-link">
-            <div className="homepage-card">
-              <div className="homepage-image">
-                <img src={event.eventImage} alt="행사 사진" className="event-image" />
-                <div className="homepage-text">
-                  {/* <h2>{event.eventHost}</h2><br></br> */}
-                 {/*추가 */}
-                  <div className="event-periods">
-                    <h1>{event.eventName}</h1>
-                    {/* <p>모집기간 :</p><p>{event.recruitStart?.slice(5, 10)} ~ {event.recruitEnd?.slice(5, 10)}</p>
-                    <p>투표기간 :</p><p>{event.voteStart?.slice(5, 10)} ~ {event.voteEnd?.slice(5, 10)}</p> */}
-                    <p>기간 : {event.eventStart?.slice(5, 10)} ~ {event.eventEnd?.slice(5, 10)}</p>
-                    <p className="truncate-text">장소 : {event.location?.split(" ").slice(0, 2).join(" ")}</p>
-                    <p className="truncate-text">주최 : {event.eventHost}</p>
+        {events.map((event) => {
+          const isShiny = shinyEventIds.includes(event.eventId)
+
+          return (
+            <Link to={`/event/${event.eventId}`} key={event.eventId} className="homepage-card-link">
+              {isShiny ? (
+                <ShinyCard cardId={event.eventId}>
+                  <div className="homepage-image">
+                    <img src={event.eventImage} alt="행사 사진" className="event-image" />
+                    <div className="homepage-text">
+                      <div className="event-periods">
+                        <h1>{event.eventName}</h1>
+                        <p>기간 : {event.eventStart?.slice(5, 10)} ~ {event.eventEnd?.slice(5, 10)}</p>
+                        <p className="truncate-text">장소 : {event.location?.split(" ").slice(0, 2).join(" ")}</p>
+                        <p className="truncate-text">주최 : {event.eventHost}</p>
+                      </div>
+                    </div>
+                  </div>
+                </ShinyCard>
+              ) : (
+                <div className="homepage-card">
+                  <div className="homepage-image">
+                    <img src={event.eventImage} alt="행사 사진" className="event-image" />
+                    <div className="homepage-text">
+                      <div className="event-periods">
+                        <h1>{event.eventName}</h1>
+                        <p>기간 : {event.eventStart?.slice(5, 10)} ~ {event.eventEnd?.slice(5, 10)}</p>
+                        <p className="truncate-text">장소 : {event.location?.split(" ").slice(0, 2).join(" ")}</p>
+                        <p className="truncate-text">주최 : {event.eventHost}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </Link>
-        ))}
+              )}
+            </Link>
+          );
+        })}
       </div>
 
       {/* 옵저버 타겟 */}

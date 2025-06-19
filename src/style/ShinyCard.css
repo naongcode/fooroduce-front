@@ -1,0 +1,39 @@
+.shiny-card {
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+
+/* background: linear-gradient(
+  135deg,
+  rgba(255, 255, 0, 0) 45%,
+  rgba(255, 255, 0, 0.3) 50%,
+  rgba(255, 255, 0, 0) 55%
+); */
+
+background: linear-gradient(
+  135deg,
+  rgba(200, 180, 255, 0) 45%,   /* 투명 */
+  rgba(200, 180, 255, 0.3) 50%, /* 연보라색 살짝 진하게 */
+  rgba(200, 180, 255, 0) 55%    /* 다시 투명 */
+);
+
+  background-size: 500% 500%;
+  animation: shine 5.5s linear infinite;
+
+  transform: rotateY(var(--rotateX, 0deg)) rotateX(var(--rotateY, 0deg)) scale(var(--scale, 1));
+}
+
+@keyframes shine {
+  0% {
+    background-position: -150% -150%;
+  }
+  100% {
+    background-position: 150% 150%;
+  }
+}
+
+.mouse-move {
+  transition: none;
+}
+

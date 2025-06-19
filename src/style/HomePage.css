@@ -87,13 +87,18 @@
   max-width: 450px;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
+
+  transition: transform 0.3s ease;
+  transform: 
+    rotateY(var(--rotateX, 0deg)) 
+    rotateX(var(--rotateY, 0deg))
+    scale(var(--scale, 1));
   
 }
 
 .homepage-card:hover {
+  --scale: 1.05;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  transform: translateY(-5px); /* hover 시 카드 살짝 떠오르게 */
-  transform: scale(1.05); /* hover 시 약간의 확대 효과 */
 }
 
 .homepage-card h1 {
