@@ -12,13 +12,13 @@ const TruckProfilePage = () => {
 
   const [truckInfo, setTruckInfo] = useState(null);
   const [menus, setMenus] = useState([]);
+  const [refreshData, setRefreshData] = useState(false); 
 
   useEffect(() => {
     const fetchTruckWithMenus = async () => {
       try {
         const response = await axiosInstance.get("/truck/my");
         if (response.data && response.data.length > 0) {
-          // 여러 트럭을 받을 경우 첫번째만 세팅 (필요시 변경)
           const truck = response.data[0];
           setTruckInfo({
             truckId: truck.truckId,
@@ -26,118 +26,146 @@ const TruckProfilePage = () => {
             phoneNumber: truck.phoneNumber,
             description: truck.description,
           });
-          setMenus(truck.menus.map(menu => ({
-            menuId: menu.menuId,
-            menuName: menu.menuName,
-            menuPrice: menu.menuPrice,
-            menuImage: menu.menuImage
-          })));
+          setMenus(
+            truck.menus.map((menu) => ({
+              menuId: menu.menuId,
+              menuName: menu.menuName,
+              menuPrice: menu.menuPrice,
+              menuImage: menu.menuImage,
+            }))
+          );
+        } else {
+          setTruckInfo(null); // No truck info found
+          setMenus([]); // No menus found
         }
       } catch (error) {
         console.error("트럭 정보 불러오기 실패:", error);
+        setTruckInfo(null);
+        setMenus([]);
       }
     };
 
     fetchTruckWithMenus();
-  }, []);
+  }, [refreshData]); 
 
+  const handleEditMenu = (index) => {
+    setSelectedMenu(menus[index]);
+    setEditMenuIndex(index);
+    setShowMenuModal(true);
+  };
 
-const handleEditMenu = (index) => {
-  setSelectedMenu(menus[index]);
-  setEditMenuIndex(index);
-  setShowMenuModal(true);
-};
+  // truckmodal에 전달
+  const handleSubmitTruckInfo = (savedTruck) => {
+    setTruckInfo(savedTruck); // 저장된 정보로 상태 갱신
+    setShowTruckModal(false);
+    setRefreshData(!refreshData); 
+  };
 
-// truckmodal에 전달
-const handleSubmitTruckInfo = (savedTruck) => {
-  setTruckInfo(savedTruck); // 저장된 정보로 상태 갱신
-  setShowTruckModal(false);
-};
-
-// menumodal에 전달
-const handleSubmitMenu = (menuData) => {
+  // menumodal에 전달
+  const handleSubmitMenu = (menuData) => {
     console.log("handleSubmitMenu 호출됨!", menuData);
 
-  if (editMenuIndex !== null) {
-    // 수정
-    const updatedMenus = [...menus];
-    updatedMenus[editMenuIndex] = menuData;
-    setMenus(updatedMenus);
-    console.log("수정된 menus:", updatedMenus);
-
-  } else {
-    // 새로 추가
-    setMenus([...menus, menuData]);
-  }
-  setSelectedMenu(null);
-  setEditMenuIndex(null); 
-  setShowMenuModal(false);
-};
+    if (editMenuIndex !== null) {
+      // 수정
+      const updatedMenus = [...menus];
+      updatedMenus[editMenuIndex] = menuData;
+      setMenus(updatedMenus);
+      console.log("수정된 menus:", updatedMenus);
+    } else {
+      // 새로 추가
+      setMenus([...menus, menuData]);
+    }
+    setSelectedMenu(null);
+    setEditMenuIndex(null);
+    setShowMenuModal(false);
+    setRefreshData(!refreshData); 
+  };
 
   return (
     <div className="truck-profile-page">
-
-        {/* 트럭 기본 정보 표시 */}
-        <div className="truck-info-view text-center mb-16">
-            <h2 className="text-4xl font-extrabold mb-4 text-indigo-800 tracking-tight inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-              트럭 기본 정보</h2>
-            {truckInfo ? (
-            <div>
-                <p><strong>트럭명:</strong> {truckInfo.name}</p>
-                <p><strong>연락처:</strong> {truckInfo.phoneNumber}</p>
-                <p><strong>설명:</strong> {truckInfo.description}</p>
-            </div>
-            ) : (
-            <p>등록된 정보가 없습니다.</p>
-            )}
-            <button onClick={() => setShowTruckModal(true)} 
-            className="btn-gradient">
-            {truckInfo ? "수정하기" : "등록하기"}
-            </button>
-        </div>
-<hr/>
-        {/* 메뉴 목록 표시 */}
-        <div className="truck-menu-view text-center mb-16">
-            <h2 className="text-4xl font-extrabold mb-4 text-indigo-800 tracking-tight inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-              메뉴 정보</h2>
-            {menus.length > 0 ? (
-            <ul className="flex flex-row items-center gap-6 mt-4">
-                {menus.map((menu, idx) => (
-                <li key={idx} >
-                    <p><strong>이름:</strong> {menu.menuName}</p>
-                    <p><strong>가격:</strong> {menu.menuPrice}원</p>
-                    <img src={menu.menuImage} alt="메뉴 이미지"   className="w-36 h-36 object-cover rounded-md mx-auto" />
-                    <button onClick={() => handleEditMenu(idx)}
-                        className="btn-gradient">수정</button>
-                </li>
-                ))}
-            </ul>
-            ) : (
-            <p>등록된 메뉴가 없습니다.</p>
-            )}
-            <button onClick={() => setShowMenuModal(true)} className="btn-gradient">
-                메뉴 추가</button>
-        </div>
-
-        {/* 트럭 정보 등록/수정 모달 */}
-        {showTruckModal && (
-            <TruckModal
-            initialData={truckInfo}
-            onClose={() => setShowTruckModal(false)}
-            onSubmit={handleSubmitTruckInfo}
-            />
+      {/* 트럭 기본 정보 표시 */}
+      <div className="truck-info-view text-center mb-16">
+        <h2 className="text-4xl font-extrabold mb-4 text-indigo-800 tracking-tight inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+          트럭 기본 정보
+        </h2>
+        {truckInfo ? (
+          <div>
+            <p>
+              <strong>트럭명:</strong> {truckInfo.name}
+            </p>
+            <p>
+              <strong>연락처:</strong> {truckInfo.phoneNumber}
+            </p>
+            <p>
+              <strong>설명:</strong> {truckInfo.description}
+            </p>
+          </div>
+        ) : (
+          <p>등록된 정보가 없습니다.</p>
         )}
-
-        {/* 메뉴 등록/수정 모달 */}
-        {showMenuModal && (
-            <TruckMenuModal
-            truckId={truckInfo?.truckId}
-            initialData={selectedMenu}
-            onClose={() => setShowMenuModal(false)}
-            onSubmit={handleSubmitMenu}
-            />
+        <button
+          onClick={() => setShowTruckModal(true)}
+          className="btn-gradient"
+        >
+          {truckInfo ? "수정하기" : "등록하기"}
+        </button>
+      </div>
+      <hr />
+      {/* 메뉴 목록 표시 */}
+      <div className="truck-menu-view text-center mb-16">
+        <h2 className="text-4xl font-extrabold mb-4 text-indigo-800 tracking-tight inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+          메뉴 정보
+        </h2>
+        {menus.length > 0 ? (
+          <ul className="flex flex-row items-center gap-6 mt-4">
+            {menus.map((menu, idx) => (
+              <li key={idx}>
+                <p>
+                  <strong>이름:</strong> {menu.menuName}
+                </p>
+                <p>
+                  <strong>가격:</strong> {menu.menuPrice}원
+                </p>
+                <img
+                  src={menu.menuImage}
+                  alt="메뉴 이미지"
+                  className="w-36 h-36 object-cover rounded-md mx-auto"
+                />
+                <button
+                  onClick={() => handleEditMenu(idx)}
+                  className="btn-gradient"
+                >
+                  수정
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>등록된 메뉴가 없습니다.</p>
         )}
+        <button onClick={() => setShowMenuModal(true)} className="btn-gradient">
+          메뉴 추가
+        </button>
+      </div>
 
+      {/* 트럭 정보 등록/수정 모달 */}
+      {showTruckModal && (
+        <TruckModal
+          initialData={truckInfo}
+          onClose={() => setShowTruckModal(false)}
+          onSubmit={handleSubmitTruckInfo}
+        />
+      )}
+
+      {/* 메뉴 등록/수정 모달 */}
+      {showMenuModal && (
+        <TruckMenuModal
+          truckId={truckInfo?.truckId}
+          initialData={selectedMenu}
+          onClose={() => setShowMenuModal(false)}
+          onSubmit={handleSubmitMenu}
+        />
+      )}
     </div>
   );
 };
